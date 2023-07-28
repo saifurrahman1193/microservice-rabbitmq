@@ -1,35 +1,35 @@
 version: '3.3'
 services:
-  export:
+  import:
     build:
       context: .
       dockerfile: Dockerfile
     command: 'php artisan serve --host=0.0.0.0'
-    container_name: rabbitmqtest-export-container
+    container_name: microservice-rabbitmq-import-container
     restart: unless-stopped
     volumes:
       - .:/app
     ports:
       - 801:8000
     depends_on:
-      - export_db
+      - import_db
 
-  export_queue:
+  import_queue:
     build:
       context: .
       dockerfile: Dockerfile
     command: 'php artisan queue:work'
     depends_on:
-      - export_db
+      - import_db
 
-  export_db:
+  import_db:
     image: mysql:5.7.22
     environment:
-      MYSQL_DATABASE: export
+      MYSQL_DATABASE: import
       MYSQL_USER: root
       MYSQL_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./storage/dbdata:/var/lib/mysql
     ports:
-      - 33063:3306
+      - 33064:3306
