@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  export:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan serve --host=0.0.0.0'
+    container_name: rabbitmqtest-export-container
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    ports:
+      - 801:8000
+    depends_on:
+      - export_db
+
+  export_queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'php artisan queue:work'
+    depends_on:
+      - export_db
+
+  export_db:
+    image: mysql:5.7.22
+    environment:
+      MYSQL_DATABASE: export
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33063:3306
