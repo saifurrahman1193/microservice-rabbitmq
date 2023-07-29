@@ -6,7 +6,7 @@ sudo docker-compose build && docker-compose up -d
 
 #### Command: docker  : Services
 ```
-docker-compose exec admin sh
+docker-compose exec export sh
 ```
 
 #### Browser: 
@@ -20,4 +20,8 @@ username: root
 pass: root
 ``` 
 
+## Installation
+```
+composer require php-amqplib/php-amqplib
 
+```

@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: 'php artisan serve --host=0.0.0.0'
-    container_name: microservice-rabbitmq-export-container
+    container_name: ms-rmq-export-container
     restart: unless-stopped
     volumes:
       - .:/app
@@ -13,17 +13,12 @@ services:
       - 801:8000
     depends_on:
       - export_db
-
-  export_queue:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: 'php artisan queue:work'
-    depends_on:
-      - export_db
+    networks:
+      - ms-rmq-network
 
   export_db:
     image: mysql:5.7.22
+    container_name: ms-rmq-export-db-container
     environment:
       MYSQL_DATABASE: export
       MYSQL_USER: root
@@ -33,3 +28,8 @@ services:
       - ./storage/dbdata:/var/lib/mysql
     ports:
       - 33063:3306
+
+networks:
+  ms-rmq-network:
+    driver: bridge
+
