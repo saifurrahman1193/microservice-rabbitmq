@@ -14,8 +14,7 @@ services:
     depends_on:
       - export_db
     networks:
-      - ms-rmq-network
-
+      - ms_rmq_network
   export_db:
     image: mysql:5.7.22
     container_name: ms-rmq-export-db-container
@@ -28,8 +27,9 @@ services:
       - ./storage/dbdata:/var/lib/mysql
     ports:
       - 33063:3306
-
+    networks:
+      - ms_rmq_network
 networks:
-  ms-rmq-network:
-    driver: bridge
+  ms_rmq_network:
+    external: true
 
