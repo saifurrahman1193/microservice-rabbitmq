@@ -13,7 +13,5 @@ docker-compose exec rabbitmq sh
 - browser: 
   - http://localhost:5673
   - http://localhost:15673
-
-
-
-    container_name: microservice-rabbitmq-export-container
+    - Username: guest
+    - Password: guest

@@ -1,9 +1,14 @@
 version: '3.3'
 services:
-  rabbitmq:
+  ms-rabbitmq:
     build: .
-    container_name: microservice-rabbitmq-container
+    container_name: ms-rmq-container
     ports:
       - "5673:5672"
       - "15673:15672"
+    networks:
+      - ms_rmq_network
 
+networks:
+  ms_rmq_network:
+    external: true
