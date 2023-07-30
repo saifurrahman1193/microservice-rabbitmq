@@ -18,6 +18,7 @@ class SaifurRabbitMQServiceProvider extends ServiceProvider
         $this->publishes([__DIR__ . '/config/srmq.php' => config_path('srmq.php') ], 'config');
 
         // Routes loading based on configuration
+
         if (config('srmq.use_package_routes'))
         {
             $this->loadRoutesFrom(__DIR__.'/routes.php');  // routes of this package
