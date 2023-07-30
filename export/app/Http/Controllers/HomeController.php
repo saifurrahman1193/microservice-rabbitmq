@@ -17,11 +17,11 @@ class HomeController extends Controller
         $rabbitmqVhost = env('RABBITMQ_VHOST', '/');
         $rabbitmqLogin = env('RABBITMQ_LOGIN', 'guest');
         $rabbitmqPassword = env('RABBITMQ_PASSWORD', 'guest');
+        $queueName = 'rabbitmq_queue';
 
 
         // Create a connection to RabbitMQ
         $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqLogin, $rabbitmqPassword);
-        dd($connection);
         // Create a channel
         $channel = $connection->channel();
 
