@@ -14,6 +14,7 @@ A dynamic File Manager
   - [Documentation, Installation, and Usage Instructions](#documentation-installation-and-usage-instructions)
     - [Laravel Commands](#laravel-commands)
       - [config/app.php](#configappphp)
+      - [Main Project composer.json](#main-project-composerjson)
       - [In main project app/Exceptions/Handler.php](#in-main-project-appexceptionshandlerphp)
     - [DB Change](#db-change)
     - [Routes](#routes)
@@ -54,6 +55,15 @@ composer dump-autoload
 'providers' => [
         Saifur\RabbitMQ\SaifurRabbitMQServiceProvider::class,
     ],
+```
+
+#### Main Project composer.json
+```
+"autoload": {
+        "psr-4": {
+            "Saifur\\RabbitMQ\\": "packages/saifur/rabbitmq/src"
+        },
+    },
 ```
 
 #### In main project app/Exceptions/Handler.php

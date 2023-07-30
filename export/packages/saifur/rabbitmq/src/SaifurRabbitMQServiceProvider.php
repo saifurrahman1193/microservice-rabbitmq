@@ -17,10 +17,10 @@ class SaifurRabbitMQServiceProvider extends ServiceProvider
     {
         $this->publishes([__DIR__ . '/config/srmq.php' => config_path('srmq.php') ], 'config');
 
-        // Routes loading
+        // Routes loading based on configuration
         if (config('srmq.use_package_routes'))
         {
-            $this->loadRoutesFrom(__DIR__.'/routes.php');
+            $this->loadRoutesFrom(__DIR__.'/routes.php');  // routes of this package
         }
         $this->loadViewsFrom(__DIR__.'/resources/views', 'rabbitmq');  // views directory
         $this->publishes([__DIR__.'/public' => public_path('vendor/saifur/rabbitmq'), ], 'public'); // public filesystem

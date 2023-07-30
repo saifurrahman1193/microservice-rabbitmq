@@ -25,3 +25,21 @@ pass: root
 composer require php-amqplib/php-amqplib
 
 ```
+
+
+### Cache Clear
+```
+    php artisan cache:clear
+    php artisan route:cache
+    php artisan config:cache
+    php artisan view:clear
+    php artisan optimize
+    php artisan config:clear
+    php artisan route:clear
+    php artisan optimize:clear
+
+    rm -f storage/framework/sessions/*
+
+    composer dump-autoload
+    php artisan serve --port=8001
+```
