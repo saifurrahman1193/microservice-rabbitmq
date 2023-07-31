@@ -17,7 +17,7 @@ class Consume implements ConsumeInterface
         $rabbitmqPassword = $params['RABBITMQ_PASSWORD'] ?? env('RABBITMQ_PASSWORD', 'guest');
         $queueName = $params['QUEUE_NAME'] ?? 'rabbitmq_queue';
         $content = $params['CONTENT'] ?? null;
-
+        $content = json_encode($content);
 
         // Create a connection to RabbitMQ
         $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqLogin, $rabbitmqPassword);

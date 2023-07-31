@@ -17,7 +17,7 @@ class PublisherController extends Controller
     public function sendMessage(Request $request)
     {
         $publish = PublishFactory::processPublish('default');
-        $publish->publishMessage();
+        $publish->publishMessage(['CONTENT' => $request->all()]);
 
         return 'Succeed!';
     }
