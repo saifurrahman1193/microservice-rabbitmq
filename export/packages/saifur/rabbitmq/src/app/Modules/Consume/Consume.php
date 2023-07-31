@@ -1,11 +1,11 @@
 <?php
-namespace Saifur\RabbitMQ\app\Modules\Publish;
-use Saifur\RabbitMQ\app\Modules\Publish\PublishInterface;
+namespace Saifur\RabbitMQ\app\Modules\Consume;
+use Saifur\RabbitMQ\app\Modules\Consume\ConsumeInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 // Concrete implementation of a Car
-class Publish implements PublishInterface
+class Consume implements ConsumeInterface
 {
     public function publishMessage($params=[])
     {
