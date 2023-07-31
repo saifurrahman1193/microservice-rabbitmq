@@ -43,79 +43,12 @@
                         <v-card-text>
 
 
-                            <v-data-table :headers="headers" :items="files" :search="search"
-                                :footer-props="{ 'items-per-page-options': [10, 50, 500, -1] }">
-                                <template v-slot:item="{item, index}">
-                                    <tr>
-                                        <td>
-                                            <v-checkbox @click="addRemoveCheckBoxSelectItem(item, index)" :id="`select-${index+1}`"></v-checkbox>
-                                        </td>
-                                        <td>
-                                            <span v-text="index+1"></span>
-                                        </td>
-                                        <td>
 
-                                            {{-- single log file view --}}
-                                            <v-tooltip top >
-                                                <template v-slot:activator="{ on }">
-                                                    <v-btn  text v-on="on" style="text-decoration:none;" icon
-                                                    @click="viewLogFile(item?.file_name, item?.file_path)"
-                                                    >
-                                                        <v-icon color="light-blue" v-on="on">preview</v-icon>
-                                                    </v-btn>
-                                                </template>
-                                                <span>View Log?</span>
-                                            </v-tooltip>
-
-
-                                            {{-- download --}}
-                                            <v-tooltip top>
-                                                <template v-slot:activator="{ on }">
-                                                    <v-btn text v-on="on" style="text-decoration:none;" icon
-                                                        @click="downloadLogFile(item?.file_path, item?.file_name)"
-                                                        >
-                                                        <v-icon color="success darken-1" v-on="on">save_alt
-                                                        </v-icon>
-                                                    </v-btn>
-                                                </template>
-                                                <span v-text="`Download`"></span>
-                                            </v-tooltip>
-
-                                            {{-- single delete --}}
-                                            <v-tooltip top >
-                                                <template v-slot:activator="{ on }">
-                                                    <v-btn  text v-on="on" style="text-decoration:none;" icon
-                                                    @click="deleteLogFile(item?.file_path)">
-                                                        <v-icon color="pink" v-on="on">delete</v-icon>
-                                                    </v-btn>
-                                                </template>
-                                                <span>Delete File?</span>
-                                            </v-tooltip>
-
-
-
-
-
-                                        </td>
-                                        <td>
-                                            <span v-text="item?.file_name"></span> <br>
-                                            <v-chip color="red" outlined  small
-                                                v-text="`Memory Limit ${getFileSizeKBMB(info?.memory_limit)} Exceeded`"
-                                                v-if="item?.memory_limit_exceeds"
-                                            ></v-chip>
-                                        </td>
-                                        <td>
-                                            <span v-text="item?.date"></span>
-                                        </td>
-                                        <td>
-                                            <span v-text="getFileSizeKBMB(item?.size)"></span>
-
-                                        </td>
-                                    </tr>
-                                </template>
-
-                            </v-data-table>
-
+                            <v-btn color="success" type="submit" text @click="publish_message">
+                                <v-icon>mail</v-icon>
+                                Send Message
+                            </v-btn>
+                            <v-span v-text='message_status'></v-span>
 
 
                         </v-card-text>
@@ -140,47 +73,26 @@
             mounted() {
             },
             data: {
-                info: {},
-                files: [],
-                search: '',
-                selected: [],
-                log_file: {},
-                isLoading: false,
-                headers: [
-                    {
-                        text: 'Select',
-                        value: 'select',
-                        width: '90px',
-                        sortable: false,
-                    },
-                    {
-                        text: 'Id',
-                        value: 'index',
-                        width: '70px',
-                        sortable: false,
-                    },
-                    {
-                        text: 'Action',
-                        value: 'action',
-                        sortable: false,
-                    },
-                    {
-                        text: 'File',
-                        value: 'file_name'
-                    },
-                    {
-                        text: 'Date',
-                        value: 'date'
-                    },
-                    {
-                        text: 'Size',
-                        value: 'size'
-                    },
-                ],
+                message_status: '',
             },
             methods: {
 
+                publish_message() {
+                    this.isLoading=true
+                    var _this = this
 
+                    axios.post('/saifur/rabbitmq/publish/send-message', {message: 'hello world!'})
+                        .then(function(response) {
+                            console.log(response)
+                            _this.isLoading=false
+                            _this.message_status = 'Message successfully published to RabbitMQ queue!';
+                        })
+                        .catch(function(error) {
+                            _this.files = []
+                            _this.isLoading=false
+                            _this.message_status = 'Failed to send message!';
+                        })
+                },
 
             },
             computed: {

@@ -10,7 +10,9 @@ docker-compose exec export sh
 ```
 
 #### Browser: 
-- browser: http://localhost:801
+- browser: 
+  - http://localhost:801
+  - http://localhost:801/saifur/rabbitmq
 
 #### Workbench:
 ```
