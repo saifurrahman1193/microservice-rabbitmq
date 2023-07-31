@@ -18,4 +18,3 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/send', [HomeController::class, 'sendRabbitMQMessage']);
