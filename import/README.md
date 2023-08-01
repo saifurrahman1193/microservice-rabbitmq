@@ -13,7 +13,6 @@ docker-compose exec export sh
 ```
 docker exec -it ms-rmq-import-container php artisan list
 docker exec -it ms-rmq-import-container php artisan rabbitmq:consume
-
 ```
 
 #### Browser: 
