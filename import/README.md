@@ -9,6 +9,13 @@ sudo docker-compose build && docker-compose up -d
 docker-compose exec export sh
 ```
 
+## Access container to container
+```
+docker exec -it ms-rmq-import-container php artisan list
+docker exec -it ms-rmq-import-container php artisan rabbitmq:consume
+
+```
+
 #### Browser: 
 - browser: 
   - http://localhost:802

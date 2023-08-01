@@ -7,7 +7,7 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 // Concrete implementation of a Car
 class Consume implements ConsumeInterface
 {
-    public function publishMessage($params=[])
+    public function consumeMessage($params=[])
     {
         // Replace these variables with your RabbitMQ connection details
         $rabbitmqHost = $params['RABBITMQ_HOST'] ?? env('RABBITMQ_HOST', 'localhost');
@@ -16,25 +16,31 @@ class Consume implements ConsumeInterface
         $rabbitmqLogin = $params['RABBITMQ_LOGIN'] ?? env('RABBITMQ_LOGIN', 'guest');
         $rabbitmqPassword = $params['RABBITMQ_PASSWORD'] ?? env('RABBITMQ_PASSWORD', 'guest');
         $queueName = $params['RABBITMQ_QUEUE_NAME'] ?? env('RABBITMQ_QUEUE_NAME', 'rabbitmq_queue');
-        $content = $params['CONTENT'] ?? null;
-        $content = json_encode($content);
 
         // Create a connection to RabbitMQ
         $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqLogin, $rabbitmqPassword);
+
         // Create a channel
         $channel = $connection->channel();
 
         // Declare a queue to ensure it exists
         $channel->queue_declare($queueName, false, true, false, false);
 
-        // Create the message content
-        $messageContent = $content;
+        echo "Waiting for messages. To exit, press CTRL+C\n";
 
-        // Create the AMQPMessage
-        $message = new AMQPMessage($messageContent);
+        $callback = function (AMQPMessage $message) use ($channel) {
+            $body = $message->getBody();
+            // Process the message (add your custom processing logic here)
+            echo "Received: " . $body . PHP_EOL;
+            $channel->basic_ack($message->delivery_info['delivery_tag']);
+        };
 
-        // Publish the message to the queue
-        $channel->basic_publish($message, '', $queueName);
+        $channel->basic_qos(null, 1, null);
+        $channel->basic_consume($queueName, '', false, false, false, false, $callback);
+
+        while (count($channel->callbacks)) {
+            $channel->wait();
+        }
 
         // Close the channel and the connection
         $channel->close();
