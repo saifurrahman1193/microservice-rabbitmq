@@ -49,5 +49,4 @@ composer require php-amqplib/php-amqplib
     rm -f storage/framework/sessions/*
 
     composer dump-autoload
-    php artisan serve --port=8001
 ```
