@@ -15,7 +15,7 @@ class Consume implements ConsumeInterface
         $rabbitmqVhost = $params['RABBITMQ_VHOST'] ?? env('RABBITMQ_VHOST', '/');
         $rabbitmqLogin = $params['RABBITMQ_LOGIN'] ?? env('RABBITMQ_LOGIN', 'guest');
         $rabbitmqPassword = $params['RABBITMQ_PASSWORD'] ?? env('RABBITMQ_PASSWORD', 'guest');
-        $queueName = $params['QUEUE_NAME'] ?? 'rabbitmq_queue';
+        $queueName = $params['RABBITMQ_QUEUE_NAME'] ?? env('RABBITMQ_QUEUE_NAME', 'rabbitmq_queue');
         $content = $params['CONTENT'] ?? null;
         $content = json_encode($content);
 
