@@ -70,6 +70,10 @@
                                             class="text-success mt-1 green--text lighten-1 text-center"
                                             v-text="publishDetailsValid.validMessage"></p>
 
+                                        <v-alert  v-text="alert?.message"  :type="alert?.type=='success' ? 'success' : 'error'" :value='alert?.status' sm></v-alert>
+
+                                        <v-progress-circular indeterminate color="success" v-if="loading"></v-progress-circular>
+
                                         <v-card-actions>
 
                                             <v-spacer></v-spacer>
@@ -109,7 +113,7 @@
                 messageRules: [
                     v => !!v || 'Message is required',
                 ],
-                loading: true,
+                loading: false,
                 publishDetails: {
                     exchangeType: 'default'
                 },
@@ -122,6 +126,10 @@
                     valid: false,
                     validMessage: ''
                 },
+                alert: {
+                    status: null,
+                    message: null
+                }
             },
             methods: {
 
@@ -129,17 +137,24 @@
                     this.loading = true
                     var _this = this
 
-                    axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
-                            .publishDetails)
+                    axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this.publishDetails)
                         .then(function(response) {
                             console.log(response)
                             _this.loading = false
-                            _this.message_status = 'Message successfully published to RabbitMQ queue!';
+                            _this.alert = {
+                                status: true,
+                                type: 'success',
+                                message: 'Message successfully published to RabbitMQ queue!'
+                            };
                         })
                         .catch(function(error) {
-                            _this.files = []
+                            console.log(response)
                             _this.loading = false
-                            _this.message_status = 'Failed to send message!';
+                            _this.alert = {
+                                status: true,
+                                type: 'failed',
+                                message: 'Failed to send message!'
+                            };
                         })
                 },
 

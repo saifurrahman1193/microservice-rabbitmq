@@ -42,38 +42,37 @@
 
                         <v-card-text>
 
-                            <v-card  class="mx-auto mt-4 mb-2" floating>
+                            <v-card class="mx-auto mt-4 mb-2" floating>
                                 <v-card-title>
                                     <h1 class="display-1 mx-auto font-weight-light">Send Message</h1>
                                 </v-card-title>
 
                                 <v-card-text>
                                     <v-container fluid>
-                                        <v-radio-group
-                                        v-model="publishDetails.exchangeType"
-                                        inline
-                                        >
-                                            <v-radio label="Default" color="primary" value="default" ></v-radio>
-                                            <v-radio label="Direct" color="primary" value="direct" ></v-radio>
-                                            <v-radio label="Fanout" color="primary" value="fanout" ></v-radio>
-                                            <v-radio label="Topic" color="primary" value="topic" ></v-radio>
-                                            <v-radio label="Headers" color="primary" value="headers" ></v-radio>
+                                        <v-radio-group v-model="publishDetails.exchangeType" inline>
+                                            <v-radio label="Default" color="primary" value="default"></v-radio>
+                                            <v-radio label="Direct" color="primary" value="direct"></v-radio>
+                                            <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
+                                            <v-radio label="Topic" color="primary" value="topic"></v-radio>
+                                            <v-radio label="Headers" color="primary" value="headers"></v-radio>
                                         </v-radio-group>
                                     </v-container>
-                                    <v-form  @submit.prevent="publish_message()" >
-                                        <v-text-field
-                                            name="message"
-                                            label="Write a message"
-                                            id="message"
-                                            v-model="publishDetails.message"
-                                            prepend-icon="mail"
-                                            :rules="messageRules"
-                                            :error-messages="publishDetailsError.message"
-                                        ></v-text-field>
+                                    <v-form @submit.prevent="publish_message()">
+                                        <v-text-field name="message" label="Write a message" id="message"
+                                            v-model="publishDetails.message" prepend-icon="mail" :rules="messageRules"
+                                            :error-messages="publishDetailsError.message"></v-text-field>
 
                                         <v-divider></v-divider>
-                                        <p v-if="publishDetailsError?.error" class="text-danger mt-1 red--text lighten-1 text-center" v-text="publishDetailsError.publishError"></p>
-                                        <p v-if="publishDetailsValid?.valid" class="text-success mt-1 green--text lighten-1 text-center" v-text="publishDetailsValid.validMessage"></p>
+                                        <p v-if="publishDetailsError?.error"
+                                            class="text-danger mt-1 red--text lighten-1 text-center"
+                                            v-text="publishDetailsError.publishError"></p>
+                                        <p v-if="publishDetailsValid?.valid"
+                                            class="text-success mt-1 green--text lighten-1 text-center"
+                                            v-text="publishDetailsValid.validMessage"></p>
+
+                                        <v-alert  v-text="alert?.message"  :type="alert?.type=='success' ? 'success' : 'error'" :value='alert?.status' sm></v-alert>
+
+                                        <v-progress-circular indeterminate color="success" v-if="loading"></v-progress-circular>
 
                                         <v-card-actions>
 
@@ -107,35 +106,55 @@
             vuetify: new Vuetify(),
             el: '#app',
             mixins: [commonMixin],
-            components: {  },
-            mounted() {
-            },
+            components: {},
+            mounted() {},
             data: {
                 message_status: '',
                 messageRules: [
                     v => !!v || 'Message is required',
                 ],
-                loading:true,
-                publishDetails:{exchangeType: 'default'},
-                publishDetailsError : { error:false, publishError: '', message: ''  },
-                publishDetailsValid : { valid:false, validMessage: '' },
+                loading: false,
+                publishDetails: {
+                    exchangeType: 'default'
+                },
+                publishDetailsError: {
+                    error: false,
+                    publishError: '',
+                    message: ''
+                },
+                publishDetailsValid: {
+                    valid: false,
+                    validMessage: ''
+                },
+                alert: {
+                    status: null,
+                    message: null
+                }
             },
             methods: {
 
                 publish_message() {
-                    this.loading=true
+                    this.loading = true
                     var _this = this
 
                     axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this.publishDetails)
                         .then(function(response) {
                             console.log(response)
-                            _this.loading=false
-                            _this.message_status = 'Message successfully published to RabbitMQ queue!';
+                            _this.loading = false
+                            _this.alert = {
+                                status: true,
+                                type: 'success',
+                                message: 'Message successfully published to RabbitMQ queue!'
+                            };
                         })
                         .catch(function(error) {
-                            _this.files = []
-                            _this.loading=false
-                            _this.message_status = 'Failed to send message!';
+                            console.log(response)
+                            _this.loading = false
+                            _this.alert = {
+                                status: true,
+                                type: 'failed',
+                                message: 'Failed to send message!'
+                            };
                         })
                 },
 
@@ -143,12 +162,14 @@
             computed: {
 
             },
-            watch: {
-            },
+            watch: {},
         })
     </script>
     <style>
-        .pointer {cursor: pointer;}
+        .pointer {
+            cursor: pointer;
+        }
     </style>
 </body>
+
 </html>
