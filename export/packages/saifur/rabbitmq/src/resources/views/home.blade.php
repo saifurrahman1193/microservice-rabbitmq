@@ -70,12 +70,11 @@
                                             class="text-success mt-1 green--text lighten-1 text-center"
                                             v-text="publishDetailsValid.validMessage"></p>
 
-                                        <v-alert  v-text="alert?.message"  :type="alert?.type=='success' ? 'success' : 'error'" :value='alert?.status' sm></v-alert>
+                                        <v-alert  v-text="alert?.message" text :type="alert?.type=='success' ? 'success' : 'error'" :value='alert?.status' sm v-if="!loading"></v-alert>
 
                                         <v-progress-circular indeterminate color="success" v-if="loading"></v-progress-circular>
 
                                         <v-card-actions>
-
                                             <v-spacer></v-spacer>
                                             <v-btn color="success" type="submit" text @click="loading=true">
                                                 <v-icon>mail</v-icon>
