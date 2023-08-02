@@ -1,4 +1,7 @@
 # MS-RMQ-RabbitMQ
+## Design pattern
+1. Factory Design pattern
+
 ## Browser 
 http://localhost:5673/
 http://localhost:15673/#/

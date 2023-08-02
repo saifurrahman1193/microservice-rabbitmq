@@ -10,13 +10,13 @@ class PublishFactory
             case 'default':
                 return new PublishDefault($params);
             case 'direct':
-                return new PublishDefault($params);
+                return new PublishDirect($params);
             case 'fanout':
-                return new PublishDefault($params);
+                return new PublishFanout($params);
             case 'topic':
-                return new PublishDefault($params);
+                return new PublishTopic($params);
             case 'headers':
-                return new PublishDefault($params);
+                return new PublishHeaders($params);
             default:
                 throw new \InvalidArgumentException("Invalid product type: {$type}");
         }

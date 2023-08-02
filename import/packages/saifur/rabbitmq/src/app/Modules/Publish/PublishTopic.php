@@ -4,7 +4,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Saifur\RabbitMQ\app\Modules\RabbitMQConnection;
 use Saifur\RabbitMQ\app\Modules\Publish\PublishInterface;
 
-class PublishDefault implements PublishInterface
+class PublishTopic implements PublishInterface
 {
     protected $connection;
 

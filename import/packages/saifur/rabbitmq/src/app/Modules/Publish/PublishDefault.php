@@ -4,7 +4,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Saifur\RabbitMQ\app\Modules\RabbitMQConnection;
 use Saifur\RabbitMQ\app\Modules\Publish\PublishInterface;
 
-// Concrete implementation of a Car
 class PublishDefault implements PublishInterface
 {
     protected $connection;

@@ -42,13 +42,46 @@
 
                         <v-card-text>
 
+                            <v-card class="mx-auto mt-4 mb-2" floating>
+                                <v-card-title>
+                                    <h1 class="display-1 mx-auto font-weight-light">Send Message</h1>
+                                </v-card-title>
 
+                                <v-card-text>
+                                    <v-container fluid>
+                                        <v-radio-group v-model="publishDetails.exchangeType" inline>
+                                            <v-radio label="Default" color="primary" value="default"></v-radio>
+                                            <v-radio label="Direct" color="primary" value="direct"></v-radio>
+                                            <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
+                                            <v-radio label="Topic" color="primary" value="topic"></v-radio>
+                                            <v-radio label="Headers" color="primary" value="headers"></v-radio>
+                                        </v-radio-group>
+                                    </v-container>
+                                    <v-form @submit.prevent="publish_message()">
+                                        <v-text-field name="message" label="Write a message" id="message"
+                                            v-model="publishDetails.message" prepend-icon="mail" :rules="messageRules"
+                                            :error-messages="publishDetailsError.message"></v-text-field>
 
-                            <v-btn color="success" type="submit" text @click="publish_message">
-                                <v-icon>mail</v-icon>
-                                Send Message
-                            </v-btn>
-                            <v-span v-text='message_status'></v-span>
+                                        <v-divider></v-divider>
+                                        <p v-if="publishDetailsError?.error"
+                                            class="text-danger mt-1 red--text lighten-1 text-center"
+                                            v-text="publishDetailsError.publishError"></p>
+                                        <p v-if="publishDetailsValid?.valid"
+                                            class="text-success mt-1 green--text lighten-1 text-center"
+                                            v-text="publishDetailsValid.validMessage"></p>
+
+                                        <v-card-actions>
+
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="success" type="submit" text @click="loading=true">
+                                                <v-icon>mail</v-icon>
+                                                Send Message
+                                            </v-btn>
+                                        </v-card-actions>
+
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
 
 
                         </v-card-text>
@@ -69,27 +102,43 @@
             vuetify: new Vuetify(),
             el: '#app',
             mixins: [commonMixin],
-            components: {  },
-            mounted() {
-            },
+            components: {},
+            mounted() {},
             data: {
                 message_status: '',
+                messageRules: [
+                    v => !!v || 'Message is required',
+                ],
+                loading: true,
+                publishDetails: {
+                    exchangeType: 'default'
+                },
+                publishDetailsError: {
+                    error: false,
+                    publishError: '',
+                    message: ''
+                },
+                publishDetailsValid: {
+                    valid: false,
+                    validMessage: ''
+                },
             },
             methods: {
 
                 publish_message() {
-                    this.isLoading=true
+                    this.loading = true
                     var _this = this
 
-                    axios.post('/saifur/rabbitmq/publish/send-message-default', {message: 'hello world!'})
+                    axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
+                            .publishDetails)
                         .then(function(response) {
                             console.log(response)
-                            _this.isLoading=false
+                            _this.loading = false
                             _this.message_status = 'Message successfully published to RabbitMQ queue!';
                         })
                         .catch(function(error) {
                             _this.files = []
-                            _this.isLoading=false
+                            _this.loading = false
                             _this.message_status = 'Failed to send message!';
                         })
                 },
@@ -98,12 +147,14 @@
             computed: {
 
             },
-            watch: {
-            },
+            watch: {},
         })
     </script>
     <style>
-        .pointer {cursor: pointer;}
+        .pointer {
+            cursor: pointer;
+        }
     </style>
 </body>
+
 </html>
