@@ -7,7 +7,9 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 // Concrete implementation of a Car
 class Publish implements PublishInterface
 {
-    public function publishMessage($params=[])
+    protected $connection;
+
+    public function __construct()
     {
         // Replace these variables with your RabbitMQ connection details
         $rabbitmqHost = $params['RABBITMQ_HOST'] ?? env('RABBITMQ_HOST', 'localhost');
@@ -15,15 +17,19 @@ class Publish implements PublishInterface
         $rabbitmqVhost = $params['RABBITMQ_VHOST'] ?? env('RABBITMQ_VHOST', '/');
         $rabbitmqLogin = $params['RABBITMQ_LOGIN'] ?? env('RABBITMQ_LOGIN', 'guest');
         $rabbitmqPassword = $params['RABBITMQ_PASSWORD'] ?? env('RABBITMQ_PASSWORD', 'guest');
+
+
+        $this->connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqLogin, $rabbitmqPassword);
+    }
+
+    public function publishMessage($params=[])
+    {
         $queueName = $params['RABBITMQ_QUEUE_NAME'] ?? env('RABBITMQ_QUEUE_NAME', 'rabbitmq_queue');
         $content = $params['CONTENT'] ?? null;
         $content = json_encode($content);
 
-
-        // Create a connection to RabbitMQ
-        $connection = new AMQPStreamConnection($rabbitmqHost, $rabbitmqPort, $rabbitmqLogin, $rabbitmqPassword);
         // Create a channel
-        $channel = $connection->channel();
+        $channel = $this->connection->channel();
 
         // Declare a queue to ensure it exists
         $channel->queue_declare($queueName, false, true, false, false);
@@ -39,6 +45,6 @@ class Publish implements PublishInterface
 
         // Close the channel and the connection
         $channel->close();
-        $connection->close();
+        $this->connection->close();
     }
 }
