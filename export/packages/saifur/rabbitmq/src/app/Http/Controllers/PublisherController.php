@@ -16,40 +16,40 @@ class PublisherController extends Controller
 
     public function sendMessageDefault(Request $request)
     {
-        $publish = PublishFactory::processPublish('default', ['RABBITMQ_QUEUE_NAME' => 'export_default_queue']);  // default publish
-        $publish->publishMessage(['CONTENT' => $request->all()]);
+        $publish = PublishFactory::processPublish('default', []);  // default publish
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }
 
     public function sendMessageDirect(Request $request)
     {
-        $publish = PublishFactory::processPublish('direct');  // direct publish
-        $publish->publishMessage(['CONTENT' => $request->all()]);
+        $publish = PublishFactory::processPublish('direct', []);  // direct publish
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }
 
     public function sendMessageFanout(Request $request)
     {
-        $publish = PublishFactory::processPublish('fanout');  // fanout publish
-        $publish->publishMessage(['CONTENT' => $request->all()]);
+        $publish = PublishFactory::processPublish('fanout', []);  // fanout publish
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }
 
     public function sendMessageTopic(Request $request)
     {
-        $publish = PublishFactory::processPublish('topic');  // topic publish
-        $publish->publishMessage(['CONTENT' => $request->all()]);
+        $publish = PublishFactory::processPublish('topic', []);  // topic publish
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }
 
     public function sendMessageHeaders(Request $request)
     {
-        $publish = PublishFactory::processPublish('headers');  // headers publish
-        $publish->publishMessage(['CONTENT' => $request->all()]);
+        $publish = PublishFactory::processPublish('headers', []);  // headers publish
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }
