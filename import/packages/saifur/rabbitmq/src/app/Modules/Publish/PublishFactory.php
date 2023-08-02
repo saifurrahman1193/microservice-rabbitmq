@@ -9,7 +9,20 @@ class PublishFactory
     {
         if ($type === 'default') {
             return new Publish();
-        } else {
+        }
+        else if ($type === 'direct') {
+            return new Publish();
+        }
+        else if ($type === 'fanout') {
+            return new Publish();
+        }
+        else if ($type === 'topic') {
+            return new Publish();
+        }
+        else if ($type === 'headers') {
+            return new Publish();
+        }
+        else {
             throw new \InvalidArgumentException("Invalid Publish type.");
         }
     }

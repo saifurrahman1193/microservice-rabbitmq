@@ -81,7 +81,7 @@
                     this.isLoading=true
                     var _this = this
 
-                    axios.post('/saifur/rabbitmq/publish/send-message', {message: 'hello world!'})
+                    axios.post('/saifur/rabbitmq/publish/send-message-default', {message: 'hello world!'})
                         .then(function(response) {
                             console.log(response)
                             _this.isLoading=false
