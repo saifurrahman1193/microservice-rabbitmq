@@ -7,6 +7,7 @@ use Saifur\RabbitMQ\app\Modules\Publish\PublishInterface;
 class PublishDefault implements PublishInterface
 {
     protected $connection;
+    protected $channel;
 
     public function __construct($params=[])
     {
@@ -20,12 +21,16 @@ class PublishDefault implements PublishInterface
         $content = $params['CONTENT'] ?? null;
         $content = json_encode($content);
 
-        $channel = $this->connection->channel(); // Create a channel
-        $channel->queue_declare($queueName, false, true, false, false); // Declare a queue to ensure it exists
+        $this->channel = $this->connection->channel(); // Create a channel
+        $this->channel->queue_declare($queueName, false, true, false, false); // Declare a queue to ensure it exists
         $messageContent = $content; // Create the message content
         $message = new AMQPMessage($messageContent); // Create the AMQPMessage
-        $channel->basic_publish($message, '', $queueName); // Publish the message to the queue
-        $channel->close(); // Close the channel and the connection
+        $this->channel->basic_publish($message, '', $queueName); // Publish the message to the queue
+    }
+
+    public function __destruct()
+    {
+        $this->channel->close();
         $this->connection->close();
     }
 }
