@@ -49,3 +49,6 @@ docker exec ms-rmq-export-container ping ms-rmq-export-db-container
 docker exec ms-rmq-export-db-container ping ms-rmq-container
 docker exec ms-rmq-export-db-container ping ms-rmq-export-container
 ```
+
+## Documentation
+- https://www.rabbitmq.com/tutorials/tutorial-one-php.html

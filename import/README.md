@@ -50,3 +50,7 @@ composer require php-amqplib/php-amqplib
 
     composer dump-autoload
 ```
+
+
+## Documentation
+- https://www.rabbitmq.com/tutorials/tutorial-one-php.html

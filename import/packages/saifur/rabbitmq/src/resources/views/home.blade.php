@@ -33,62 +33,120 @@
 
                 <v-main>
 
-                    <v-card elevation="0">
-                        <v-card-title primary-title>
-                            <v-spacer></v-spacer>
-                            RabbitMQ Management
-                            <v-spacer></v-spacer>
-                        </v-card-title>
+                    <v-container>
 
-                        <v-card-text>
-
-                            <v-card class="mx-auto mt-4 mb-2" floating>
-                                <v-card-title>
-                                    <h1 class="display-1 mx-auto font-weight-light">Send Message</h1>
-                                </v-card-title>
-
-                                <v-card-text>
-                                    <v-container fluid>
-                                        <v-radio-group v-model="publishDetails.exchangeType" inline>
-                                            <v-radio label="Default" color="primary" value="default"></v-radio>
-                                            <v-radio label="Direct" color="primary" value="direct"></v-radio>
-                                            <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
-                                            <v-radio label="Topic" color="primary" value="topic"></v-radio>
-                                            <v-radio label="Headers" color="primary" value="headers"></v-radio>
-                                        </v-radio-group>
-                                    </v-container>
-                                    <v-form @submit.prevent="publish_message()">
-                                        <v-text-field name="message" label="Write a message" id="message"
-                                            v-model="publishDetails.message" prepend-icon="mail" :rules="messageRules"
-                                            :error-messages="publishDetailsError.message"></v-text-field>
-
-                                        <v-divider></v-divider>
-                                        <p v-if="publishDetailsError?.error"
-                                            class="text-danger mt-1 red--text lighten-1 text-center"
-                                            v-text="publishDetailsError.publishError"></p>
-                                        <p v-if="publishDetailsValid?.valid"
-                                            class="text-success mt-1 green--text lighten-1 text-center"
-                                            v-text="publishDetailsValid.validMessage"></p>
-
-                                        <v-alert  v-text="alert?.message" text :type="alert?.type=='success' ? 'success' : 'error'" :value='alert?.status' sm v-if="!loading"></v-alert>
-
-                                        <v-progress-circular indeterminate color="success" v-if="loading"></v-progress-circular>
-
-                                        <v-card-actions>
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="success" type="submit" text @click="loading=true">
-                                                <v-icon>mail</v-icon>
-                                                Send Message
-                                            </v-btn>
-                                        </v-card-actions>
-
-                                    </v-form>
-                                </v-card-text>
-                            </v-card>
+                        <v-card elevation="0">
+                            <v-card-title primary-title>
+                                <v-spacer></v-spacer>
+                                RabbitMQ Playground
+                                <v-spacer></v-spacer>
+                            </v-card-title>
+                        </v-card>
 
 
-                        </v-card-text>
-                    </v-card>
+                        <v-row>
+                            <v-col cols="6">
+
+                                <v-card class="mx-auto mt-4 mb-2" floating>
+                                    <v-card-title>
+                                        <h1 class="display-1 mx-auto font-weight-light">Publish Message</h1>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <v-container fluid>
+                                            <v-radio-group v-model="publishDetails.exchangeType" inline>
+                                                <v-radio label="Default" color="primary" value="default"></v-radio>
+                                                <v-radio label="Direct" color="primary" value="direct"></v-radio>
+                                                <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
+                                                <v-radio label="Topic" color="primary" value="topic"></v-radio>
+                                                <v-radio label="Headers" color="primary" value="headers"></v-radio>
+                                            </v-radio-group>
+                                        </v-container>
+                                        <v-form @submit.prevent="publish_message()">
+                                            <v-text-field name="message" label="Write a message" id="message"
+                                                v-model="publishDetails.message" prepend-icon="mail"
+                                                :rules="messageRules"
+                                                :error-messages="publishDetailsError.message"></v-text-field>
+
+                                            <v-divider></v-divider>
+                                            <p v-if="publishDetailsError?.error"
+                                                class="text-danger mt-1 red--text lighten-1 text-center"
+                                                v-text="publishDetailsError.publishError"></p>
+                                            <p v-if="publishDetailsValid?.valid"
+                                                class="text-success mt-1 green--text lighten-1 text-center"
+                                                v-text="publishDetailsValid.validMessage"></p>
+
+                                            <v-alert v-text="alert?.message" text
+                                                :type="alert?.type == 'success' ? 'success' : 'error'"
+                                                :value='alert?.status' sm v-if="!loading"></v-alert>
+
+                                            <v-progress-circular indeterminate color="success"
+                                                v-if="loading"></v-progress-circular>
+
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="success" type="submit" text @click="loading=true">
+                                                    <v-icon>mail</v-icon>
+                                                    Send Message
+                                                </v-btn>
+                                            </v-card-actions>
+
+                                        </v-form>
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols="6">
+
+                                <v-card class="mx-auto mt-4 mb-2" floating>
+                                    <v-card-title>
+                                        <h1 class="display-1 mx-auto font-weight-light">Consume Message</h1>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        {{-- <v-container fluid>
+                                            <v-radio-group v-model="publishDetails.exchangeType" inline>
+                                                <v-radio label="Default" color="primary" value="default"></v-radio>
+                                                <v-radio label="Direct" color="primary" value="direct"></v-radio>
+                                                <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
+                                                <v-radio label="Topic" color="primary" value="topic"></v-radio>
+                                                <v-radio label="Headers" color="primary" value="headers"></v-radio>
+                                            </v-radio-group>
+                                        </v-container>
+                                        <v-form @submit.prevent="publish_message()">
+                                            <v-text-field name="message" label="Write a message" id="message"
+                                                v-model="publishDetails.message" prepend-icon="mail"
+                                                :rules="messageRules"
+                                                :error-messages="publishDetailsError.message"></v-text-field>
+
+                                            <v-divider></v-divider>
+                                            <p v-if="publishDetailsError?.error"
+                                                class="text-danger mt-1 red--text lighten-1 text-center"
+                                                v-text="publishDetailsError.publishError"></p>
+                                            <p v-if="publishDetailsValid?.valid"
+                                                class="text-success mt-1 green--text lighten-1 text-center"
+                                                v-text="publishDetailsValid.validMessage"></p>
+
+                                            <v-alert v-text="alert?.message" text
+                                                :type="alert?.type == 'success' ? 'success' : 'error'"
+                                                :value='alert?.status' sm v-if="!loading"></v-alert>
+
+                                            <v-progress-circular indeterminate color="success"
+                                                v-if="loading"></v-progress-circular>
+
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="success" type="submit" text @click="loading=true">
+                                                    <v-icon>mail</v-icon>
+                                                    Send Message
+                                                </v-btn>
+                                            </v-card-actions>
+
+                                        </v-form> --}}
+                                    </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
 
                 </v-main>
 
@@ -114,7 +172,8 @@
                 ],
                 loading: false,
                 publishDetails: {
-                    exchangeType: 'default'
+                    exchangeType: 'default',
+                    message: ''
                 },
                 publishDetailsError: {
                     error: false,
@@ -136,7 +195,8 @@
                     this.loading = true
                     var _this = this
 
-                    axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this.publishDetails)
+                    axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
+                            .publishDetails)
                         .then(function(response) {
                             console.log(response)
                             _this.loading = false

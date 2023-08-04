@@ -34,3 +34,13 @@ class PublishDefault implements PublishInterface
         $this->connection->close();
     }
 }
+
+// ----------------------------------------------------------------
+// Step 1: Create a new connection
+// Step 2: Create a new channel
+// Step 3: Create a new queue if not already created
+// Step 4: Create a new message with the content
+// Step 5: Call the channel to publish the message to the queue basic_publish($message, $exchangeName, $routingKey)
+// Step 6: Close the channel (which effectively ends the communication with the AMQP broker for that channel)
+// Step 7: Close the connection (close the connection with the AMQP broker)
+// ----------------------------------------------------------------

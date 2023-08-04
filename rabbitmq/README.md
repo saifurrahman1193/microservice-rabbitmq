@@ -15,3 +15,7 @@ docker-compose exec rabbitmq sh
   - http://localhost:15673
     - Username: guest
     - Password: guest
+
+
+## Documentation
+- https://www.rabbitmq.com/tutorials/tutorial-one-php.html

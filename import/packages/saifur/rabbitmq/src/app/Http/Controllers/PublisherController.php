@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Saifur\RabbitMQ\app\Traits\ApiResponser;
-use Saifur\RabbitMQ\app\Modules\Publish\Publish;
 use Saifur\RabbitMQ\app\Modules\Publish\PublishFactory;
 
 class PublisherController extends Controller
