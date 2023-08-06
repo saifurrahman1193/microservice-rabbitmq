@@ -109,7 +109,7 @@
                                     </v-card-title>
 
                                     <v-card-text>
-                                        <v-form @submit.prevent="publish_message()">
+                                        <v-form @submit.prevent="consume_message()">
                                             <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name" id="RABBITMQ_QUEUE_NAME"
                                                 v-model="publishDetails.RABBITMQ_QUEUE_NAME" prepend-icon="queue"
                                                 :rules="RABBITMQ_QUEUE_NAMERules"
@@ -186,6 +186,32 @@
                     var _this = this
 
                     axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
+                            .publishDetails)
+                        .then(function(response) {
+                            console.log(response)
+                            _this.loading = false
+                            _this.alert = {
+                                status: true,
+                                type: 'success',
+                                message: 'Message successfully published to RabbitMQ queue!'
+                            };
+                        })
+                        .catch(function(error) {
+                            console.log(response)
+                            _this.loading = false
+                            _this.alert = {
+                                status: true,
+                                type: 'failed',
+                                message: 'Failed to send message!'
+                            };
+                        })
+                },
+
+                consume_message() {
+                    this.loading = true
+                    var _this = this
+
+                    axios.post(`/saifur/rabbitmq/consume/consume-message-${this?.publishDetails?.exchangeType}`, this
                             .publishDetails)
                         .then(function(response) {
                             console.log(response)
