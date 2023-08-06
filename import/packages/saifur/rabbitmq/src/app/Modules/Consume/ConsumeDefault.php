@@ -1,5 +1,6 @@
 <?php
 namespace Saifur\RabbitMQ\app\Modules\Consume;
+use Illuminate\Support\Facades\Log;
 use PhpAmqpLib\Message\AMQPMessage;
 use Saifur\RabbitMQ\app\Modules\RabbitMQConnection;
 use Saifur\RabbitMQ\app\Modules\Consume\ConsumeInterface;
@@ -9,7 +10,6 @@ class ConsumeDefault implements ConsumeInterface
 {
     protected $connection;
     protected $channel;
-    protected $messages = [];
 
     public function __construct($params=[])
     {
@@ -27,29 +27,25 @@ class ConsumeDefault implements ConsumeInterface
         // Declare a queue to ensure it exists
         $channel = $this->channel->queue_declare($queueName, false, true, false, false);
 
-        echo "Waiting for messages. To exit, press CTRL+C\n";
 
-        $callback = function (AMQPMessage $message) {
+        $callback = function (AMQPMessage $message)  use (&$messages) {
             // Handle the received message here
             $payload = $message->getBody();
-            $this->messages[] = $payload;
+            $data = json_decode($payload, true);
+            Log::info('Rabbitmq\'s consumed message : ', $data);
+
+            $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
         };
 
 
         $this->channel->basic_qos(null, 1, null);
         $this->channel->basic_consume($queueName, '', false, false, false, false, $callback);
 
-        dd($this->messages);
-
         while (count($this->channel->callbacks)) {
             $this->channel->wait();
         }
     }
 
-    public function consumeMessageWithResponse($params=[])
-    {
-        $this->consumeMessage($params);
-    }
 
     public function __destruct()
     {
