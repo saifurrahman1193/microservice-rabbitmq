@@ -13,7 +13,7 @@ class ConsumeRabbitMQMessages extends Command
 
     public function handle()
     {
-        $consume = ConsumeFactory::processConsume('default');
-        $consume->consumeMessage();
+        $consume = ConsumeFactory::processConsume('default',[]);
+        $consume->consumeMessage(['RABBITMQ_QUEUE_NAME' => $request->RABBITMQ_QUEUE_NAME ?? 'export_default_queue']);
     }
 }

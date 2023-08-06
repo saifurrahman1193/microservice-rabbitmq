@@ -16,7 +16,7 @@ class PublisherController extends Controller
     public function sendMessageDefault(Request $request)
     {
         $publish = PublishFactory::processPublish('default', []);  // default publish
-        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => 'export_default_queue','CONTENT' =>  $request->all()]);
+        $publish->publishMessage(['RABBITMQ_QUEUE_NAME' => $request->RABBITMQ_QUEUE_NAME ?? 'export_default_queue','CONTENT' =>  $request->all()]);
 
         return 'Succeed!';
     }

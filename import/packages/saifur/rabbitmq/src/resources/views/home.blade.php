@@ -63,6 +63,11 @@
                                             </v-radio-group>
                                         </v-container>
                                         <v-form @submit.prevent="publish_message()">
+                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name" id="RABBITMQ_QUEUE_NAME"
+                                                v-model="publishDetails.RABBITMQ_QUEUE_NAME" prepend-icon="queue"
+                                                :rules="RABBITMQ_QUEUE_NAMERules"
+                                                :error-messages="publishDetailsError.RABBITMQ_QUEUE_NAME"></v-text-field>
+
                                             <v-text-field name="message" label="Write a message" id="message"
                                                 v-model="publishDetails.message" prepend-icon="mail"
                                                 :rules="messageRules"
@@ -87,7 +92,7 @@
                                                 <v-spacer></v-spacer>
                                                 <v-btn color="success" type="submit" text @click="loading=true">
                                                     <v-icon>mail</v-icon>
-                                                    Send Message
+                                                    Publish Message
                                                 </v-btn>
                                             </v-card-actions>
 
@@ -104,32 +109,12 @@
                                     </v-card-title>
 
                                     <v-card-text>
-                                        {{-- <v-container fluid>
-                                            <v-radio-group v-model="publishDetails.exchangeType" inline>
-                                                <v-radio label="Default" color="primary" value="default"></v-radio>
-                                                <v-radio label="Direct" color="primary" value="direct"></v-radio>
-                                                <v-radio label="Fanout" color="primary" value="fanout"></v-radio>
-                                                <v-radio label="Topic" color="primary" value="topic"></v-radio>
-                                                <v-radio label="Headers" color="primary" value="headers"></v-radio>
-                                            </v-radio-group>
-                                        </v-container>
                                         <v-form @submit.prevent="publish_message()">
-                                            <v-text-field name="message" label="Write a message" id="message"
-                                                v-model="publishDetails.message" prepend-icon="mail"
-                                                :rules="messageRules"
-                                                :error-messages="publishDetailsError.message"></v-text-field>
+                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name" id="RABBITMQ_QUEUE_NAME"
+                                                v-model="publishDetails.RABBITMQ_QUEUE_NAME" prepend-icon="queue"
+                                                :rules="RABBITMQ_QUEUE_NAMERules"
+                                                :error-messages="publishDetailsError.RABBITMQ_QUEUE_NAME"></v-text-field>
 
-                                            <v-divider></v-divider>
-                                            <p v-if="publishDetailsError?.error"
-                                                class="text-danger mt-1 red--text lighten-1 text-center"
-                                                v-text="publishDetailsError.publishError"></p>
-                                            <p v-if="publishDetailsValid?.valid"
-                                                class="text-success mt-1 green--text lighten-1 text-center"
-                                                v-text="publishDetailsValid.validMessage"></p>
-
-                                            <v-alert v-text="alert?.message" text
-                                                :type="alert?.type == 'success' ? 'success' : 'error'"
-                                                :value='alert?.status' sm v-if="!loading"></v-alert>
 
                                             <v-progress-circular indeterminate color="success"
                                                 v-if="loading"></v-progress-circular>
@@ -138,11 +123,11 @@
                                                 <v-spacer></v-spacer>
                                                 <v-btn color="success" type="submit" text @click="loading=true">
                                                     <v-icon>mail</v-icon>
-                                                    Send Message
+                                                    Consume Message
                                                 </v-btn>
                                             </v-card-actions>
 
-                                        </v-form> --}}
+                                        </v-form>
                                     </v-card-text>
                                 </v-card>
                             </v-col>
@@ -170,14 +155,19 @@
                 messageRules: [
                     v => !!v || 'Message is required',
                 ],
+                RABBITMQ_QUEUE_NAMERules: [
+                    v => !!v || 'Queue name is required',
+                ],
                 loading: false,
                 publishDetails: {
                     exchangeType: 'default',
+                    RABBITMQ_QUEUE_NAME: 'export_default_queue',
                     message: ''
                 },
                 publishDetailsError: {
                     error: false,
                     publishError: '',
+                    RABBITMQ_QUEUE_NAME: '',
                     message: ''
                 },
                 publishDetailsValid: {

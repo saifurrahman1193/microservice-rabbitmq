@@ -1,16 +1,25 @@
 <?php
 namespace Saifur\RabbitMQ\app\Modules\Consume;
 
-use Saifur\RabbitMQ\app\Modules\Consume\Consume;
+use Saifur\RabbitMQ\app\Modules\Consume\ConsumeDefault;
 
 class ConsumeFactory
 {
-    public static function processConsume($type = 'default')
+    public static function processConsume($type = 'default', $params=[])
     {
-        if ($type === 'default') {
-            return new Consume();
-        } else {
-            throw new \InvalidArgumentException("Invalid Consume type.");
+        switch ($type) {
+            case 'default':
+                return new ConsumeDefault($params);
+            // case 'direct':
+            //     return new ConsumeDirect($params);
+            // case 'fanout':
+            //     return new ConsumeFanout($params);
+            // case 'topic':
+            //     return new ConsumeTopic($params);
+            // case 'headers':
+            //     return new ConsumeHeaders($params);
+            default:
+                throw new \InvalidArgumentException("Invalid exchange type: {$type}");
         }
     }
 }

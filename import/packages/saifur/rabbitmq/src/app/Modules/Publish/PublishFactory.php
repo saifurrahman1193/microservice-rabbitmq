@@ -18,7 +18,7 @@ class PublishFactory
             case 'headers':
                 return new PublishHeaders($params);
             default:
-                throw new \InvalidArgumentException("Invalid product type: {$type}");
+                throw new \InvalidArgumentException("Invalid exchange type: {$type}");
         }
     }
 }
