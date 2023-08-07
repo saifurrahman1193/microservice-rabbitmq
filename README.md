@@ -6,6 +6,11 @@
 http://localhost:5673/
 http://localhost:15673/#/
 
+# current user all permissions for this project in ubuntu
+```
+sudo chown -R $USER:$USER .
+```
+
 # MS-RMQ-Export
 #### Browser: 
 - browser: 

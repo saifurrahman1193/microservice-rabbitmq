@@ -83,14 +83,14 @@
 
                                             <v-alert v-text="alert?.message" text
                                                 :type="alert?.type == 'success' ? 'success' : 'error'"
-                                                :value='alert?.status' sm v-if="!loading"></v-alert>
+                                                :value='alert?.status' sm v-if="!loader_p"></v-alert>
 
                                             <v-progress-circular indeterminate color="success"
-                                                v-if="loading"></v-progress-circular>
+                                                v-if="loader_p"></v-progress-circular>
 
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="success" type="submit" text @click="loading=true">
+                                                <v-btn color="success" type="submit" text @click="loader_p=true">
                                                     <v-icon>mail</v-icon>
                                                     Publish Message
                                                 </v-btn>
@@ -117,11 +117,11 @@
 
 
                                             <v-progress-circular indeterminate color="success"
-                                                v-if="loading"></v-progress-circular>
+                                                v-if="loader_c"></v-progress-circular>
 
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="success" type="submit" text @click="loading=true">
+                                                <v-btn color="success" type="submit" text @click="loader_c=true">
                                                     <v-icon>mail</v-icon>
                                                     Consume Message
                                                 </v-btn>
@@ -158,7 +158,8 @@
                 RABBITMQ_QUEUE_NAMERules: [
                     v => !!v || 'Queue name is required',
                 ],
-                loading: false,
+                loader_c: false,
+                loader_p: false,
                 publishDetails: {
                     exchangeType: 'default',
                     RABBITMQ_QUEUE_NAME: 'export_default_queue',
@@ -182,14 +183,14 @@
             methods: {
 
                 publish_message() {
-                    this.loading = true
+                    this.loader_p = true
                     var _this = this
 
                     axios.post(`/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
                             .publishDetails)
                         .then(function(response) {
                             console.log(response)
-                            _this.loading = false
+                            _this.loader_p = false
                             _this.alert = {
                                 status: true,
                                 type: 'success',
@@ -198,7 +199,7 @@
                         })
                         .catch(function(error) {
                             console.log(response)
-                            _this.loading = false
+                            _this.loader_p = false
                             _this.alert = {
                                 status: true,
                                 type: 'failed',
@@ -208,14 +209,14 @@
                 },
 
                 consume_message() {
-                    this.loading = true
+                    this.loader_c = true
                     var _this = this
 
                     axios.post(`/saifur/rabbitmq/consume/consume-message-${this?.publishDetails?.exchangeType}`, this
                             .publishDetails)
                         .then(function(response) {
                             console.log(response)
-                            _this.loading = false
+                            _this.loader_c = false
                             _this.alert = {
                                 status: true,
                                 type: 'success',
@@ -224,7 +225,7 @@
                         })
                         .catch(function(error) {
                             console.log(response)
-                            _this.loading = false
+                            _this.loader_c = false
                             _this.alert = {
                                 status: true,
                                 type: 'failed',
