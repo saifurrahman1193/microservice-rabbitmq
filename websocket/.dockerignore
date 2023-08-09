@@ -1,0 +1,10 @@
+# ./node_modules
+# ./build
+# ./.dockerignore
+# npm-debug.log
+# ./Dockerfile*
+# /.env.local
+# ./.env.prod
+# ./.env.stage
+# ./.gitignore
+# ./docker-compose.yml
