@@ -42,7 +42,6 @@ class ConsumerController extends Controller
             // Acknowledge the message to remove it from the queue
             $message->delivery_info['channel']->basic_ack($message->delivery_info['delivery_tag']);
         };
-
         // This will continuously consume messages until the consumer is manually stopped
         $channel->basic_consume($queue, '', false, false, false, false, $callback);
 

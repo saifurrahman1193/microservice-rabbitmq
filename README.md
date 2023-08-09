@@ -16,7 +16,6 @@ sudo chown -R $USER:$USER .
 - browser: 
   - RabbitMQ: http://localhost:15673
   - Export: http://localhost:801/saifur/rabbitmq
-  - Import: http://localhost:802/saifur/rabbitmq
 
 # All Run
 ```
@@ -25,10 +24,6 @@ sudo docker-compose down
 sudo docker-compose build && docker-compose up -d
 cd..
 cd export
-sudo docker-compose down
-sudo docker-compose build && docker-compose up -d
-cd..
-cd import
 sudo docker-compose down
 sudo docker-compose build && docker-compose up -d
 cd..
