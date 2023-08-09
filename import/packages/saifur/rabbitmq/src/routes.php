@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Saifur\RabbitMQ\app\Http\Controllers\HomeController;
+use Saifur\RabbitMQ\app\Http\Controllers\ConsumerController;
 use Saifur\RabbitMQ\app\Http\Controllers\PublisherController;
 
 
@@ -14,6 +15,15 @@ Route::group(['prefix' => 'saifur/rabbitmq'],function (){
         Route::post('/send-message-fanout', [PublisherController::class, 'sendMessageFanout']);
         Route::post('/send-message-topic', [PublisherController::class, 'sendMessageTopic']);
         Route::post('/send-message-headers', [PublisherController::class, 'sendMessageHeaders']);
+
+    });
+
+    Route::group(['prefix' => 'consume'],function (){
+        Route::post('/consume-message-default', [ConsumerController::class, 'consumeMessageDefault']);
+        Route::post('/consume-message-direct', [ConsumerController::class, 'consumeMessageDirect']);
+        Route::post('/consume-message-fanout', [ConsumerController::class, 'consumeMessageFanout']);
+        Route::post('/consume-message-topic', [ConsumerController::class, 'consumeMessageTopic']);
+        Route::post('/consume-message-headers', [ConsumerController::class, 'sendMessageHeaders']);
 
     });
 });
