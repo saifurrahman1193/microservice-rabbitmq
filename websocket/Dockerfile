@@ -5,11 +5,14 @@ FROM node:16.18.1-alpine
 WORKDIR /app
 
 COPY . .
+COPY .env.example .env
 
 # Install dependencies
 RUN npm install
 
-EXPOSE 3000
+RUN npm config set cache /tmp --global
 
-# Command to run your Node.js application
-CMD ["npm", "run", "dev"]
+EXPOSE 5000
+
+# # # Command to run your Node.js application
+CMD ["npm", "start"]

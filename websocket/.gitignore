@@ -1,2 +1,9 @@
-/node_modules
-
+node_modules
+.env
+*.xlsx
+*.csv
+*.log
+/public/uploads/exports/user
+# !public/uploads/exports/user/csv
+# /public/uploads/exports/user/files/*
+# /storage/logs/*
