@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS to center the content vertically */
+        body, html {
+            height: 100%;
+        }
+
+        .vertical-center {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to nodejs project</h1>
+    <div class="vertical-center">
+        <div class="container text-center">
+            <h1 class="display-4">Welcome to Nodejs</h1>
+        </div>
+    </div>
 </body>
 </html>
