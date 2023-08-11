@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  ms-rabbitmq:
+  msrmq-rabbitmq:
     build: .
     container_name: ms-rmq-container
     ports:
