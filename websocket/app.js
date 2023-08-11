@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require("express");
+const http = require("http");
 const bodyParser = require("body-parser");
 var multer = require('multer');
 var forms = multer();
@@ -10,12 +11,14 @@ const moment = require('moment');
 const path = require('path'); 
 
 const app = express();
+const socket_server = http.createServer(app)
+
+app.use(express.static(path.join(__dirname, 'app', 'public')));
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'resource', 'views'));
+app.set('views', path.join(__dirname, 'app', 'public'));
 
-// app.use(express.static('app/public'))
 
 // =========cors==========
 app.use(cors());
@@ -29,7 +32,6 @@ app.use(bodyParser.json());
 
 // for parsing multipart/form-data
 app.use(forms.array()); 
-app.use(express.static('public'));
 
 
 // app.post('/post-test', (req, res) => {
@@ -39,6 +41,8 @@ app.use(express.static('public'));
 
 require("./routes/routes.js")(app);   // all routes 
 require("./app/jobs/jobs.js")(app);   // all jobs
+
+
 
 // Handling Errors
 app.use( async(err, req, res, next) => {
@@ -57,9 +61,13 @@ app.use( async(err, req, res, next) => {
 // set port, listen for requests
 const PORT = process.env.APP_PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`App is running on port ${PORT}. time : ${moment().format('yy-MM-DD')}` );
+  console.log(`App is running on port ${PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
 });
 
+const io = require("socket.io")(socket_server);
+socket_server.listen(process.env.SOCKET_PORT, () => {
+    console.log(`Socket is running on port ${process.env.SOCKET_PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
+});
 
 
 
