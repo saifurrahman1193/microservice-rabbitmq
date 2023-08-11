@@ -2,5 +2,5 @@ module.exports = app => {
 
     prefix = "/"
 
-    app.get(prefix , (req, res) => { res.render('home', { title: 'Home' }) });
+    app.get(prefix , (req, res) => { res.render('home', { title: 'Home', isHomePage: true  }) });
 };

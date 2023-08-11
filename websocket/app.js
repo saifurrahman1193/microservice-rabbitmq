@@ -16,7 +16,9 @@ const socket_server = http.createServer(app)
 const public_path = path.join(__dirname, 'app', 'public');
 app.use(express.static(public_path));
 
-app.engine('handlebars', engine({defaultLayout: 'layout', layoutsDir: path.join(public_path, 'layouts', 'default') }));
+app.engine('handlebars', engine(
+        {defaultLayout: 'layout', layoutsDir: path.join(public_path, 'layouts', 'default'), partialsDir: path.join(public_path, 'layouts', 'default') })
+    );
 app.set('view engine', 'handlebars');
 app.set('views', public_path);
 
