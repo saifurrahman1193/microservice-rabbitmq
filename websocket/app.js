@@ -74,3 +74,12 @@ socket_server.listen(process.env.SOCKET_PORT, () => {
 
 
 
+io.on('connection', (socket) => {
+    console.log('A user connected'+socket.id);
+
+    // Handle WebSocket events here
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
