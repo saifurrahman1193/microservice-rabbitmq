@@ -13,11 +13,12 @@ const path = require('path');
 const app = express();
 const socket_server = http.createServer(app)
 
-app.use(express.static(path.join(__dirname, 'app', 'public')));
+const public_path = path.join(__dirname, 'app', 'public');
+app.use(express.static(public_path));
 
-app.engine('handlebars', engine());
+app.engine('handlebars', engine({defaultLayout: 'layout', layoutsDir: path.join(public_path, 'layouts', 'default') }));
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'app', 'public'));
+app.set('views', public_path);
 
 
 // =========cors==========
