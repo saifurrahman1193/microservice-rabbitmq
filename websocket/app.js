@@ -7,12 +7,13 @@ const cors = require("cors");
 const jwt = require('jsonwebtoken');
 const {engine} = require('express-handlebars');
 const moment = require('moment');
+const path = require('path'); 
 
 const app = express();
 
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
-// app.set('views', './views');
+app.set('views', path.join(__dirname, 'resource', 'views'));
 
 // app.use(express.static('app/public'))
 
@@ -36,13 +37,8 @@ app.use(express.static('public'));
 //     res.sendStatus(200);
 // });
 
-require("./routes/routes.js")(app);
-require("./app/jobs/jobs.js")(app);
-
-app.get('/', (req, res) => {
-    console.log('Welcome to this node project');
-  res.send('<h1 style="text-align:center; color:grey;">Welcome to this node projects !</h1>')
-})
+require("./routes/routes.js")(app);   // all routes 
+require("./app/jobs/jobs.js")(app);   // all jobs
 
 // Handling Errors
 app.use( async(err, req, res, next) => {
@@ -50,7 +46,7 @@ app.use( async(err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.message = err.message || "Internal Server Error";
 
-  await loghelper.log(error?.message, 'error')
+//   await loghelper.log(error?.message, 'error')
 
   res.status(err.statusCode).json({
     message: err.message,

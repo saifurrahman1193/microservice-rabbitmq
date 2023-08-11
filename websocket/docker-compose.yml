@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-    websocket:
+    msrmq_websocket:
       image: websocket-node-image
       container_name: ms-websocket-container
       build:          # let docker know that we build with dockerfile in locally instead of dockerhub
