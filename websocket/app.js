@@ -70,9 +70,13 @@ app.use( async(err, req, res, next) => {
 
 const io = require("socket.io")(socket_server);
 io.on('connection', (socket) => {
-    console.log('A user connected'+socket.id);
+    console.log('A user connected ', socket.id);
 
-    // Handle WebSocket events here
+    socket.emit('hello-client')
+    socket.on('hello-client', () =>{
+        console.log('Hello server! ', socket.id);
+    })
+
 
     socket.on('disconnect', () => {
         console.log('User disconnected');
