@@ -11,6 +11,9 @@ const moment = require('moment');
 const path = require('path'); 
 
 const app = express();
+// =========cors==========
+app.use(cors());
+// =========cors==========
 const socket_server = http.createServer(app)
 
 const public_path = path.join(__dirname, 'app', 'public');
@@ -23,9 +26,7 @@ app.set('view engine', 'handlebars');
 app.set('views', public_path);
 
 
-// =========cors==========
-app.use(cors());
-// =========cors==========
+
 
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,18 +63,12 @@ app.use( async(err, req, res, next) => {
 
 
 // set port, listen for requests
-const PORT = process.env.APP_PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`App is running on port ${PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
-});
+// const PORT = process.env.APP_PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`App is running on port ${PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
+// });
 
 const io = require("socket.io")(socket_server);
-socket_server.listen(process.env.SOCKET_PORT, () => {
-    console.log(`Socket is running on port ${process.env.SOCKET_PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
-});
-
-
-
 io.on('connection', (socket) => {
     console.log('A user connected'+socket.id);
 
@@ -82,4 +77,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('User disconnected');
     });
+});
+socket_server.listen(process.env.APP_PORT, () => {
+    console.log(`Socket is running on port ${process.env.APP_PORT}. time : ${moment().format('YYYY-MM-DD HH:mm:ss')}` );
 });
