@@ -72,9 +72,11 @@ const io = require("socket.io")(socket_server);
 io.on('connection', (socket) => {
     console.log('A user connected ', socket.id);
 
-    socket.emit('hello-client')
-    socket.on('hello-client', () =>{
+    socket.emit('group-chat-message')
+    socket.on('group-chat-message', (data) =>{
         console.log('Hello server! ', socket.id);
+        console.log(data);
+        socket.broadcast.emit('group-chat-message', data);
     })
 
 
