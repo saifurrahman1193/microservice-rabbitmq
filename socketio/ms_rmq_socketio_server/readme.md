@@ -15,10 +15,11 @@
 
 ### Built With
 
-| Serial | Process Name | Version |
-| ------ | ------------ | ------- |
-| 1      | Node         | 16.18.1 |
-| 1      | Express      | 4.18.2  |
+| Process Name | Version |
+| ------------ | ------- |
+| Node         | 16.18.1 |
+| Express      | 4.18.2  |
+| nodemon      | 3.0.1   |
 
 ## Commands 
 
@@ -44,6 +45,7 @@ touch .env.example
 sudo chmod 777 .env  .env.example
 ------------inside the container-------
 npm i nodemon
+npm i socket.io
 ```
 
 ## Routes
