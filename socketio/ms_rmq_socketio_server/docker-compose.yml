@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+    msrmq_socketio:
+      image: socketio-node-server-image
+      container_name: ms-socketio-server-container
+      build:          # let docker know that we build with dockerfile in locally instead of dockerhub
+        context: .   # which is the directory dockerfile will be searched for
+        dockerfile: Dockerfile    # the file name that will be build
+      ports:
+        - "803:5000"
+      volumes:
+        - .:/app
+      stdin_open: true
+      tty: true
+      networks:
+      - ms_rmq_network
+
+networks:
+  ms_rmq_network:
+    external: true

@@ -1,0 +1,18 @@
+{
+  "name": "Websocket Server",
+  "version": "1.0.0",
+  "description": "- [Websocket](#websocket)\r - [Contents](#contents)\r - [Tools](#tools)\r   - [Built With](#built-with)\r - [Commands](#commands)\r   - [Docker](#docker)\r - [Routes](#routes)\r - [Resources](#resources)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
