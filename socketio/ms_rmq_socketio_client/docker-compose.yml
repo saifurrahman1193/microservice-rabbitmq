@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  msrmq_socketio_client:
+    image: socketio-react-client-image
+    container_name: ms-socketio-client-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '804:3000'
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+    networks:
+      - ms_rmq_network
+
+networks:
+  ms_rmq_network:
+    external: true
