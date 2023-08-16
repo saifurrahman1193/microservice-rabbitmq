@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import io from 'socket.io-client';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Container, Typography } from '@mui/material';
 
 function App() {
     const [socket, setSocket] = useState(null);
@@ -26,16 +26,25 @@ function App() {
     }, [socket]);
   return (
     <div>
-      <Box component="form" onSubmit={handleForm}>
-        <TextField
-          id="message"
-          label="message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          size='small'
-        />
-        <Button variant='text' type='submit'>Send</Button>
-      </Box>
+        <Container>
+            <Box sx={{ marginBottom:5 }}>
+                {
+                    chat?.map((msg) =>
+                        <Typography >{msg}</Typography>
+                    )
+                }
+            </Box>
+            <Box component="form" onSubmit={handleForm}>
+                <TextField
+                id="message"
+                label="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                size='small'
+                />
+                <Button variant='text' type='submit'>Send</Button>
+            </Box>
+        </Container>
     </div>
   );
 }
