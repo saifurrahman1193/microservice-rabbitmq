@@ -8,7 +8,6 @@ services:
         dockerfile: Dockerfile    # the file name that will be build
       ports:
         - "802:5000"
-        - "803:5001"
       volumes:
         - .:/app
       stdin_open: true
