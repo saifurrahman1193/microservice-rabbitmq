@@ -49,11 +49,12 @@ function ChatWindow() {
     return (
         <Container>
 
-            <Grid container direction="column" justifyContent="space-between" style={{ height: '100vh' }}>
+            <Grid container direction="column" justifyContent="space-between" style={{ height: '92vh' }}>
                 <Grid item>
                     {/* Header */}
-                    <Paper elevation={2} style={{ padding: '16px', marginBottom: '8px' }}>
+                    <Paper elevation={2} style={{ padding: '16px', margin: '8px' }}>
                         {/* Header content */}
+                        Chat
                     </Paper>
                 </Grid>
                 <Grid item xs style={{ maxHeight: '70vh', overflowY: 'scroll' }} >
