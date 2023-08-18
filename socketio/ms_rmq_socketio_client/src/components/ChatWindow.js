@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box, TextField, Container, Typography, Grid, Paper, InputAdornment } from '@mui/material';
+import { Box, TextField, Container, Typography, Grid, Paper, InputAdornment, InputLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import io from 'socket.io-client';
 import SendIcon from '@mui/icons-material/Send';
@@ -8,11 +8,13 @@ function ChatWindow() {
     const [socket, setSocket] = useState(null);
     const [message, setMessage] = useState("");
     const [chat, setChat] = useState([]);
+    const [typing, setTyping] = useState(false);
+    const [typingStoppedTimeout, setTypingStoppedTimeout] = useState(null);
 
     const handleForm = (e) => {
         e.preventDefault();
         if (message.trim() == '') return ;
-        socket.emit("send-message", { message: message });
+        socket.emit("send-message", { message: message });  
         setMessage("")
         setChat((prev) => [...prev, {message: message }]);
     }
@@ -23,11 +25,26 @@ function ChatWindow() {
 
     useEffect(() => {
         if (!socket) return;
-        socket.on("send-message-back", (data) => {
+        socket.on("send-message-from-server", (data) => {   // getting message from server
             setChat((prev) => [...prev, {...data, is_received: true}]);
         })
+        socket.on("typing-started-from-server", () => {  setTyping(true); })  // getting typing started notification from server
+        socket.on("typing-stopped-from-server", () => {  setTyping(false); }) // getting typing stopped notification from server
     }, [socket]);
 
+    const handleMessageInput = (e) => {
+        setMessage(e.target.value)
+        socket.emit("typing-started")  // sending typing notification to server 
+
+        if (typingStoppedTimeout) clearTimeout(typingStoppedTimeout)
+        setTypingStoppedTimeout(
+            setTimeout(() => {
+                socket.emit("typing-stopped");
+            }, 1000)
+        );
+        
+
+    };
 
     return (
         <Container>
@@ -52,12 +69,17 @@ function ChatWindow() {
                 <Grid item mb={2}>
                     {/* Input field and send button */}
                     <Box component="form" onSubmit={handleForm}>
+                        {
+                            typing ? 
+                            <InputLabel shrink >Typing...</InputLabel>
+                            : null
+                        }
                         <TextField
                             id="message"
                             label="message"
                             placeholder="Write your message here..."
                             value={message}
-                            onChange={(e) => setMessage(e.target.value)}
+                            onChange={handleMessageInput}
                             size='small'
                             fullWidth
                             variant="outlined"

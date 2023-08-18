@@ -25,7 +25,15 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     socket.on('send-message', (message) =>{
         console.log(message);
-        socket.broadcast.emit('send-message-back', message);
+        socket.broadcast.emit('send-message-from-server', message); // to all clients in the current namespace except the sender
+    })
+
+    socket.on('typing-started', () =>{
+        socket.broadcast.emit('typing-started-from-server'); // to all clients in the current namespace except the sender
+    })
+
+    socket.on('typing-stopped', () =>{
+        socket.broadcast.emit('typing-stopped-from-server'); // to all clients in the current namespace except the sender
     })
 
     socket.on('disconnect', (socket) => {  // only can disconnect socket when  it 's connected
