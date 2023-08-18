@@ -11,22 +11,6 @@ services:
       - .:/app
     ports:
       - 801:8000
-    depends_on:
-      - msrmq_export_db
-    networks:
-      - ms_rmq_network
-  msrmq_export_db:
-    image: mysql:5.7.22
-    container_name: ms-rmq-export-db-container
-    environment:
-      MYSQL_DATABASE: export
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - ./storage/dbdata:/var/lib/mysql
-    ports:
-      - 33063:3306
     networks:
       - ms_rmq_network
 networks:

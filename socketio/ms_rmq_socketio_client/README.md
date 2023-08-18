@@ -34,6 +34,7 @@ sudo chmod -R 777 *
 npm install @mui/material @emotion/react @emotion/styled
 npm i socket.io-client
 npm i nodemon
+npm install @mui/material @mui/icons-material
 ```
 
 
