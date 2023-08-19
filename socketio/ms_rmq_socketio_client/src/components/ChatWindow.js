@@ -1,35 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { Box, TextField, Container, Typography, Grid, Paper, InputAdornment, InputLabel } from '@mui/material';
 import Button from '@mui/material/Button';
-import io from 'socket.io-client';
 import SendIcon from '@mui/icons-material/Send';
+import {useOutletContext} from 'react-router-dom';
 
 function ChatWindow() {
-    const [socket, setSocket] = useState(null);
     const [message, setMessage] = useState("");
     const [chat, setChat] = useState([]);
     const [typing, setTyping] = useState(false);
     const [typingStoppedTimeout, setTypingStoppedTimeout] = useState(null);
+    const {socket} = useOutletContext();
 
     const handleForm = (e) => {
         e.preventDefault();
-        if (message.trim() == '') return ;
-        socket.emit("send-message", { message: message });  
+        if (message.trim() == '') return;
+        socket.emit("send-message", { message: message });
         setMessage("")
-        setChat((prev) => [...prev, {message: message }]);
+        setChat((prev) => [...prev, { message: message }]);
     }
-
-    useEffect(() => {
-        setSocket(io("http://localhost:803"));
-    }, []);
+    
 
     useEffect(() => {
         if (!socket) return;
         socket.on("send-message-from-server", (data) => {   // getting message from server
-            setChat((prev) => [...prev, {...data, is_received: true}]);
+            setChat((prev) => [...prev, { ...data, is_received: true }]);
         })
-        socket.on("typing-started-from-server", () => {  setTyping(true); })  // getting typing started notification from server
-        socket.on("typing-stopped-from-server", () => {  setTyping(false); }) // getting typing stopped notification from server
+        socket.on("typing-started-from-server", () => { setTyping(true); })  // getting typing started notification from server
+        socket.on("typing-stopped-from-server", () => { setTyping(false); }) // getting typing stopped notification from server
     }, [socket]);
 
     const handleMessageInput = (e) => {
@@ -42,7 +39,7 @@ function ChatWindow() {
                 socket.emit("typing-stopped");
             }, 1000)
         );
-        
+
 
     };
 
@@ -62,7 +59,7 @@ function ChatWindow() {
                     {
                         chat?.map((item, i) =>
                             <Paper elevation={0} style={{ padding: '16px', overflowY: 'scroll' }} key={i + 'message-p'} >
-                                <Typography key={i + 'message'} textAlign={item?.is_received ? 'left': 'right'}>{item?.message}</Typography>
+                                <Typography key={i + 'message'} textAlign={item?.is_received ? 'left' : 'right'}>{item?.message}</Typography>
                             </Paper>
                         )
                     }
@@ -71,9 +68,9 @@ function ChatWindow() {
                     {/* Input field and send button */}
                     <Box component="form" onSubmit={handleForm}>
                         {
-                            typing ? 
-                            <InputLabel shrink >Typing...</InputLabel>
-                            : null
+                            typing ?
+                                <InputLabel shrink >Typing...</InputLabel>
+                                : null
                         }
                         <TextField
                             id="message"

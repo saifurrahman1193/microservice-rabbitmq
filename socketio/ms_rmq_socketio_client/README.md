@@ -36,6 +36,7 @@ npm i socket.io-client
 npm i nodemon
 npm install @mui/material @mui/icons-material
 npm i react-router-dom
+npm i uuid
 ```
 
 
@@ -49,4 +50,5 @@ npm i react-router-dom
 - https://expressjs.com/en/starter/hello-world.html 
 - https://mui.com/material-ui/getting-started/installation/
 - https://socket.io/docs/v4/handling-cors/
+- https://www.npmjs.com/package/uuid
 - 

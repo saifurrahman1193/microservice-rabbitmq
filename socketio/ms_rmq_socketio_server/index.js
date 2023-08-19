@@ -28,12 +28,19 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('send-message-from-server', message); // to all clients in the current namespace except the sender
     })
 
+    // Typing (start, end)
     socket.on('typing-started', () =>{
+
         socket.broadcast.emit('typing-started-from-server'); // to all clients in the current namespace except the sender
     })
-
     socket.on('typing-stopped', () =>{
         socket.broadcast.emit('typing-stopped-from-server'); // to all clients in the current namespace except the sender
+    })
+
+    // Rooms
+    socket.on('join-room', ({roomId}) =>{
+        console.log('joining room...');
+        socket.join(roomId);
     })
 
     socket.on('disconnect', (socket) => {  // only can disconnect socket when  it 's connected
