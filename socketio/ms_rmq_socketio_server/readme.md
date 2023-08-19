@@ -56,4 +56,4 @@ npm i socket.io
 - https://www.youtube.com/watch?v=sxfnT36v7Uk 
 - https://socket.io/
 - https://expressjs.com/en/starter/hello-world.html 
-- 
+- https://medium.com/dev-genius/building-a-simple-real-time-chat-app-with-node-js-and-socket-io-5ec6c4606503

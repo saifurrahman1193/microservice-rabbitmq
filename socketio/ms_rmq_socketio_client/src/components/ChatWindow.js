@@ -2,23 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { Box, TextField, Container, Typography, Grid, Paper, InputAdornment, InputLabel } from '@mui/material';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import {useOutletContext} from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 
 function ChatWindow() {
     const [message, setMessage] = useState("");
     const [chat, setChat] = useState([]);
     const [typing, setTyping] = useState(false);
     const [typingStoppedTimeout, setTypingStoppedTimeout] = useState(null);
-    const {socket} = useOutletContext();
+    const { socket } = useOutletContext();
+    const { roomId } = useParams()
 
     const handleForm = (e) => {
         e.preventDefault();
         if (message.trim() == '') return;
-        socket.emit("send-message", { message: message });
+        console.log(roomId)
+        socket.emit("send-message", { message: message, roomId: roomId });
         setMessage("")
         setChat((prev) => [...prev, { message: message }]);
     }
-    
+
 
     useEffect(() => {
         if (!socket) return;
@@ -31,16 +33,14 @@ function ChatWindow() {
 
     const handleMessageInput = (e) => {
         setMessage(e.target.value)
-        socket.emit("typing-started")  // sending typing notification to server 
+        socket.emit("typing-started", { roomId: roomId })  // sending typing notification to server 
 
         if (typingStoppedTimeout) clearTimeout(typingStoppedTimeout)
         setTypingStoppedTimeout(
             setTimeout(() => {
-                socket.emit("typing-stopped");
+                socket.emit("typing-stopped", { roomId: roomId });
             }, 1000)
         );
-
-
     };
 
     return (
@@ -52,6 +52,11 @@ function ChatWindow() {
                     <Paper elevation={2} style={{ padding: '16px', margin: '8px' }}>
                         {/* Header content */}
                         Chat
+                        {
+                            roomId ?
+                                <Typography>Room : {roomId}</Typography>
+                                : null
+                        }
                     </Paper>
                 </Grid>
                 <Grid item xs style={{ maxHeight: '70vh', overflowY: 'scroll' }} >
