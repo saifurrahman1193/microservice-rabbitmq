@@ -48,6 +48,12 @@ npm i nodemon
 npm i socket.io
 ```
 
+```
+mongosh
+show collections
+show dbs
+```
+
 ## Routes
 - http://localhost:803/
 

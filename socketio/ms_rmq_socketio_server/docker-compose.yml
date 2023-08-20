@@ -20,9 +20,9 @@ services:
       ports:
         - "27017:27017"
       restart: always
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: root
+      # environment:
+      #   MONGO_INITDB_ROOT_USERNAME: root
+      #   MONGO_INITDB_ROOT_PASSWORD: root
       volumes:
         - ./mongo_db:/data/db
       networks:
