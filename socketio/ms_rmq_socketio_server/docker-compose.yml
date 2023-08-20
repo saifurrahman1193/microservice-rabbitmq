@@ -14,7 +14,19 @@ services:
       tty: true
       networks:
       - ms_rmq_network
-
+    msrmq_socketio_mongo_db:
+      image: mongo
+      container_name: ms-socketio-mongo-db-container
+      ports:
+        - "27017:27017"
+      restart: always
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: root
+      volumes:
+        - ./mongo_db:/data/db
+      networks:
+        - ms_rmq_network
 networks:
   ms_rmq_network:
     external: true
