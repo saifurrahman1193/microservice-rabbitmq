@@ -12,7 +12,7 @@ function App() {
 
     return (
         <>
-            <Header  context={socket} />
+            <Header  socket={socket} />
             <Outlet context={{ socket }} />
         </>
     );
