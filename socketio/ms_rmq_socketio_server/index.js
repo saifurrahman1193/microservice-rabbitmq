@@ -7,18 +7,10 @@ import { fileURLToPath } from 'url';
 import sockets from './socket/sockets.js';
 import mongoose from 'mongoose';
 
-// await mongoose.connect('mongodb://localhost:27017/chat_app', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-// })
-
-// const db = mongoose.connection;
-
-// db.on('error', console.error.bind(console, 'Connection error:'));
-// db.once('open', () => {
-//     console.log('Connected to the database');
-// });
-
+mongoose.connect('mongodb://ms-socketio-mongo-db-container:27017/chat_app')  // ms-socketio-mongo-db-container = mongodb container name
+.then(() => {
+    console.log('Connected');
+})
 
 const app = express();
 dotenv.config();
