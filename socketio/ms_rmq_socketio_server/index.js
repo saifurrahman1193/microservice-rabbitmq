@@ -9,8 +9,10 @@ import mongoose from 'mongoose';
 
 mongoose.connect('mongodb://ms-socketio-mongo-db-container:27017/chat_app')  // ms-socketio-mongo-db-container = mongodb container name
 .then(() => {
-    console.log('Connected');
-})
+    console.log('Connected to MongoDB');
+}).catch(err => {
+    console.error('Error connecting to MongoDB');
+});
 
 const app = express();
 dotenv.config();
@@ -33,5 +35,5 @@ io.on('connection', sockets);
 
 
 http_server.listen(process.env.APP_PORT, () => {
-    console.log('listening on port ' + process.env.APP_PORT);
+    console.log('HTTP Server is listening on port ' + process.env.APP_PORT);
 })

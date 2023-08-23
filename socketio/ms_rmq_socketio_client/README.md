@@ -53,4 +53,4 @@ npm i uuid
 - https://www.npmjs.com/package/uuid
 - https://medium.com/dev-genius/building-a-simple-real-time-chat-app-with-node-js-and-socket-io-5ec6c4606503
 - https://reactrouter.com/en/main/components/navigate
-- 
+- https://www.youtube.com/watch?v=35sYtKbg_Y4

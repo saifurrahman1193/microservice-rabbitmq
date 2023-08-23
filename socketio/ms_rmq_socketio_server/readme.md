@@ -20,6 +20,7 @@
 | Node         | 16.18.1 |
 | Express      | 4.18.2  |
 | nodemon      | 3.0.1   |
+| mongoose      |    |
 
 ## Commands 
 
@@ -63,3 +64,4 @@ show dbs
 - https://socket.io/
 - https://expressjs.com/en/starter/hello-world.html 
 - https://medium.com/dev-genius/building-a-simple-real-time-chat-app-with-node-js-and-socket-io-5ec6c4606503
+- https://www.youtube.com/watch?v=35sYtKbg_Y4
