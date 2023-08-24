@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Card, CardContent } from '@mui/material';
 
 function MeetingsManagement() {
 
-    const [formData, setFormData] = useState({
+    const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
+        date: '',
     });
+    const [formData, setFormData] = useState(formInitial)
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -18,12 +20,17 @@ function MeetingsManagement() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        console.log(formData);
     }
+
+    useEffect(() => {
+        setFormData(formInitial)
+    }, [formInitial])
 
     return (
         <Card>
             <CardContent>
-                <form  onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <TextField label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} />
                     <TextField label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} />
 

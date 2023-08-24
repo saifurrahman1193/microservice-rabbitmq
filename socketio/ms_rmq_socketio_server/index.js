@@ -20,7 +20,10 @@ dotenv.config();
 const http_server = http.createServer(app);
 const io = new Server(http_server, {
     cors: {
-        origin: 'http://localhost:804' // from client side
+        origin: [
+            'http://localhost:804', // from client side
+            'http://localhost:300' 
+        ]
     }
 });
 
