@@ -3,7 +3,7 @@ import App from 'src/App'
 import Home from 'src/pages/Home'
 import Chat from 'src/pages/Chat'
 import Room from 'src/pages/Room'
-import MeetingsManagement from "src/pages/MeetingsManagement";
+import Meeting from "src/pages/Meeting";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/meetings-management",
-                element: <MeetingsManagement />
+                element: <Meeting />
             },
             {
                 path: "/room/:roomId",

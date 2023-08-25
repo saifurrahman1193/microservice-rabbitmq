@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Card, CardContent, CardHeader, Avatar, IconButton } from '@mui/material';
 import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
 import axios from 'src/services/api/axios_config/Axios.js'
-import { API_BASE_URL, MEEING_CREATE } from 'src/services/api/api_path/APIPath.js';
+import { MEEING_CREATE } from 'src/services/api/api_path/APIPath.js';
 
-function MeetingsManagement() {
+function Meeting() {
 
     const [dataMeeting, errorMeeting, loading, axiosFetchMeeting] = useAxiosFunction();
 
@@ -63,7 +63,7 @@ function MeetingsManagement() {
     );
 };
 
-export default MeetingsManagement;
+export default Meeting;
 
 
 // Meetings Management (title, description, schedule_date, start_time, end_time, location, agenda, meeting_type, participants, permissions)
