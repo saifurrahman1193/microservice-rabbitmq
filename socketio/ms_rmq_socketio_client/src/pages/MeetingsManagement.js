@@ -41,6 +41,10 @@ function MeetingsManagement() {
         setFormData(formInitial)
     }, [formInitial])
 
+    useEffect(() => {
+        console.log(dataMeeting);
+    }, [dataMeeting])
+
     return (
         <Card>
             <CardContent>
