@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Card, CardContent } from '@mui/material';
+import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
+import axios from 'src/services/api/axios_config/Axios.js'
+import {API_BASE_URL, MEEING_CREATE} from 'src/services/api/api_path/APIPath.js';
 
 function MeetingsManagement() {
 
+    const [data, error, loading, axiosFetch] = useAxiosFunction();
+    
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
         date: '',
     });
+    
     const [formData, setFormData] = useState(formInitial)
 
     const handleChange = (event) => {
@@ -18,9 +24,17 @@ function MeetingsManagement() {
         }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
-        console.log(formData);
+
+        axiosFetch({
+            axiosInstance: axios,
+            method: 'post',
+            url: MEEING_CREATE,
+            requestConfig: {
+                data: {...formData}
+            }
+        });
     }
 
     useEffect(() => {

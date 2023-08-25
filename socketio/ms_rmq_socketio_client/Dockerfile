@@ -8,7 +8,4 @@ COPY . .
 RUN npm install -g npm@9.8.1
 
 # Start the development server
-CMD ["npm", "start"]
-
-
-
+CMD ["npm", "run", "start:docker"]

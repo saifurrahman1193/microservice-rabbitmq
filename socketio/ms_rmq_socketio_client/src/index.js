@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import {RouterProvider} from "react-router-dom";
 import router from 'src/router';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
