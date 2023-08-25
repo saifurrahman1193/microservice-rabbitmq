@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const useAxiosFunction = () => {
-    const [response, setResponse] = useState([]);
+    const [response, setResponse] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false); //different!
     const [controller, setController] = useState();
@@ -22,7 +22,7 @@ const useAxiosFunction = () => {
                 ...requestConfig,
                 signal: ctrl.signal
             });
-            console.log(res);
+            console.log('res', res);
             setResponse(res.data);
         } catch (err) {
             console.log(err.message);

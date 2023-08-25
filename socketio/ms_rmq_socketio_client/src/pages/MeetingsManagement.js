@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Card, CardContent } from '@mui/material';
+import { TextField, Button, Card, CardContent, CardHeader, Avatar, IconButton } from '@mui/material';
 import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
 import axios from 'src/services/api/axios_config/Axios.js'
-import {API_BASE_URL, MEEING_CREATE} from 'src/services/api/api_path/APIPath.js';
+import { API_BASE_URL, MEEING_CREATE } from 'src/services/api/api_path/APIPath.js';
 
 function MeetingsManagement() {
 
-    const [data, error, loading, axiosFetch] = useAxiosFunction();
-    
+    const [dataMeeting, errorMeeting, loading, axiosFetchMeeting] = useAxiosFunction();
+
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
         date: '',
     });
-    
+
     const [formData, setFormData] = useState(formInitial)
 
     const handleChange = (event) => {
@@ -27,14 +27,14 @@ function MeetingsManagement() {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        axiosFetch({
+        await axiosFetchMeeting({
             axiosInstance: axios,
             method: 'post',
             url: MEEING_CREATE,
             requestConfig: {
-                data: {...formData}
+                data: { ...formData }
             }
-        });
+        })
     }
 
     useEffect(() => {
@@ -50,6 +50,9 @@ function MeetingsManagement() {
 
                     <Button type='submit'>Submit</Button>
                 </form>
+                <CardHeader
+                    title={dataMeeting }
+                />
             </CardContent>
         </Card>
 
