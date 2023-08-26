@@ -31,8 +31,8 @@ const Header = ({ socket }) => {
                 <Link to="/">
                     <Button sx={{ color: "white" }} variant='text'>Home</Button>
                 </Link>
-                <Link to="/meetings-management">
-                    <Button sx={{ color: "white" }} variant='text'>Meetings Management</Button>
+                <Link to="/meeting">
+                    <Button sx={{ color: "white" }} variant='text'>Meeting</Button>
                 </Link>
                 {
                     rooms.map((room) => (

@@ -18,7 +18,7 @@ const router = createBrowserRouter([
                 element: <Chat />
             },
             {
-                path: "/meetings-management",
+                path: "/meeting",
                 element: <Meeting />
             },
             {
