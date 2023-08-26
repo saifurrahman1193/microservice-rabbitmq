@@ -3,7 +3,7 @@ import App from 'src/App'
 import Home from 'src/pages/Home'
 import Chat from 'src/pages/Chat'
 import Room from 'src/pages/Room'
-import Meeting from "src/pages/Meeting";
+import Meeting from "src/pages/Meeting/Meeting";
 
 const router = createBrowserRouter([
     {
