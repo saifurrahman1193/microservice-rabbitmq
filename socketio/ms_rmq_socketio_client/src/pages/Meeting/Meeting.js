@@ -10,6 +10,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import TableStickyHeader from 'src/components/table/TableStickyHeader';
+import { StyledTableHeaderCell } from 'src/components/table/style.js';
 
 function Meeting() {
 
@@ -102,6 +104,23 @@ function Meeting() {
         },
     };
 
+
+    const meetingTable = {
+        styles: {
+            table: {
+                maxHeight: '60vh',
+            },
+        },
+        columns: [
+            { id: '_id', label: 'ID', headerStyle: StyledTableHeaderCell },
+            { id: 'title', label: 'Title', headerStyle: StyledTableHeaderCell },
+            { id: 'description', label: 'Description', headerStyle: StyledTableHeaderCell },
+            { id: 'time', label: 'Time', headerStyle: StyledTableHeaderCell },
+            { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
+        ]
+    }
+
+
     return (
         <Card>
             <CardContent>
@@ -118,18 +137,18 @@ function Meeting() {
                                 <Grid item xs={12} sm={6} md={4}>
                                     <TextField size="small" sx={styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} required />
                                 </Grid>
-                               
+
                                 <Grid item xs={12} sm={6} md={4} padding={0} >
                                     <LocalizationProvider dateAdapter={AdapterMoment} >
                                         <DemoContainer components={['DateTimePicker']}>
-                                                <DateTimePicker
-                                                    label="Start Time *"
-                                                    defaultValue={formData?.start_time}
-                                                    onChange={(newValue) => {
-                                                        setFormData((prev) => ({ ...prev, start_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
-                                                    }}
-                                                    format="YYYY-MM-DD HH:mm:ss"
-                                                />
+                                            <DateTimePicker
+                                                label="Start Time *"
+                                                defaultValue={formData?.start_time}
+                                                onChange={(newValue) => {
+                                                    setFormData((prev) => ({ ...prev, start_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
+                                                }}
+                                                format="YYYY-MM-DD HH:mm:ss"
+                                            />
                                         </DemoContainer>
                                     </LocalizationProvider>
                                 </Grid>
@@ -160,45 +179,18 @@ function Meeting() {
                         </form>
                     </Paper>
                 </Container>
-
-                {/* {loadingMeeting && <p>Loading...</p>}
-                {!loadingMeeting && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>}
-                {!loadingMeeting && !errorCreateMeeting && meeting_create_res &&
-                    <span>{meeting_create_res?.message}</span>
-                }
-                {!loadingMeeting && !errorCreateMeeting && !meeting_create_res && <p>No data to display</p>} */}
             </CardContent>
 
-            <CardContent>
-                {loadingGetMeetings && <Paper style={{ justifyContent: 'center', alignItems: 'center' }}>Loading...</Paper>}
-                {!loadingGetMeetings && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>}
-
-                <TableContainer component={Paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>ID</TableCell>
-                                <TableCell>Title</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Time</TableCell>
-                                <TableCell>Location</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {!loadingGetMeetings &&
-                                meetings?.map((row, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{row?._id}</TableCell>
-                                        <TableCell>{row?.title}</TableCell>
-                                        <TableCell>{row?.description}</TableCell>
-                                        <TableCell>{row?.start_time + ' - ' + row?.end_time}</TableCell>
-                                        <TableCell>{row?.location}</TableCell>
-                                    </TableRow>
-                                ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </CardContent>
+            <Grid item xs={12}>
+                <Card>
+                    {loadingGetMeetings && <Paper style={{ justifyContent: 'center', alignItems: 'center' }}>Loading...</Paper>}
+                    {!loadingGetMeetings && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>}
+                    {
+                        !loadingGetMeetings &&
+                        <TableStickyHeader styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} />
+                    }
+                </Card>
+            </Grid>
 
         </Card>
     );
