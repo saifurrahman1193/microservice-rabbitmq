@@ -1,5 +1,4 @@
 // ** React Imports
-import { useState } from 'react'
 
 // ** MUI Imports
 import Paper from '@mui/material/Paper'
@@ -9,6 +8,7 @@ import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
+import { StyledTableHeaderCell } from 'src/components/table/style.js';
 
 
 const TableStickyHeader = ({ styles, columns, data }) => {
@@ -20,7 +20,9 @@ const TableStickyHeader = ({ styles, columns, data }) => {
                     <TableHead>
                         <TableRow>
                             {columns?.map(column => (
-                                <TableCell key={column?.id} align={column?.align} style={{ ...column?.headerStyle }} >
+                                <TableCell key={column?.id} align={column?.align}
+                                    style={column?.headerStyle ? { ...column?.headerStyle } : { ...StyledTableHeaderCell }}  // default StyledTableHeaderCell, can be overriden by column.headerStyle
+                                >
                                     {column?.label}
                                 </TableCell>
                             ))}
@@ -30,22 +32,22 @@ const TableStickyHeader = ({ styles, columns, data }) => {
                         {data?.map((row, index) => {
                             return (
                                 <TableRow hover role='checkbox' tabIndex={-1} key={`row-index-${index}`}>
-                                  {columns.map((column, j) => {
-                                    const value = row[column?.id]
-                
-                                    return (
-                                      <TableCell key={column.id} align={column.align}>
-                                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                                      </TableCell>
-                                    )
-                                  })}
+                                    {columns.map((column, j) => {
+                                        const value = row[column?.id]
+
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {column.format && typeof value === 'number' ? column.format(value) : value}
+                                            </TableCell>
+                                        )
+                                    })}
                                 </TableRow>
-                              )
+                            )
                         })}
                     </TableBody>
                 </Table>
             </TableContainer>
-            
+
         </Paper>
     )
 }

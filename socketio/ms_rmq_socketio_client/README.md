@@ -8,6 +8,7 @@
   - [Built With](#built-with)
 - [Commands](#commands)
   - [Docker](#docker)
+  - [React Component Learning](#react-component-learning)
 - [Routes](#routes)
 - [Resources](#resources)
 
@@ -38,6 +39,11 @@ npm install @mui/material @mui/icons-material
 npm i react-router-dom
 npm i uuid
 ```
+### React Component Learning
+- Dynamic Component Rendering with Component Mapping
+  - Dynamic Table
+- Call child method from parent
+  - childA => Parent => childB
 
 
 ## Routes
