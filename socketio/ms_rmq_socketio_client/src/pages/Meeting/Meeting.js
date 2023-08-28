@@ -10,7 +10,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
-import TableStickyHeader from 'src/components/table/TableStickyHeader';
+import DynamicTable from 'src/components/table/DynamicTable';
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
 
 function Meeting() {
@@ -187,7 +187,7 @@ function Meeting() {
                     {!loadingGetMeetings && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>}
                     {
                         !loadingGetMeetings &&
-                        <TableStickyHeader styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} />
+                        <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
                     }
                 </Card>
             </Grid>
