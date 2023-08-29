@@ -8,7 +8,6 @@ export const index = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    console.log(req.body);
     const { title, description, location } = req.body.data;
     const meeting = new Meeting({
         title: title,

@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN npm install
 RUN npm install -g npm@9.8.1
 
 # Start the development server
