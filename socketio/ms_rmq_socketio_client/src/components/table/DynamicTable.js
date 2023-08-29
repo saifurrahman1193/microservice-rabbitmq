@@ -11,7 +11,7 @@ const componentMap = {
 const DynamicTable = (props) => {
 
     return (
-            <DynamicComponent {...props } />
+        <DynamicComponent {...props} />
     )
 }
 

@@ -59,7 +59,7 @@ const List = forwardRef((props, ref) => {
                 {/* {!loadingGetMeetings && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>} */}
                 {
                     !loadingGetMeetings &&
-                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
+                    <DynamicTable sx={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
                 }
             </Card>
         </Grid>
