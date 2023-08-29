@@ -63,6 +63,7 @@ const Create = forwardRef((props, ref) => {
         setMeetingCreateDialogOpen(true);
     };
     const handleMeetingCreateDialogClose = () => {
+        setFormData(formInitial);
         setMeetingCreateDialogOpen(false);
     };
 
@@ -72,7 +73,8 @@ const Create = forwardRef((props, ref) => {
             <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting
             </Button>
-            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true}>
+
+            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown >
                 <DialogTitle>Create Meeting</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -116,7 +118,7 @@ const Create = forwardRef((props, ref) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingCreateDialogClose} color="error" >
+                            <Button onClick={handleMeetingCreateDialogClose} color="error" variant='text' >
                                 Cancel
                             </Button>
                             <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />}>

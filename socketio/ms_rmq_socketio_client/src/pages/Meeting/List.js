@@ -58,7 +58,7 @@ const List = forwardRef((props, ref) => {
                 {loadingGetMeetings && <CircularIndeterminate />}
                 {
                     !loadingGetMeetings &&
-                    <DynamicTable sx={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
+                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
                 }
             </Card>
         </Grid>

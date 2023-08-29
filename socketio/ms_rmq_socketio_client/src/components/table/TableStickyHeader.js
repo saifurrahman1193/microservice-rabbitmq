@@ -14,6 +14,7 @@ import NoDataFound from 'src/components/alert/NoDataFound.js';
 
 const TableStickyHeader = ({ styles, columns, data }) => {
 
+
     return (
         <>
             { data?.length==0 && <NoDataFound /> }   {/* No Data Found alert when data length = 0 */}
