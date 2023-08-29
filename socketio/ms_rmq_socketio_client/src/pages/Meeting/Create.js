@@ -10,6 +10,8 @@ import axios from 'src/services/api/axios_config/Axios.js'
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import SendIcon from '@mui/icons-material/Send';
 
 const Create = forwardRef((props, ref) => {
     const [meeting_create_res, errorCreateMeeting, loadingMeeting, axiosCreateMeeting] = useAxiosFunction();
@@ -67,7 +69,7 @@ const Create = forwardRef((props, ref) => {
 
     return (
         <>
-            <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }}>
+            <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting
             </Button>
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true}>
@@ -113,11 +115,11 @@ const Create = forwardRef((props, ref) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <DialogActions>
-                            <Button onClick={handleMeetingCreateDialogClose} color="primary">
+                        <DialogActions sx={{ marginTop: "20px" }}>
+                            <Button onClick={handleMeetingCreateDialogClose} color="error" >
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary">
+                            <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />}>
                                 Submit
                             </Button>
                         </DialogActions>
