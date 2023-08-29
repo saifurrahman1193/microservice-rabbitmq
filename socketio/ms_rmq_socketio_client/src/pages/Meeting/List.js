@@ -4,7 +4,8 @@ import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import axios from 'src/services/api/axios_config/Axios.js'
 import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
-import {  Card, Paper, Grid } from '@mui/material';
+import { Card, Grid } from '@mui/material';
+import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
 
 const List = forwardRef((props, ref) => {
 
@@ -54,7 +55,7 @@ const List = forwardRef((props, ref) => {
     return (
         <Grid item xs={12}>
             <Card>
-                {loadingGetMeetings && <Paper style={{ justifyContent: 'center', alignItems: 'center' }}>Loading...</Paper>}
+                {loadingGetMeetings && <CircularIndeterminate />}
                 {/* {!loadingGetMeetings && errorCreateMeeting && <p className="errMsg">{errorCreateMeeting}</p>} */}
                 {
                     !loadingGetMeetings &&
