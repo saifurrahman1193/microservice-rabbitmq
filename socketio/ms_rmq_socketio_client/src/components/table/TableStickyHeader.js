@@ -10,13 +10,15 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
-
+import { IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const TableStickyHeader = ({ styles, columns, data, config }) => {
 
     return (
         <>
-            { config?.noDataFound && data?.length == 0 && <NoDataFound styles={styles} />}   {/* No Data Found alert when data length = 0 */}
+            {config?.noDataFound && data?.length == 0 && <NoDataFound styles={styles} />}   {/* No Data Found alert when data length = 0 */}
 
             {
                 data?.length != 0 &&
@@ -32,6 +34,7 @@ const TableStickyHeader = ({ styles, columns, data, config }) => {
                                             {column?.label}
                                         </TableCell>
                                     ))}
+                                    {config?.tableAction && <TableCell> Action</TableCell>}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -47,6 +50,24 @@ const TableStickyHeader = ({ styles, columns, data, config }) => {
                                                     </TableCell>
                                                 )
                                             })}
+                                            {
+                                                config?.tableAction &&
+                                                <TableCell>
+                                                    <IconButton >
+                                                        {/* { ...styles?.table?.action?.edit?.styles } */}
+                                                        <EditIcon  color={ styles?.table?.action?.edit?.styles?.color} />  
+                                                    </IconButton>
+                                                    <IconButton>
+                                                        <DeleteIcon color={styles?.table?.action?.delete?.styles?.color} />
+                                                    </IconButton>
+                                                    {/* <IconButton onClick={() => onEdit(row.id)}>
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton onClick={() => onDelete(row.id)}>
+                                                            <DeleteIcon />
+                                                        </IconButton> */}
+                                                </TableCell>
+                                            }
                                         </TableRow>
                                     )
                                 })}

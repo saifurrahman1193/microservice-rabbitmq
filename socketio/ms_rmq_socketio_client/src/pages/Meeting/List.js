@@ -24,6 +24,18 @@ const List = forwardRef((props, ref) => {
         styles: {
             table: {
                 maxHeight: '70vh',
+                action:{
+                    edit: {
+                        styles: {
+                            color: 'primary',
+                        }
+                    },
+                    delete: {
+                        styles: {
+                            color: 'error',
+                        }
+                    }
+                }
             },
             noDataFoundStyles: {
                 marginY: '20px',
@@ -38,6 +50,8 @@ const List = forwardRef((props, ref) => {
         ],
         config:{
             noDataFound: true,
+            tableAction: true,
+
         }
     }
 
