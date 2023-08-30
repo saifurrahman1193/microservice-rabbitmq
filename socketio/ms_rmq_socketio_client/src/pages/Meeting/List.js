@@ -25,6 +25,9 @@ const List = forwardRef((props, ref) => {
             table: {
                 maxHeight: '70vh',
             },
+            noDataFoundStyles: {
+                marginY: '20px',
+            }
         },
         columns: [
             { id: '_id', label: 'ID', },
@@ -32,7 +35,10 @@ const List = forwardRef((props, ref) => {
             { id: 'description', label: 'Description', },
             { id: 'time', label: 'Time', },
             { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
-        ]
+        ],
+        config:{
+            noDataFound: true,
+        }
     }
 
     // On Load 
@@ -58,7 +64,7 @@ const List = forwardRef((props, ref) => {
                 {loadingGetMeetings && <CircularIndeterminate />}
                 {
                     !loadingGetMeetings  &&
-                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
+                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' config={meetingTable?.config} />
                 }
             </Card>
         </Grid>

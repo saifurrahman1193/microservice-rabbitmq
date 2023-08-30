@@ -12,11 +12,11 @@ import { StyledTableHeaderCell } from 'src/components/table/style.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
 
 
-const TableStickyHeader = ({ styles, columns, data }) => {
+const TableStickyHeader = ({ styles, columns, data, config }) => {
 
     return (
         <>
-            {data?.length == 0 && <NoDataFound styles={{ marginY: "20px" }} />}   {/* No Data Found alert when data length = 0 */}
+            { config?.noDataFound && data?.length == 0 && <NoDataFound styles={styles} />}   {/* No Data Found alert when data length = 0 */}
 
             {
                 data?.length != 0 &&
