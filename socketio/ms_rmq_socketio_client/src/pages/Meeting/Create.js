@@ -62,7 +62,8 @@ const Create = forwardRef((props, ref) => {
     const handleMeetingCreateDialogOpen = () => {
         setMeetingCreateDialogOpen(true);
     };
-    const handleMeetingCreateDialogClose = () => {
+    const handleMeetingCreateDialogClose = (event, reason) => {
+        if (reason && reason === "backdropClick" )   return;  // if backdrop/outside of dialog click then do nothing/don't close dialog. making sure the process is completed properly
         setFormData(formInitial);
         setMeetingCreateDialogOpen(false);
     };
@@ -74,20 +75,20 @@ const Create = forwardRef((props, ref) => {
                 Add New Meeting
             </Button>
 
-            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown >
+            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                     </DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} required />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange}  />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} required />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange}  />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} required />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange}  />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} padding={0} >
                             <LocalizationProvider dateAdapter={AdapterMoment} >

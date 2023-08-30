@@ -57,7 +57,7 @@ const List = forwardRef((props, ref) => {
             <Card>
                 {loadingGetMeetings && <CircularIndeterminate />}
                 {
-                    !loadingGetMeetings &&
+                    !loadingGetMeetings  &&
                     <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' />
                 }
             </Card>

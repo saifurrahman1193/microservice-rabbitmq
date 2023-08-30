@@ -8,17 +8,17 @@ export const index = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    decodeURI(req.body.data)
+    console.log(req.body.data);
     const { title, description, location, start_time, end_time } = req.body.data;
-    const meeting = new Meeting({
-        title: title,
-        description: description,
-        location: location,
-        start_time: start_time,
-        end_time: end_time,
+    // const meeting = new Meeting({
+    //     title: title,
+    //     description: description,
+    //     location: location,
+    //     start_time: start_time,
+    //     end_time: end_time,
 
-    });
-    await meeting.save();
+    // });
+    // await meeting.save();
 
-    res.json({ message: 'Success' });
+    // res.json({ message: 'Success' });
 };

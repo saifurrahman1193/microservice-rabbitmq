@@ -14,46 +14,48 @@ import NoDataFound from 'src/components/alert/NoDataFound.js';
 
 const TableStickyHeader = ({ styles, columns, data }) => {
 
-
     return (
         <>
-            { data?.length==0 && <NoDataFound /> }   {/* No Data Found alert when data length = 0 */}
-            
-            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                <TableContainer sx={{ maxHeight: styles?.table?.maxHeight || 'auto' }}>
-                    <Table stickyHeader aria-label='sticky table'>
-                        <TableHead>
-                            <TableRow>
-                                {columns?.map(column => (
-                                    <TableCell key={column?.id} align={column?.align}
-                                        sx={column?.headerStyle ? { ...column?.headerStyle } : { ...StyledTableHeaderCell }}  // default StyledTableHeaderCell, can be overriden by column.headerStyle
-                                    >
-                                        {column?.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data?.map((row, index) => {
-                                return (
-                                    <TableRow hover role='checkbox' tabIndex={-1} key={`row-index-${index}`}>
-                                        {columns.map((column, j) => {
-                                            const value = row[column?.id]
+            {data?.length == 0 && <NoDataFound styles={{ marginY: "20px" }} />}   {/* No Data Found alert when data length = 0 */}
 
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                            )
-                                        })}
-                                    </TableRow>
-                                )
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+            {
+                data?.length != 0 &&
+                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                    <TableContainer sx={{ maxHeight: styles?.table?.maxHeight || 'auto' }}>
+                        <Table stickyHeader aria-label='sticky table'>
+                            <TableHead>
+                                <TableRow>
+                                    {columns?.map(column => (
+                                        <TableCell key={column?.id} align={column?.align}
+                                            sx={column?.headerStyle ? { ...column?.headerStyle } : { ...StyledTableHeaderCell }}  // default StyledTableHeaderCell, can be overriden by column.headerStyle
+                                        >
+                                            {column?.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {data?.map((row, index) => {
+                                    return (
+                                        <TableRow hover role='checkbox' tabIndex={-1} key={`row-index-${index}`}>
+                                            {columns.map((column, j) => {
+                                                const value = row[column?.id]
 
-            </Paper>
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                                                    </TableCell>
+                                                )
+                                            })}
+                                        </TableRow>
+                                    )
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                </Paper>
+            }
         </>
     )
 }
