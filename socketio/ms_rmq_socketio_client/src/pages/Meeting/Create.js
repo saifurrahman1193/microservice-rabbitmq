@@ -19,7 +19,6 @@ const Create = forwardRef((props, ref) => {
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
-        date: null,
         start_time: null, // moment(getTodayStartTime())
         end_time: null,
         location: '',
@@ -82,13 +81,13 @@ const Create = forwardRef((props, ref) => {
                     </DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange}  />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange}  />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange}  />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} required />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} padding={0} >
                             <LocalizationProvider dateAdapter={AdapterMoment} >

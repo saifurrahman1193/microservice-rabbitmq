@@ -22,7 +22,6 @@ export const getCurrentTime = () => {
 
 
 
-
 export const timeCalculator = (time) => {
     var [hour, min, seconds] = time.split(":") 
 
@@ -187,6 +186,9 @@ export const getTodayEndTime = () => {
 
 export const getSpecificDateTimeAMPM = (datetime) => {
     return moment(datetime).format('yy-MM-DD hh:mm A')
+}
+export const getSpecificDateTimeAMPMUTC = (datetime) => {
+    return moment(datetime).utc().format('YYYY-MM-DD hh:mm A')
 }
 
 // export const getOneDateIsSameOrAfterAnotherDate = (datetime, datetime2) => {

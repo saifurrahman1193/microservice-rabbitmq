@@ -6,6 +6,7 @@ import axios from 'src/services/api/axios_config/Axios.js'
 import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
 import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
+import {getSpecificDateTimeAMPMUTC} from 'src/utils/CommonHelpers.js';
 
 const List = forwardRef((props, ref) => {
 
@@ -24,7 +25,7 @@ const List = forwardRef((props, ref) => {
         styles: {
             table: {
                 maxHeight: '70vh',
-                action:{
+                action: {
                     edit: {
                         styles: {
                             color: 'primary',
@@ -42,13 +43,13 @@ const List = forwardRef((props, ref) => {
             }
         },
         columns: [
-            { id: '_id', label: 'ID', },
-            { id: 'title', label: 'Title', },
-            { id: 'description', label: 'Description', },
-            { id: 'time', label: 'Time', },
+            { id: '_id', label: 'ID'},
+            { id: 'title', label: 'Title'},
+            { id: 'description', label: 'Description'},
+            { id: 'timerange', label: 'Time' },
             { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
         ],
-        config:{
+        config: {
             noDataFound: true,
             tableAction: true,
         }
@@ -68,15 +69,25 @@ const List = forwardRef((props, ref) => {
     }
 
     useEffect(() => {
-        setMeetings(meetingsGetRes?.data)
+        processTableData(meetingsGetRes?.data)
     }, [meetingsGetRes]);
+
+    const processTableData = (data) => {
+        if (data) {
+            data = data?.map((meeting) => ({
+                ...meeting, // Spread the existing meeting object
+                timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
+            }));
+            setMeetings(data)
+        }
+    };
 
     return (
         <Grid item xs={12}>
             <Card>
                 {loadingGetMeetings && <CircularIndeterminate />}
                 {
-                    !loadingGetMeetings  &&
+                    !loadingGetMeetings &&
                     <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' config={meetingTable?.config} />
                 }
             </Card>
