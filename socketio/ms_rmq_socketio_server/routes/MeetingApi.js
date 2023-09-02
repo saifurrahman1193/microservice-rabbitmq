@@ -1,9 +1,10 @@
 import { Router } from "express";
-import * as MeetingController from "../controller/MeetingController.js";
+import * as MeetingController from "../app/http/controller/MeetingController.js";
+import { createMeeetingValidation } from '../app/http/validation/MeetingValidation.js';
 const router = Router();
 
 router.get("/", MeetingController.index);
-router.post("/", MeetingController.create);
+router.post("/", createMeeetingValidation, MeetingController.create);
 // router.delete("/:id", MeetingController.destroy);
 // router.patch("/:id", MeetingController.update);
 
