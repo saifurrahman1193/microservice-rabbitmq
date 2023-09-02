@@ -51,7 +51,6 @@ const List = forwardRef((props, ref) => {
         config:{
             noDataFound: true,
             tableAction: true,
-
         }
     }
 

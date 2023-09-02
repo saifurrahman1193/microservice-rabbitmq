@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install nodemon
+RUN npm install nodemon multer
 
 RUN npm config set cache /tmp --global
 

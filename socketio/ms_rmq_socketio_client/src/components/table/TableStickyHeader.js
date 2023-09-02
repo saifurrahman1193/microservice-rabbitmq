@@ -54,18 +54,11 @@ const TableStickyHeader = ({ styles, columns, data, config }) => {
                                                 config?.tableAction &&
                                                 <TableCell>
                                                     <IconButton >
-                                                        {/* { ...styles?.table?.action?.edit?.styles } */}
                                                         <EditIcon  color={ styles?.table?.action?.edit?.styles?.color} />  
                                                     </IconButton>
                                                     <IconButton>
                                                         <DeleteIcon color={styles?.table?.action?.delete?.styles?.color} />
                                                     </IconButton>
-                                                    {/* <IconButton onClick={() => onEdit(row.id)}>
-                                                            <EditIcon />
-                                                        </IconButton>
-                                                        <IconButton onClick={() => onDelete(row.id)}>
-                                                            <DeleteIcon />
-                                                        </IconButton> */}
                                                 </TableCell>
                                             }
                                         </TableRow>

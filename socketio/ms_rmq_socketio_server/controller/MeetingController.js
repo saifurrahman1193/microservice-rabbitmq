@@ -8,8 +8,9 @@ export const index = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-    console.log(req.body.data);
-    const { title, description, location, start_time, end_time } = req.body.data;
+    let formData = {...req.query, ...(req?.body?.data || req?.body)}
+    console.log(formData);
+    const { title, description, location, start_time, end_time } = formData;
     const meeting = new Meeting({
         title: title,
         description: description,

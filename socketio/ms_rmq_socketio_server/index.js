@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from 'multer';
 import dotenv from 'dotenv';
 import http from 'http';
 import cors from "cors";
@@ -23,6 +24,10 @@ mongoose.connect('mongodb://ms-socketio-mongo-db-container:27017/chat_app')  // 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+// for parsing multipart/form-data
+const forms = multer();
+app.use(forms.array()); 
 
 const http_server = http.createServer(app);
 const io = new Server(http_server, {
