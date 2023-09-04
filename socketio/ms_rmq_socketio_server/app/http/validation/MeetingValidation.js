@@ -3,11 +3,11 @@ import { set_response } from '../../helpers/APIResponser.js';
 
 export const createMeeetingValidation = [
     
-    body('data.title', 'Title is required').not().notEmpty().trim().escape(),
-    body('data.description', 'Description is required').not().notEmpty().trim().escape(),
-    body('data.location', 'Location is required').not().notEmpty().trim().escape(),
-    body('data.start_time', 'Meeting Start Time is required').notEmpty(),
-    body('data.end_time', 'Meeting End Time is required').notEmpty(),
+    body('title', 'Title is required').not().notEmpty().trim().escape(),
+    body('description', 'Description is required').not().notEmpty().trim().escape(),
+    body('location', 'Location is required').not().notEmpty().trim().escape(),
+    body('start_time', 'Meeting Start Time is required').notEmpty(),
+    body('end_time', 'Meeting End Time is required').notEmpty(),
 
     async (req, res, next) => {
         const errors = validationResult(req);

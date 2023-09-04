@@ -11,7 +11,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export const getCall = async (url, token = null, lan = 'en') => {
     try {
-        let res = await axios.get(url, {
+        let res = await axios.get(API_BASE_URL+url, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 lang: lan,
@@ -33,10 +33,10 @@ export const getCall = async (url, token = null, lan = 'en') => {
     }
 };
 
-export const postCall = async (path, data, token = null, headers={}) => {
+export const postCall = async (url, data, token = null, headers={}) => {
     try {
-        // alert(path+' '+token)
-        let res = await axios.post(API_BASE_URL+path, data, {
+        // alert(url+' '+token)
+        let res = await axios.post(API_BASE_URL+url, data, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 ...headers

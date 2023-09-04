@@ -1,28 +1,26 @@
 import React, { useState, useEffect, forwardRef } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
-import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import axios from 'src/services/api/axios_config/Axios.js'
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
 import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
+import { postCall } from 'src/services/api/apiService.js';
 
 const Create = forwardRef((props, ref) => {
-    const [meeting_create_res, errorCreateMeeting, loadingMeeting, axiosCreateMeeting] = useAxiosFunction();
 
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
+        location: '',
         start_time: null, // moment(getTodayStartTime())
         end_time: null,
-        location: '',
     });
 
     const [formData, setFormData] = useState(formInitial)
@@ -43,41 +41,16 @@ const Create = forwardRef((props, ref) => {
     const handleMeetingCreateSubmit = async (event) => {
         event.preventDefault()
 
-
-        axiosCreateMeeting({
-            axiosInstance: axios, // Replace with your Axios instance
-            method: "post",
-            url: MEETING, // Replace with your endpoint
-            requestConfig: {
-                data: { ...formData }, // Replace with your form data
-            },
-        }).then((response) => {
-            console.log("meeting_create_res", response);
-            // Handle the successful response here
-            return response; // You can choose to return the response if needed
-        })
-        .catch((error) => {
-            console.error("Error creating meeting:", error);
-            // Handle the error here
-            throw error; // Re-throw the error to propagate it to the caller
-        });
-
-
-        // console.log("meeting_create_res", meeting_create_res);
-
-        // showAlert("Meeting created successfully!", "success", "top-right", 5000);
-        // handleMeetingCreateDialogClose();
-        // props?.handleGetMeetings();
-
+        let response = await postCall(MEETING, { ...formData })
+        if (response?.code === 201) {
+            showAlert("Meeting created successfully!", "success", "top-right", 5000)
+            props?.handleGetMeetings();
+            handleMeetingCreateDialogClose();
+        }
+        else{
+            showAlert(response?.message?.[0], "error", "top-right", 5000)
+        }
     }
-
-    // useEffect(() => {
-    //     console.log('meeting_create_res========================', meeting_create_res);
-    //     if (meeting_create_res) {
-    //         console.log('meeting_create_res========================', meeting_create_res);
-    //     }
-    // }, [meeting_create_res])
-
 
 
     // Meeting Create Dialog related
