@@ -12,7 +12,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import Styles from './Styles.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
-import { useAlert } from 'src/components/alert/hook/useAlert.js'
+import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 
 const Create = forwardRef((props, ref) => {
     const [meeting_create_res, errorCreateMeeting, loadingMeeting, axiosCreateMeeting] = useAxiosFunction();
@@ -43,17 +43,40 @@ const Create = forwardRef((props, ref) => {
     const handleMeetingCreateSubmit = async (event) => {
         event.preventDefault()
 
-        await axiosCreateMeeting({
-            axiosInstance: axios,
-            method: 'post',
-            url: MEETING,
+
+        axiosCreateMeeting({
+            axiosInstance: axios, // Replace with your Axios instance
+            method: "post",
+            url: MEETING, // Replace with your endpoint
             requestConfig: {
-                data: { ...formData }
-            }
+                data: { ...formData }, // Replace with your form data
+            },
+        }).then((response) => {
+            console.log("meeting_create_res", response);
+            // Handle the successful response here
+            return response; // You can choose to return the response if needed
         })
-        handleMeetingCreateDialogClose()
-        props?.handleGetMeetings();
+        .catch((error) => {
+            console.error("Error creating meeting:", error);
+            // Handle the error here
+            throw error; // Re-throw the error to propagate it to the caller
+        });
+
+
+        // console.log("meeting_create_res", meeting_create_res);
+
+        // showAlert("Meeting created successfully!", "success", "top-right", 5000);
+        // handleMeetingCreateDialogClose();
+        // props?.handleGetMeetings();
+
     }
+
+    // useEffect(() => {
+    //     console.log('meeting_create_res========================', meeting_create_res);
+    //     if (meeting_create_res) {
+    //         console.log('meeting_create_res========================', meeting_create_res);
+    //     }
+    // }, [meeting_create_res])
 
 
 
@@ -73,11 +96,8 @@ const Create = forwardRef((props, ref) => {
 
     return (
         <>
-            <Button type="submit" color="primary" variant="contained" onClick={()=> showAlert('Successfully created!', 5000, 'success')}>
-                Alert
-            </Button>
             {AlertComponent}
-           
+
 
             <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting

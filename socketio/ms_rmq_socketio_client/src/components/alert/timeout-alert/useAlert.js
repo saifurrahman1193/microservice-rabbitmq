@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
+import './style.css';
 
 export const useAlert = () => {
     const [alertData, setAlertData] = useState({
         message: '',
         isOpen: false,
-        timeout: 5000, // Default timeout
+        timeout: 5000,
+        type: 'success', // Default type
+        position: 'top-right', // Default position
     });
 
     useEffect(() => {
@@ -21,11 +24,13 @@ export const useAlert = () => {
         }
     }, [alertData]);
 
-    const showAlert = (message, timeout = 5000) => {
+    const showAlert = (message, type = 'success', position = 'top-right', timeout = 5000) => {
         setAlertData({
             message,
             isOpen: true,
             timeout,
+            type,
+            position,
         });
     };
 
@@ -40,10 +45,10 @@ export const useAlert = () => {
         showAlert,
         closeAlert,
         AlertComponent: alertData.isOpen && (
-            <div style={ { position: 'fixed',  top: '20px', right: '20px', zIndex: '9999'  } }>
+            <div className={`custom-alert ${alertData.position}`}>
                 <Alert
                     variant="filled"
-                    severity="success"
+                    severity={alertData.type}
                     onClose={closeAlert}
                 >
                     {alertData.message}

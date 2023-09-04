@@ -1,0 +1,23 @@
+/* Top-Right */
+.custom-alert.top-right {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Bottom-Right */
+.custom-alert.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Bottom-Left */
+.custom-alert.bottom-left {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+}

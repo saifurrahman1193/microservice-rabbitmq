@@ -20,12 +20,12 @@ const useAxiosFunction = () => {
             setController(ctrl);
             const res = await axiosInstance[method.toLowerCase()](url, {
                 ...requestConfig,
-                signal: ctrl.signal
+                // signal: ctrl.signal
             });
-            console.log('res', res);
+            // console.log('res', res);
             setResponse(res.data);
         } catch (err) {
-            console.log(err.message);
+            // console.log(err.message);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -33,7 +33,7 @@ const useAxiosFunction = () => {
     }
 
     useEffect(() => {
-        console.log(controller)
+        // console.log(controller)
 
         // useEffect cleanup function
         return () => controller && controller.abort();

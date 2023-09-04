@@ -6,7 +6,8 @@ import axios from 'src/services/api/axios_config/Axios.js'
 import useAxiosFunction from 'src/services/api/hooks/useAxiosFunction.js';
 import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
-import {getSpecificDateTimeAMPMUTC} from 'src/utils/CommonHelpers.js';
+import { getSpecificDateTimeAMPMUTC } from 'src/utils/CommonHelpers.js';
+import { getCall } from 'src/services/api/apiService.js';
 
 const List = forwardRef((props, ref) => {
 
@@ -16,9 +17,7 @@ const List = forwardRef((props, ref) => {
         }
     }));
 
-    // Axios Hook
-    const [meetingsGetRes, errorGetMeetings, loadingGetMeetings, axiosGetMeetings] = useAxiosFunction();
-
+    const [meetingLoading, setMeetingsLoading] = useState(false);
     const [meetings, setMeetings] = useState([]);  // meetings
 
     const meetingTable = {
@@ -43,13 +42,13 @@ const List = forwardRef((props, ref) => {
             }
         },
         columns: [
-            { id: '_id', label: 'ID'},
-            { id: 'title', label: 'Title'},
-            { id: 'description', label: 'Description'},
+            { id: '_id', label: 'ID' },
+            { id: 'title', label: 'Title' },
+            { id: 'description', label: 'Description' },
             { id: 'timerange', label: 'Time' },
             { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
             { id: 'action', label: 'Action' },
-            
+
         ],
         config: {
             noDataFound: true,
@@ -62,17 +61,19 @@ const List = forwardRef((props, ref) => {
         handleGetMeetings();
     }, []);
 
-    const handleGetMeetings = async (event) => {
-        await axiosGetMeetings({
-            axiosInstance: axios,
-            method: 'get',
-            url: MEETING,
-        })
-    }
+    const handleGetMeetings = async (e) => {
+        setMeetingsLoading(true);
+        let response = await getCall(MEETING);
 
-    useEffect(() => {
-        processTableData(meetingsGetRes?.data)
-    }, [meetingsGetRes]);
+        if (response?.code === 200) {
+            setMeetings(response?.data)
+            processTableData(response?.data)
+            setMeetingsLoading(false);
+        } else {
+
+            setMeetingsLoading(false)
+        }
+    }
 
     const processTableData = (data) => {
         if (data) {
@@ -87,9 +88,9 @@ const List = forwardRef((props, ref) => {
     return (
         <Grid item xs={12}>
             <Card>
-                {loadingGetMeetings && <CircularIndeterminate />}
+                {meetingLoading && <CircularIndeterminate />}
                 {
-                    !loadingGetMeetings &&
+                    !meetingLoading &&
                     <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' config={meetingTable?.config} />
                 }
             </Card>
