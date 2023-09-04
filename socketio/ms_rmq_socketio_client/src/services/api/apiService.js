@@ -42,6 +42,7 @@ export const postCall = async (url, data, token = null, headers={}) => {
                 ...headers
             },
         });
+
         if (res?.data?.code != 200) {
             if ([401, 403]?.includes(res?.data?.code) ) {
                 // alert(JSON.stringify(res))
@@ -57,8 +58,7 @@ export const postCall = async (url, data, token = null, headers={}) => {
         }
 
     } catch (error) {
-        console.log("error", error);
-        return {};
+        return error?.response?.data;
     }
 };
 

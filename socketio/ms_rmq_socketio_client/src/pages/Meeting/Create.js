@@ -38,19 +38,20 @@ const Create = forwardRef((props, ref) => {
     }, [formInitial])
 
 
-    const handleMeetingCreateSubmit = async (event) => {
-        event.preventDefault()
 
-        let response = await postCall(MEETING, { ...formData })
+    const handleMeetingCreateSubmit = async (event) => {
+        event.preventDefault();
+
+        let response = await postCall(MEETING, { ...formData });
+
         if (response?.code === 201) {
-            showAlert("Meeting created successfully!", "success", "top-right", 5000)
+            showAlert("Meeting created successfully!", "success", "top-right", 5000);
             props?.handleGetMeetings();
             handleMeetingCreateDialogClose();
+        } else {
+            showAlert(response?.message?.[0], "error", "top-right", 6000);
         }
-        else{
-            showAlert(response?.message?.[0], "error", "top-right", 5000)
-        }
-    }
+    };
 
 
     // Meeting Create Dialog related
@@ -70,7 +71,6 @@ const Create = forwardRef((props, ref) => {
     return (
         <>
             {AlertComponent}
-
 
             <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting
