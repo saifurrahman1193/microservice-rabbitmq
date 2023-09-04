@@ -12,6 +12,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import Styles from './Styles.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
+import { useAlert } from 'src/components/alert/hook/useAlert.js'
 
 const Create = forwardRef((props, ref) => {
     const [meeting_create_res, errorCreateMeeting, loadingMeeting, axiosCreateMeeting] = useAxiosFunction();
@@ -62,14 +63,22 @@ const Create = forwardRef((props, ref) => {
         setMeetingCreateDialogOpen(true);
     };
     const handleMeetingCreateDialogClose = (event, reason) => {
-        if (reason && reason === "backdropClick" )   return;  // if backdrop/outside of dialog click then do nothing/don't close dialog. making sure the process is completed properly
+        if (reason && reason === "backdropClick") return;  // if backdrop/outside of dialog click then do nothing/don't close dialog. making sure the process is completed properly
         setFormData(formInitial);
         setMeetingCreateDialogOpen(false);
     };
 
 
+    const { showAlert, AlertComponent } = useAlert();
+
     return (
         <>
+            <Button type="submit" color="primary" variant="contained" onClick={()=> showAlert('Successfully created!', 5000, 'success')}>
+                Alert
+            </Button>
+            {AlertComponent}
+           
+
             <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting
             </Button>

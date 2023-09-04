@@ -7,19 +7,13 @@ import { Server } from 'socket.io';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import sockets from './socket/sockets.js';
-import mongoose from 'mongoose';
 import bodyParser from "body-parser";
 import routes from "./routes/index.js";
-
+import  * as mongodb from './config/mongodb.js';
 
 dotenv.config();
 
-mongoose.connect('mongodb://ms-socketio-mongo-db-container:27017/chat_app')  // ms-socketio-mongo-db-container = mongodb container name
-.then(() => {
-    console.log('Connected to MongoDB');
-}).catch(err => {
-    console.error('Error connecting to MongoDB');
-});
+mongodb.connect();  // connect to MongoDB
 
 const app = express();
 app.use(cors());

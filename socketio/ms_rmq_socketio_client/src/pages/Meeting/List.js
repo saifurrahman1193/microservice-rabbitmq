@@ -48,6 +48,8 @@ const List = forwardRef((props, ref) => {
             { id: 'description', label: 'Description'},
             { id: 'timerange', label: 'Time' },
             { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
+            { id: 'action', label: 'Action' },
+            
         ],
         config: {
             noDataFound: true,
