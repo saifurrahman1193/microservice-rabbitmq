@@ -1,11 +1,10 @@
 // ** MUI Imports
-import TableStickyHeader from 'src/components/table/TableStickyHeader';
-
-// Style 
-import { StyledTableHeaderCell } from 'src/components/table/style.js';
+// import TableStickyHeader from 'src/components/table/TableStickyHeader';
+import TableBasic from 'src/components/table/TableBasic';
 
 const componentMap = {
-    'sticky-header': TableStickyHeader,
+    // 'sticky-header': TableStickyHeader,  // incomplete component
+    'basic': TableBasic,
 };
 
 const DynamicTable = (props) => {
@@ -16,7 +15,7 @@ const DynamicTable = (props) => {
 }
 
 function DynamicComponent(props) {
-    const SelectedComponent = componentMap[props?.tableType] || TableStickyHeader;
+    const SelectedComponent = componentMap[props?.tableType] || TableBasic;
 
     return <SelectedComponent {...props} />;
 }

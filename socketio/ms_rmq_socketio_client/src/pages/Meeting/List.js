@@ -6,6 +6,7 @@ import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
 import { getSpecificDateTimeAMPMUTC } from 'src/utils/CommonHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
+import { ActionCell } from 'src/pages/Meeting/Action.js';
 
 const List = forwardRef((props, ref) => {
 
@@ -21,7 +22,7 @@ const List = forwardRef((props, ref) => {
     const meetingTable = {
         styles: {
             table: {
-                maxHeight: '70vh',
+                // maxHeight: '70vh',
                 action: {
                     edit: {
                         styles: {
@@ -35,7 +36,7 @@ const List = forwardRef((props, ref) => {
                     }
                 }
             },
-            noDataFoundStyles: {
+            noDataFound: {
                 marginY: '20px',
             }
         },
@@ -53,6 +54,7 @@ const List = forwardRef((props, ref) => {
             tableAction: true,
         }
     }
+
 
     // On Load 
     useEffect(() => {
@@ -78,6 +80,9 @@ const List = forwardRef((props, ref) => {
             data = data?.map((meeting) => ({
                 ...meeting, // Spread the existing meeting object
                 timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
+                action: () => (
+                    <ActionCell />
+                )
             }));
             setMeetings(data)
         }
@@ -89,7 +94,7 @@ const List = forwardRef((props, ref) => {
                 {meetingLoading && <CircularIndeterminate />}
                 {
                     !meetingLoading &&
-                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='sticky-header' config={meetingTable?.config} />
+                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='basic' config={meetingTable?.config} />
                 }
             </Card>
         </Grid>
