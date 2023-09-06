@@ -12,13 +12,13 @@ export const useAlert = () => {
     });
 
     useEffect(() => {
-        if (alertData.isOpen && alertData.timeout > 0) {
+        if (alertData?.isOpen && alertData?.timeout > 0) {
             const timeoutId = setTimeout(() => {
                 setAlertData((prevState) => ({
                     ...prevState,
                     isOpen: false,
                 }));
-            }, alertData.timeout);
+            }, alertData?.timeout);
 
             return () => clearTimeout(timeoutId);
         }
@@ -44,14 +44,14 @@ export const useAlert = () => {
     return {
         showAlert,
         closeAlert,
-        AlertComponent: alertData.isOpen && (
-            <div className={`custom-alert ${alertData.position}`}>
+        AlertComponent: alertData?.isOpen && (
+            <div className={`custom-alert ${alertData?.position}`}>
                 <Alert
                     variant="filled"
-                    severity={alertData.type}
+                    severity={alertData?.type}
                     onClose={closeAlert}
                 >
-                    {alertData.message}
+                    {alertData?.message}
                 </Alert>
             </div>
         ),
