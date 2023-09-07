@@ -4,8 +4,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete'
 import useConfirm from 'src/components/alert/confirm/useConfirm.js'
-
-export const ActionCell = (props) => {
+const Action = (props) => {
     const { } = props;
 
     const handleAction = (rowData) => {
@@ -23,13 +22,20 @@ export const ActionCell = (props) => {
     };
 
     const deleteProcess = () => {
-        console.log('deleteProcess=====================');
         handleClose();
         confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', {button: {confirm: {label: 'Confirm'}, cancel: {label: 'Cancel'}}});
     }
 
-    const { confirmAlert, ConfirmComponent } = useConfirm();
+    const confrimHandler = () => {
+        console.log('Confirm');
+    };
+    const cancelHandler = () => {
+        console.log('Cancel');
+    };
 
+    
+    const { confirmAlert, ConfirmComponent } = useConfirm({confrimHandler, cancelHandler});
+    
     return (
         <>  
             {ConfirmComponent}
@@ -54,4 +60,7 @@ export const ActionCell = (props) => {
             </div>
         </>
     );
+    
 }
+
+export default Action;

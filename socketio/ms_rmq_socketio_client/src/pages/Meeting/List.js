@@ -6,7 +6,7 @@ import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
 import { getSpecificDateTimeAMPMUTC } from 'src/utils/CommonHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
-import { ActionCell } from 'src/pages/Meeting/Action.js';
+import Action from 'src/pages/Meeting/Action.js';
 
 const List = forwardRef((props, ref) => {
 
@@ -81,7 +81,7 @@ const List = forwardRef((props, ref) => {
                 ...meeting, // Spread the existing meeting object
                 timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
                 action: () => (
-                    <ActionCell />
+                    <Action />
                 )
             }));
             setMeetings(data)
