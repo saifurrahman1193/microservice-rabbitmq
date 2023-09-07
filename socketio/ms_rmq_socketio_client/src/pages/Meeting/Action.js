@@ -11,10 +11,6 @@ import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 const Action = (props) => {
     const { data } = props;
 
-    const handleAction = (rowData) => {
-        // Implement the action logic here, using the rowData if needed
-    };
-
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -27,7 +23,7 @@ const Action = (props) => {
 
     const deleteProcess = () => {
         handleClose();
-        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
+        deleteConfirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
 
     const { showAlert, AlertComponent } = useAlert();
@@ -47,11 +43,11 @@ const Action = (props) => {
     };
 
 
-    const { confirmAlert, ConfirmComponent } = useConfirm({ confrimHandler:deleteConfrimHandler, cancelHandler:deleteCancelHandler });
+    const { confirmAlert:deleteConfirmAlert, ConfirmComponent:DeleteConfirmComponent } = useConfirm({ confrimHandler:deleteConfrimHandler, cancelHandler:deleteCancelHandler });
 
     return (
         <>
-            {ConfirmComponent} {AlertComponent}
+            {DeleteConfirmComponent} {AlertComponent}
 
             <IconButton
                 aria-label="more"
