@@ -22,7 +22,7 @@ export const useAlert = () => {
 
             return () => clearTimeout(timeoutId);
         }
-    }, [alertData]);
+    }, [alertData?.isOpen]);
 
     const showAlert = (message, type = 'success', position = 'top-right', timeout = 5000) => {
         setAlertData({

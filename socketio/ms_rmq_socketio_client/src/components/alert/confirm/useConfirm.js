@@ -16,7 +16,6 @@ const useConfirm = (props) => {
     const [confirmData, setConfirmData] = useState(confirmInitialData);
 
     const confirmAlert = (type = 'success', title, message, config) => {
-        console.log(type, title, message, config);
         setConfirmData({
             type,
             title,

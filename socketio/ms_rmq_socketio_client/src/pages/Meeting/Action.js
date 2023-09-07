@@ -26,16 +26,16 @@ const Action = (props) => {
         deleteConfirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
 
-    const { showAlert, AlertComponent } = useAlert();
+    const { showAlert:deleteShowAlert, AlertComponent:DeleteAlertComponent } = useAlert();
 
     const deleteConfrimHandler = async () => {
         let response = await deleteCall(MEETING + '/' + data._id);
 
         if (response?.code === 200) {
-            showAlert("Meeting deleted successfully!", "success", "top-right", 5000);
+            deleteShowAlert("Meeting deleted successfully!", "success", "top-right", 5000);
             props?.handleGetMeetings();
         } else {
-            showAlert(response?.message?.[0], "error", "top-right", 5000);
+            deleteShowAlert(response?.message?.[0], "error", "top-right", 5000);
         }
     };
     const deleteCancelHandler = () => {
@@ -47,7 +47,7 @@ const Action = (props) => {
 
     return (
         <>
-            {DeleteConfirmComponent} {AlertComponent}
+            {DeleteConfirmComponent} {DeleteAlertComponent}
 
             <IconButton
                 aria-label="more"
