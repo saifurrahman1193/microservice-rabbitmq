@@ -27,55 +27,51 @@ const Action = (props) => {
 
     const deleteProcess = () => {
         handleClose();
-        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', {button: {confirm: {label: 'Confirm'}, cancel: {label: 'Cancel'}}});
+        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
 
     const { showAlert, AlertComponent } = useAlert();
 
-    const confrimHandler = async() => {
-        console.log('Confirm');
-
-        let response = await deleteCall(MEETING+'/'+data._id);
+    const deleteConfrimHandler = async () => {
+        let response = await deleteCall(MEETING + '/' + data._id);
 
         if (response?.code === 200) {
-            showAlert("Meeting created successfully!", "success", "top-right", 5000);
+            showAlert("Meeting deleted successfully!", "success", "top-right", 5000);
             props?.handleGetMeetings();
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 5000);
         }
     };
-    const cancelHandler = () => {
+    const deleteCancelHandler = () => {
         console.log('Cancel');
     };
 
-    
-    const { confirmAlert, ConfirmComponent } = useConfirm({confrimHandler, cancelHandler});
-    
-    return (
-        <>  
-            {ConfirmComponent}
 
-            <div>
-                <IconButton
-                    aria-label="more"
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                >
-                    <MoreVertIcon />
-                </IconButton>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}><EditIcon color="primary" style={{ marginRight: "10px" }} /> Edit</MenuItem>
-                    <MenuItem onClick={() => deleteProcess()}><DeleteIcon color="error" style={{ marginRight: "10px" }}  /> Delete</MenuItem>
-                </Menu>
-            </div>
+    const { confirmAlert, ConfirmComponent } = useConfirm({ confrimHandler:deleteConfrimHandler, cancelHandler:deleteCancelHandler });
+
+    return (
+        <>
+            {ConfirmComponent} {AlertComponent}
+
+            <IconButton
+                aria-label="more"
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                <MoreVertIcon />
+            </IconButton>
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}><EditIcon color="primary" style={{ marginRight: "10px" }} /> Edit</MenuItem>
+                <MenuItem onClick={deleteProcess}><DeleteIcon color="error" style={{ marginRight: "10px" }} /> Delete</MenuItem>
+            </Menu>
         </>
     );
-    
+
 }
 
 export default Action;

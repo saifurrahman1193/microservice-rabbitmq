@@ -45,9 +45,9 @@ const Update = forwardRef((props, ref) => {
         let response = await postCall(MEETING, { ...formData });
 
         if (response?.code === 201) {
-            showAlert("Meeting created successfully!", "success", "top-right", 5000);
+            showAlert("Meeting update successfully!", "success", "top-right", 5000);
             props?.handleGetMeetings();
-            handleMeetingCreateDialogClose();
+            handleMeetingUpdateDialogClose();
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 6000);
         }
@@ -59,7 +59,7 @@ const Update = forwardRef((props, ref) => {
     const handleMeetingCreateDialogOpen = () => {
         setMeetingCreateDialogOpen(true);
     };
-    const handleMeetingCreateDialogClose = (event, reason) => {
+    const handleMeetingUpdateDialogClose = (event, reason) => {
         if (reason && reason === "backdropClick") return;  // if backdrop/outside of dialog click then do nothing/don't close dialog. making sure the process is completed properly
         setFormData(formInitial);
         setMeetingCreateDialogOpen(false);
@@ -76,7 +76,7 @@ const Update = forwardRef((props, ref) => {
                 Add New Meeting
             </Button>
 
-            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
+            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingUpdateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -120,7 +120,7 @@ const Update = forwardRef((props, ref) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingCreateDialogClose} color="error" variant='text' >
+                            <Button onClick={handleMeetingUpdateDialogClose} color="error" variant='text' >
                                 Cancel
                             </Button>
                             <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />}>
