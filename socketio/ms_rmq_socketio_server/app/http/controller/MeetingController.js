@@ -27,6 +27,24 @@ export const create = async (req, res) => {
         })
         .catch(async (error) => {
             await logger(error?.message, 'error')
-            return set_response(res, null, 500, 'success', ['Something went wrong!'])
+            return set_response(res, null, 500, 'error', ['Something went wrong!'])
         });
 };
+
+export const deleting = async(req, res) => {
+    const id = req.params.id;
+
+    try {
+        // Use the Mongoose model to find and delete the item by ID
+        const data = await Meeting.findByIdAndDelete(id);
+
+        if (!data) {
+            return set_response(res, data, 404, 'error', ['Record not found'])
+        }
+
+        return set_response(res, data, 200, 'error', ['Record deleted successfully'])
+    } catch (err) {
+        console.error(err);
+        return set_response(res, null, 500, 'error', ['Server error'])
+    }
+};  

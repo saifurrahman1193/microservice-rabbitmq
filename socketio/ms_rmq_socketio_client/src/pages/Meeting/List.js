@@ -81,7 +81,7 @@ const List = forwardRef((props, ref) => {
                 ...meeting, // Spread the existing meeting object
                 timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
                 action: () => (
-                    <Action data={meeting} />
+                    <Action data={meeting} handleGetMeetings={handleGetMeetings} />
                 )
             }));
             setMeetings(data)

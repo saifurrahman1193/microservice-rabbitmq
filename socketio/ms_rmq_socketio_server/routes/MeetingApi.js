@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", MeetingController.index);
 router.post("/", createMeeetingValidation, MeetingController.create);
-// router.delete("/:id", MeetingController.destroy);
+router.delete("/:id", MeetingController.deleting);
 // router.patch("/:id", MeetingController.update);
 
 export default router;
