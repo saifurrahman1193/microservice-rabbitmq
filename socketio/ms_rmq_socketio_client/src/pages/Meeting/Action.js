@@ -3,7 +3,7 @@ import { Button, Menu, MenuItem, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete'
-import { useConfirm } from 'src/components/alert/confirm/useConfirm.js'
+import useConfirm from 'src/components/alert/confirm/useConfirm.js'
 
 export const ActionCell = (props) => {
     const { } = props;
@@ -22,8 +22,10 @@ export const ActionCell = (props) => {
         setAnchorEl(null);
     };
 
-    const deleteProcess = (event) => {
-        confirmAlert('Delete Confirmation!', 'Are you sure you want to delete this record?');
+    const deleteProcess = () => {
+        console.log('deleteProcess=====================');
+        handleClose();
+        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', {button: {confirm: {label: 'Confirm'}, cancel: {label: 'Cancel'}}});
     }
 
     const { confirmAlert, ConfirmComponent } = useConfirm();
@@ -47,7 +49,7 @@ export const ActionCell = (props) => {
                     onClose={handleClose}
                 >
                     <MenuItem onClick={handleClose}><EditIcon color="primary" style={{ marginRight: "10px" }} /> Edit</MenuItem>
-                    <MenuItem onClick={handleClose}><DeleteIcon color="error" style={{ marginRight: "10px" }} onClick={deleteProcess} /> Delete</MenuItem>
+                    <MenuItem onClick={() => deleteProcess()}><DeleteIcon color="error" style={{ marginRight: "10px" }}  /> Delete</MenuItem>
                 </Menu>
             </div>
         </>
