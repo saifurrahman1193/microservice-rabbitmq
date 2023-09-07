@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Menu, MenuItem, IconButton } from '@mui/material';
+import { Menu, MenuItem, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -9,7 +9,7 @@ import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 
 const Action = (props) => {
-    const { data } = props;
+    const { data, handleGetMeetings } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -28,16 +28,19 @@ const Action = (props) => {
 
     const { showAlert:deleteShowAlert, AlertComponent:DeleteAlertComponent } = useAlert();
 
+    
+
     const deleteConfrimHandler = async () => {
         let response = await deleteCall(MEETING + '/' + data._id);
 
         if (response?.code === 200) {
             deleteShowAlert("Meeting deleted successfully!", "success", "top-right", 5000);
-            props?.handleGetMeetings();
+            handleGetMeetings();
         } else {
             deleteShowAlert(response?.message?.[0], "error", "top-right", 5000);
         }
     };
+
     const deleteCancelHandler = () => {
         console.log('Cancel');
     };

@@ -43,7 +43,6 @@ export const useAlert = () => {
 
     return {
         showAlert,
-        closeAlert,
         AlertComponent: alertData?.isOpen && (
             <div className={`custom-alert ${alertData?.position}`}>
                 <Alert

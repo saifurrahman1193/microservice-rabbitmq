@@ -15,6 +15,8 @@ import { postCall } from 'src/services/api/apiService.js';
 
 const Create = forwardRef((props, ref) => {
 
+    const { handleGetMeetings } = props;
+
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
@@ -46,7 +48,7 @@ const Create = forwardRef((props, ref) => {
 
         if (response?.code === 201) {
             showAlert("Meeting created successfully!", "success", "top-right", 5000);
-            props?.handleGetMeetings();
+            handleGetMeetings();
             handleMeetingCreateDialogClose();
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 6000);
