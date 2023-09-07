@@ -62,6 +62,35 @@ export const postCall = async (url, data, token = null, headers={}) => {
     }
 };
 
+export const deleteCall = async (url, data, token = null, headers={}) => {
+    try {
+        // alert(url+' '+token)
+        let res = await axios.delete(API_BASE_URL+url, data, {
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+                ...headers
+            },
+        });
+
+        if (res?.data?.code != 200) {
+            if ([401, 403]?.includes(res?.data?.code) ) {
+                // alert(JSON.stringify(res))
+                localStorage.removeItem('user')
+                localStorage.removeItem('roles')
+                localStorage.removeItem('permissions')
+                // store.dispatch(USER_LOGOUT())
+                logout_cleaner() 
+            }
+            return res?.data
+        } else {
+            return res?.data;
+        }
+
+    } catch (error) {
+        return error?.response?.data;
+    }
+};
+
 
 const logout_cleaner = () => {
     
