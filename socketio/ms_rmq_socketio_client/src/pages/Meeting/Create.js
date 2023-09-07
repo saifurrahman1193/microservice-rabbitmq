@@ -17,6 +17,20 @@ const Create = forwardRef((props, ref) => {
 
     const { handleGetMeetings } = props;
 
+    const handleMeetingCreateSubmit = async (event) => {
+        event.preventDefault();
+
+        let response = await postCall(MEETING, { ...formData });
+
+        if (response?.code === 201) {
+            showAlert("Meeting created successfully!", "success", "top-right", 5000);
+            handleGetMeetings();
+            handleMeetingCreateDialogClose();
+        } else {
+            showAlert(response?.message?.[0], "error", "top-right", 6000);
+        }
+    };
+
     const [formInitial, setFormInitial] = useState({
         title: '',
         description: '',
@@ -41,19 +55,7 @@ const Create = forwardRef((props, ref) => {
 
 
 
-    const handleMeetingCreateSubmit = async (event) => {
-        event.preventDefault();
-
-        let response = await postCall(MEETING, { ...formData });
-
-        if (response?.code === 201) {
-            showAlert("Meeting created successfully!", "success", "top-right", 5000);
-            handleGetMeetings();
-            handleMeetingCreateDialogClose();
-        } else {
-            showAlert(response?.message?.[0], "error", "top-right", 6000);
-        }
-    };
+    
 
 
     // Meeting Create Dialog related

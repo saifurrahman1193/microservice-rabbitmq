@@ -15,7 +15,7 @@ function Meeting() {
     return (
         <Card>
             <Create ref={childCreateRef} handleGetMeetings={handleGetMeetings} />
-            <List  ref={childListRef}/>
+            <List ref={childListRef} />
         </Card>
     );
 };

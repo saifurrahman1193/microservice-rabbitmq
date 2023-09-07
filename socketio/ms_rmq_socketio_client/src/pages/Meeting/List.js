@@ -16,6 +16,18 @@ const List = forwardRef((props, ref) => {
         }
     }));
 
+    const handleGetMeetings = async (e) => {
+        setMeetingsLoading(true);
+        let response = await getCall(MEETING);
+
+        if (response?.code === 200) {
+            await processTableData(response?.data)
+            setMeetingsLoading(false);
+        } else {
+            setMeetingsLoading(false)
+        }
+    }
+
     const [meetingLoading, setMeetingsLoading] = useState(false);
     const [meetings, setMeetings] = useState([]);  // meetings
 
@@ -61,21 +73,9 @@ const List = forwardRef((props, ref) => {
         handleGetMeetings();
     }, []);
 
-    const handleGetMeetings = async (e) => {
-        setMeetingsLoading(true);
-        let response = await getCall(MEETING);
+    
 
-        if (response?.code === 200) {
-            setMeetings(response?.data)
-            processTableData(response?.data)
-            setMeetingsLoading(false);
-        } else {
-
-            setMeetingsLoading(false)
-        }
-    }
-
-    const processTableData = (data) => {
+    const processTableData = async (data) => {
         if (data) {
             data = data?.map((meeting) => ({
                 ...meeting, // Spread the existing meeting object
