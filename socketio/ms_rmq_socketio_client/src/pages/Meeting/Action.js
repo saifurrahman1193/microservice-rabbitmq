@@ -9,7 +9,7 @@ import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 
 const Action = (props) => {
-    const { data, handleGetMeetings } = props;
+    const { data, handleGetMeetings, showAlert } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -26,7 +26,6 @@ const Action = (props) => {
         deleteConfirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
 
-    const { showAlert: deleteShowAlert, AlertComponent: DeleteAlertComponent } = useAlert();
 
 
 
@@ -34,10 +33,10 @@ const Action = (props) => {
         let response = await deleteCall(MEETING + '/' + data._id);
 
         if (response?.code === 200) {
-            deleteShowAlert("Meeting deleted successfully!", "success", "top-right", 5000);
+            showAlert("Meeting deleted successfully!", "success", "top-right", 5000);
             handleGetMeetings();
         } else {
-            deleteShowAlert(response?.message?.[0], "error", "top-right", 5000);
+            showAlert(response?.message?.[0], "error", "top-right", 5000);
         }
     };
 
@@ -50,7 +49,7 @@ const Action = (props) => {
 
     return (
         <>
-            {DeleteConfirmComponent} {DeleteAlertComponent}
+            {DeleteConfirmComponent} 
 
             <IconButton
                 aria-label="more"

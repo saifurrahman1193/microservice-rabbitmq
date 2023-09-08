@@ -9,6 +9,7 @@ import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 
 const List = forwardRef((props, ref) => {
+    const {showAlert} = props;
 
     useImperativeHandle(ref, () => ({
         handle_getMeetings() {
@@ -74,14 +75,13 @@ const List = forwardRef((props, ref) => {
     }, []);
 
     
-
     const processTableData = async (data) => {
         if (data) {
             data = data?.map((meeting) => ({
                 ...meeting, // Spread the existing meeting object
                 timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
                 action: () => (
-                    <Action data={meeting} handleGetMeetings={handleGetMeetings} />
+                    <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
                 )
             }));
             setMeetings(data)
