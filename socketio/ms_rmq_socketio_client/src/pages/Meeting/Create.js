@@ -10,12 +10,11 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import Styles from './Styles.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
-import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 import { postCall } from 'src/services/api/apiService.js';
 
 const Create = forwardRef((props, ref) => {
 
-    const { handleGetMeetings } = props;
+    const { handleGetMeetings, showAlert } = props;
 
     const handleMeetingCreateSubmit = async (event) => {
         event.preventDefault();
@@ -55,9 +54,6 @@ const Create = forwardRef((props, ref) => {
 
 
 
-    
-
-
     // Meeting Create Dialog related
     const [meetingCreateDialogOpen, setMeetingCreateDialogOpen] = useState(false);
     const handleMeetingCreateDialogOpen = () => {
@@ -70,12 +66,8 @@ const Create = forwardRef((props, ref) => {
     };
 
 
-    const { showAlert, AlertComponent } = useAlert();
-
     return (
         <>
-            {AlertComponent}
-
             <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
                 Add New Meeting
             </Button>

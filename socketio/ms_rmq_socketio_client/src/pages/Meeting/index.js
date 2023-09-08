@@ -18,7 +18,7 @@ function Meeting() {
     return (
         <Card>
             {AlertComponent}
-            <Create ref={childCreateRef} handleGetMeetings={handleGetMeetings} />
+            <Create ref={childCreateRef} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
             <List ref={childListRef} showAlert={showAlert} />
         </Card>
     );
