@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import useConfirm from 'src/components/alert/confirm/useConfirm.js'
 import { deleteCall } from 'src/services/api/apiService.js';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 
 const Action = (props) => {
     const { data, handleGetMeetings, showAlert } = props;
@@ -25,9 +24,6 @@ const Action = (props) => {
         handleClose();
         confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
-
-
-
 
     const confrimHandler = async (event) => {
         let response = await deleteCall(MEETING + '/' + data._id);
