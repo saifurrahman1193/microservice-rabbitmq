@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -12,7 +12,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
 import { postCall } from 'src/services/api/apiService.js';
 
-const Create = forwardRef((props) => {
+const Create = ((props) => {
 
     const { handleGetMeetings, showAlert } = props;
 
@@ -22,11 +22,11 @@ const Create = forwardRef((props) => {
         let response = await postCall(MEETING, { ...formData });
 
         if (response?.code === 201) {
-            showAlert("Meeting created successfully!", "success", "top-right", 5000);
+            showAlert("Meeting created successfully!", "success", "top-right", 1000);
             handleGetMeetings();
             handleMeetingCreateDialogClose();
         } else {
-            showAlert(response?.message?.[0], "error", "top-right", 6000);
+            showAlert(response?.message?.[0], "error", "top-right", 1000);
         }
     };
 

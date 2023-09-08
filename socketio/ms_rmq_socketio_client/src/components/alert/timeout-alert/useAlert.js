@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import Alert from '@mui/material/Alert';
+import { Alert, LinearProgress } from '@mui/material';
 import './style.css';
 
 export const useAlert = () => {
+    const initialProgress = 100;
+    const [progress, setProgress] = useState(initialProgress);
+
     const [alertData, setAlertData] = useState({
         message: '',
         isOpen: false,
@@ -41,6 +44,29 @@ export const useAlert = () => {
         }));
     };
 
+    useEffect(() => {
+        if (alertData?.isOpen && alertData?.timeout > 0) {
+            let interval = 100
+            const intervalId = setInterval(() => {
+                console.log('interval=========');
+                if (progress > 0) {
+                    let diff = (interval*progress) / alertData?.timeout 
+
+                    console.log(interval, progress, alertData?.timeout ,  diff, progress - diff );
+                    
+                    setProgress((progress) => progress - diff);
+                } else {
+                    clearInterval(intervalId); // Stop the interval when progress reaches 0
+                    setProgress(initialProgress);
+                }
+            }, interval); // Update the progress every 1000ms (100 mili second)
+
+            // Clean up the interval when the component unmounts
+            return () =>  clearInterval(intervalId)
+        }
+
+    }, [alertData?.isOpen, alertData?.timeout, progress]);
+
     return {
         showAlert,
         AlertComponent: alertData?.isOpen && (
@@ -52,6 +78,7 @@ export const useAlert = () => {
                 >
                     {alertData?.message}
                 </Alert>
+                <LinearProgress variant="determinate" value={progress} color={alertData?.type} />
             </div>
         ),
     };
