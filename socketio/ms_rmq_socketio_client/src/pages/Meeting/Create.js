@@ -12,7 +12,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
 import { postCall } from 'src/services/api/apiService.js';
 
-const Create = forwardRef((props, ref) => {
+const Create = forwardRef((props) => {
 
     const { handleGetMeetings, showAlert } = props;
 

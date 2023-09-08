@@ -7,7 +7,6 @@ import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
 
 function Meeting() {
     const childListRef = useRef();
-    const childCreateRef = useRef();
     const { showAlert, AlertComponent } = useAlert();
 
 
@@ -18,7 +17,7 @@ function Meeting() {
     return (
         <Card>
             {AlertComponent}
-            <Create ref={childCreateRef} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
+            <Create handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
             <List ref={childListRef} showAlert={showAlert} />
         </Card>
     );
