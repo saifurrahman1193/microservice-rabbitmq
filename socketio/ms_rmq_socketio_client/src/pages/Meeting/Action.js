@@ -23,13 +23,13 @@ const Action = (props) => {
 
     const deleteProcess = () => {
         handleClose();
-        deleteConfirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
+        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
     }
 
 
 
 
-    const deleteConfrimHandler = async (event) => {
+    const confrimHandler = async (event) => {
         let response = await deleteCall(MEETING + '/' + data._id);
 
         if (response?.code === 200) {
@@ -40,16 +40,16 @@ const Action = (props) => {
         }
     };
 
-    const deleteCancelHandler = () => {
+    const cancelHandler = () => {
         console.log('Cancel');
     };
 
 
-    const { confirmAlert: deleteConfirmAlert, ConfirmComponent: DeleteConfirmComponent } = useConfirm({ confrimHandler: deleteConfrimHandler, cancelHandler: deleteCancelHandler });
+    const { confirmAlert, ConfirmComponent } = useConfirm({ confrimHandler, cancelHandler });
 
     return (
         <>
-            {DeleteConfirmComponent} 
+            {ConfirmComponent} 
 
             <IconButton
                 aria-label="more"
