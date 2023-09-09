@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Menu, MenuItem, IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import useConfirm from 'src/components/alert/confirm/useConfirm.js'
 import { deleteCall } from 'src/services/api/apiService.js';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
+import Update from 'src/pages/Meeting/Update.js';
 
 const Action = (props) => {
     const { data, handleGetMeetings, showAlert } = props;
@@ -22,7 +23,7 @@ const Action = (props) => {
 
     const deleteProcess = () => {
         handleClose();
-        confirmAlert('warning', 'Are you sure?', 'Do you really want to delete this record?', {  button: { confirm: { label: 'Yes, Delete' }, cancel: { label: "Don't Delete" } } });
+        confirmAlert('warning', 'Are you sure?', 'Do you really want to delete this record?', { button: { confirm: { label: 'Yes, Delete' }, cancel: { label: "Don't Delete" } } });
     }
 
     const confrimHandler = async (event) => {
@@ -43,9 +44,17 @@ const Action = (props) => {
 
     const { confirmAlert, ConfirmComponent } = useConfirm({ confrimHandler, cancelHandler });
 
+    const childUpdateRef = useRef();
+    const handleUpdateMeeting = () => {
+        childUpdateRef.current.handle_updateMeeting();
+    }
+
+
     return (
         <>
-            {ConfirmComponent} 
+            {ConfirmComponent}
+
+            <Update ref={childUpdateRef} {...props} />
 
             <IconButton
                 aria-label="more"
@@ -60,7 +69,7 @@ const Action = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}><EditIcon color="primary" style={{ marginRight: "10px" }} /> Edit</MenuItem>
+                <MenuItem onClick={handleUpdateMeeting} ><EditIcon color="primary" style={{ marginRight: "10px" }} /> Edit</MenuItem>
                 <MenuItem onClick={deleteProcess}><DeleteIcon color="error" style={{ marginRight: "10px" }} /> Delete</MenuItem>
             </Menu>
         </>

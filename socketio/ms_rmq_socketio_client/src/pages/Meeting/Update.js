@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef } from 'react'
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -8,14 +8,29 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import SendIcon from '@mui/icons-material/Send';
-import { useAlert } from 'src/components/alert/timeout-alert/useAlert.js'
-import { postCall } from 'src/services/api/apiService.js';
+import { patchCall } from 'src/services/api/apiService.js';
 
 const Update = forwardRef((props, ref) => {
 
+    const { data, handleGetMeetings, showAlert } = props;
+
+    const handleMeetingUpdateSubmit = async (event) => {
+        event.preventDefault();
+
+        let response = await patchCall(MEETING+ '/' + data._id, { ...formData });
+
+        if (response?.code === 200) {
+            showAlert("Meeting updated successfully!", "success", "top-right", 5000);
+            handleGetMeetings();
+            handleMeetingUpdteDialogClose();
+        } else {
+            showAlert(response?.message?.[0], "error", "top-right", 5000);
+        }
+    };
+
     const [formInitial, setFormInitial] = useState({
+        _id: '',
         title: '',
         description: '',
         location: '',
@@ -39,45 +54,30 @@ const Update = forwardRef((props, ref) => {
 
 
 
-    const handleMeetingUpdateSubmit = async (event) => {
-        event.preventDefault();
-
-        let response = await postCall(MEETING, { ...formData });
-
-        if (response?.code === 201) {
-            showAlert("Meeting update successfully!", "success", "top-right", 5000);
-            props?.handleGetMeetings();
-            handleMeetingUpdateDialogClose();
-        } else {
-            showAlert(response?.message?.[0], "error", "top-right", 6000);
-        }
+    // Meeting Update Dialog related
+    const [meetingUpdateDialogOpen, setMeetingUpdateDialogOpen] = useState(false);
+    const handleMeetingUpdateDialogOpen = () => {
+        setMeetingUpdateDialogOpen(true);
     };
-
-
-    // Meeting Create Dialog related
-    const [meetingCreateDialogOpen, setMeetingCreateDialogOpen] = useState(false);
-    const handleMeetingCreateDialogOpen = () => {
-        setMeetingCreateDialogOpen(true);
-    };
-    const handleMeetingUpdateDialogClose = (event, reason) => {
+    const handleMeetingUpdteDialogClose = (event, reason) => {
         if (reason && reason === "backdropClick") return;  // if backdrop/outside of dialog click then do nothing/don't close dialog. making sure the process is completed properly
         setFormData(formInitial);
-        setMeetingCreateDialogOpen(false);
+        setMeetingUpdateDialogOpen(false);
     };
 
 
-    const { showAlert, AlertComponent } = useAlert();
+    useImperativeHandle(ref, () => ({
+        handle_updateMeeting() {
+            setFormData(data);
+            handleMeetingUpdateDialogOpen()
+        }
+    }));
+
 
     return (
         <>
-            {AlertComponent}
-
-            <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
-                Add New Meeting
-            </Button>
-
-            <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingUpdateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
-                <DialogTitle>Create Meeting</DialogTitle>
+            <Dialog open={meetingUpdateDialogOpen} onClose={handleMeetingUpdteDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
+                <DialogTitle>Update Meeting</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                     </DialogContentText>
@@ -120,10 +120,10 @@ const Update = forwardRef((props, ref) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingUpdateDialogClose} color="error" variant='text' >
+                            <Button onClick={handleMeetingUpdteDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />}>
+                            <Button type="submit" style={{ background: "#4caf50" }} variant="contained" endIcon={<SendIcon />}>
                                 Submit
                             </Button>
                         </DialogActions>

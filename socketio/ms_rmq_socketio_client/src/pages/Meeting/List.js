@@ -9,7 +9,7 @@ import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 
 const List = forwardRef((props, ref) => {
-    const {showAlert} = props;
+    const { showAlert } = props;
 
     useImperativeHandle(ref, () => ({
         handle_getMeetings() {
@@ -74,7 +74,7 @@ const List = forwardRef((props, ref) => {
         handleGetMeetings();
     }, []);
 
-    
+
     const processTableData = async (data) => {
         if (data) {
             data = data?.map((meeting) => ({

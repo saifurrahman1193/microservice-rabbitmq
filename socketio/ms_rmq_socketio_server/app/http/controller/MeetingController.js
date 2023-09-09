@@ -56,10 +56,12 @@ export const update = async (req, res) => {
     let formData = { ...req?.query, ...req?.body }
     const { title, description, location, start_time, end_time } = formData;
 
+    console.log(formData);
+
 
     try {
         // Use the Mongoose model to find and update the item by ID
-        const data = await Item.findByIdAndUpdate(
+        const data = await Meeting.findByIdAndUpdate(
             id,
             { title, description, location, start_time, end_time },
             { new: true }
