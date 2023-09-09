@@ -22,11 +22,11 @@ const Create = ((props) => {
         let response = await postCall(MEETING, { ...formData });
 
         if (response?.code === 201) {
-            showAlert("Meeting created successfully!", "success", "top-right", 1000);
+            showAlert("Meeting created successfully!", "success", "top-right", 5000);
             handleGetMeetings();
             handleMeetingCreateDialogClose();
         } else {
-            showAlert(response?.message?.[0], "error", "top-right", 1000);
+            showAlert(response?.message?.[0], "error", "top-right", 5000);
         }
     };
 
