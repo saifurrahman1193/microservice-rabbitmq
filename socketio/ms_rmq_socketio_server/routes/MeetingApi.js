@@ -4,8 +4,9 @@ import { createMeeetingValidation } from '../app/http/validation/MeetingValidati
 const router = Router();
 
 router.get("/", MeetingController.index);
+router.get("/:id", MeetingController.find);
 router.post("/", createMeeetingValidation, MeetingController.create);
+router.put("/:id", MeetingController.update);
 router.delete("/:id", MeetingController.deleting);
-router.patch("/:id", MeetingController.update);
 
 export default router;

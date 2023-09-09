@@ -9,12 +9,11 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-export const getCall = async (url, token = null, lan = 'en') => {
+export const getCall = async (url, token = null) => {
     try {
         let res = await axios.get(API_BASE_URL+url, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
-                lang: lan,
             },
         })
         if (res?.data?.code === 401) {

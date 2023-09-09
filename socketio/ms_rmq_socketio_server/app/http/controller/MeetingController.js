@@ -9,6 +9,12 @@ export const index = async (req, res) => {
     return set_response(res, data, 200, 'success', ['Successfully completed'])
 }
 
+export const find = async (req, res) => {
+    const id = req?.params?.id;
+    const data = await Meeting.findById(id);
+    return set_response(res, data, 200, 'success', ['Successfully completed'])
+}
+
 export const create = async (req, res) => {
     console.log('create');
     let formData = { ...req?.query, ...req?.body }

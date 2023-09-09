@@ -9,25 +9,11 @@ import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
 import SendIcon from '@mui/icons-material/Send';
-import { patchCall } from 'src/services/api/apiService.js';
+import { getCall, putCall } from 'src/services/api/apiService.js';
 
 const Update = forwardRef((props, ref) => {
 
-    const { data, handleGetMeetings, showAlert } = props;
-
-    const handleMeetingUpdateSubmit = async (event) => {
-        event.preventDefault();
-
-        let response = await patchCall(MEETING+ '/' + data._id, { ...formData });
-
-        if (response?.code === 200) {
-            showAlert("Meeting updated successfully!", "success", "top-right", 5000);
-            handleGetMeetings();
-            handleMeetingUpdteDialogClose();
-        } else {
-            showAlert(response?.message?.[0], "error", "top-right", 5000);
-        }
-    };
+    const { data, handleGetMeetings, showAlert } = props;   
 
     const [formInitial, setFormInitial] = useState({
         title: '',
@@ -39,6 +25,32 @@ const Update = forwardRef((props, ref) => {
 
     const [formData, setFormData] = useState(formInitial)
 
+    const handleMeetingUpdateSubmit = async (event) => {
+        event.preventDefault();
+
+        let response = await putCall(MEETING+ '/' + data._id, { ...formData });
+
+        if (response?.code === 200) {
+            showAlert("Meeting updated successfully!", "success", "top-right", 5000);
+            handleGetMeetings();
+            handleMeetingUpdteDialogClose();
+        } else {
+            showAlert(response?.message?.[0], "error", "top-right", 5000);
+        }
+    };
+
+    const handleGetMeetingData = async (event) => {
+
+        let response = await getCall(MEETING+ '/' + data._id );
+        if (response?.code === 200) {
+            setFormData(response?.data);
+        } else {
+            setFormData(formInitial);
+            showAlert(response?.message?.[0], "error", "top-right", 5000);
+        }
+    };
+
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevData) => ({
@@ -46,11 +58,6 @@ const Update = forwardRef((props, ref) => {
             [name]: value,
         }));
     };
-
-    useEffect(() => {
-        setFormData(formInitial)
-    }, [formInitial])
-
 
 
     // Meeting Update Dialog related
@@ -67,8 +74,9 @@ const Update = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         handle_updateMeeting() {
-            setFormData(data);
-            handleMeetingUpdateDialogOpen()
+            // setFormData(data);
+            handleGetMeetingData()
+            setMeetingUpdateDialogOpen(true);
         }
     }));
 
