@@ -22,7 +22,7 @@ const Action = (props) => {
 
     const deleteProcess = () => {
         handleClose();
-        confirmAlert('success', 'Delete Confirmation!', 'Are you sure you want to delete this record?', { button: { confirm: { label: 'Confirm' }, cancel: { label: 'Cancel' } } });
+        confirmAlert('warning', 'Are you sure?', 'Do you really want to delete this record?', {  button: { confirm: { label: 'Yes, Delete' }, cancel: { label: "Don't Delete" } } });
     }
 
     const confrimHandler = async (event) => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Card, Paper, CardContent, Typography, CardTitle, } from '@mui/material';
+import WarningIcon from '@mui/icons-material/Warning';
 
 const useConfirm = (props) => {
     const { confrimHandler, cancelHandler } = props;
@@ -50,8 +51,12 @@ const useConfirm = (props) => {
         confirmAlert,
         ConfirmComponent: confirmData?.isOpen && (
             <Dialog open={confirmData?.isOpen} onClose={handleMeetingCreateDialogClose} disableEscapeKeyDown  >
-                <DialogTitle>{confirmData?.title}</DialogTitle>
+
                 <DialogContent>
+                    <DialogTitle style={{ textAlign: 'center', fontSize: '24px', fontWeight: 'bold', letterSpacing: "1px", color: "#060606a8" }} >
+                        <WarningIcon style={{ fontSize: 48, color: 'orange' }} /> <br />
+                        {confirmData?.title}
+                    </DialogTitle>
                     <Card elevation={0}>
                         <CardContent>
                             <Typography variant="h6">{confirmData?.message}</Typography>
