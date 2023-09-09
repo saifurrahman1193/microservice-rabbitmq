@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, LinearProgress } from '@mui/material';
+import { Alert } from '@mui/material';
 import './style.css';
 
 export const useAlert = () => {
@@ -42,8 +42,8 @@ export const useAlert = () => {
         }));
     };
 
-    const getAlertStyle = () => {
-        switch (alertData?.type) {
+    const getAlertStyle = (type='success') => {
+        switch (type) {
             case 'error':
                 return { backgroundColor: 'rgb(247, 51, 120)', color: 'white' };
             case 'warning':
@@ -53,7 +53,7 @@ export const useAlert = () => {
             case 'success':
                 return { backgroundColor: 'rgb(76, 175, 80)', color: 'white' };
             default:
-                return {}; // Default style
+                return { backgroundColor: 'rgb(76, 175, 80)', color: 'white' }; // Default style
         }
     };
 
@@ -66,7 +66,7 @@ export const useAlert = () => {
                     variant="filled"
                     onClose={closeAlert}
                     severity={alertData?.type}
-                    style={getAlertStyle()}
+                    style={getAlertStyle(alertData?.type)}
                 >
                     {alertData?.message}
                 </Alert>
