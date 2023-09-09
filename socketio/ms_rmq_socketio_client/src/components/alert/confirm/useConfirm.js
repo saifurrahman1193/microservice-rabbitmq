@@ -59,10 +59,10 @@ const useConfirm = (props) => {
                     <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message}</Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={cancel} color="error">
+                    <Button onClick={cancel} style={{ color: "#f73378" }} color="error"  variant='text'>
                         {confirmData?.config?.button?.cancel?.label}
                     </Button>
-                    <Button onClick={confrim} color="success" variant="contained">
+                    <Button onClick={confrim} style={{ background: "#4caf50" }} variant="contained">
                         {confirmData?.config?.button?.confirm?.label}
                     </Button>
                 </DialogActions>

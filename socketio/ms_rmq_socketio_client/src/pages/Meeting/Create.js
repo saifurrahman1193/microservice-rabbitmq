@@ -116,10 +116,10 @@ const Create = ((props) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingCreateDialogClose} color="error" variant='text' >
+                            <Button onClick={handleMeetingCreateDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
                                 Cancel
                             </Button>
-                            <Button type="submit" color="primary" variant="contained" endIcon={<SendIcon />}>
+                            <Button type="submit" style={{ background: "#4caf50" }} variant="contained" endIcon={<SendIcon />}>
                                 Submit
                             </Button>
                         </DialogActions>
