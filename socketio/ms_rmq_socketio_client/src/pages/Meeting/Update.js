@@ -30,7 +30,6 @@ const Update = forwardRef((props, ref) => {
     };
 
     const [formInitial, setFormInitial] = useState({
-        _id: '',
         title: '',
         description: '',
         location: '',

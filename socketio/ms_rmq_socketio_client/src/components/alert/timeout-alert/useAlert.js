@@ -42,6 +42,21 @@ export const useAlert = () => {
         }));
     };
 
+    const getAlertStyle = () => {
+        switch (alertData?.type) {
+            case 'error':
+                return { backgroundColor: 'rgb(247, 51, 120)', color: 'white' };
+            case 'warning':
+                return { backgroundColor: 'yellow', color: 'black' };
+            case 'info':
+                return { backgroundColor: 'blue', color: 'white' };
+            case 'success':
+                return { backgroundColor: 'rgb(76, 175, 80)', color: 'white' };
+            default:
+                return {}; // Default style
+        }
+    };
+
 
     return {
         showAlert,
@@ -49,8 +64,9 @@ export const useAlert = () => {
             <div className={`custom-alert ${alertData?.position}`}>
                 <Alert
                     variant="filled"
-                    severity={alertData?.type}
                     onClose={closeAlert}
+                    severity={alertData?.type}
+                    style={getAlertStyle()}
                 >
                     {alertData?.message}
                 </Alert>
