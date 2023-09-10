@@ -26,8 +26,11 @@
 
 ### Docker
 ```
+sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
+cat /proc/sys/fs/inotify/max_user_watches
 sudo docker-compose down
 sudo docker-compose build && docker-compose up -d
+
 ```
 
 ```
