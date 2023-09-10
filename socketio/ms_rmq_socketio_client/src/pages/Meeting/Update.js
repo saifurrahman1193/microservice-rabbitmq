@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -10,10 +10,11 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import Styles from './Styles.js';
 import SendIcon from '@mui/icons-material/Send';
 import { getCall, putCall } from 'src/services/api/apiService.js';
+import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
 
 const Update = forwardRef((props, ref) => {
 
-    const { data, handleGetMeetings, showAlert } = props;   
+    const { data, handleGetMeetings, showAlert } = props;
 
     const [formInitial, setFormInitial] = useState({
         title: '',
@@ -26,22 +27,25 @@ const Update = forwardRef((props, ref) => {
     const [formData, setFormData] = useState(formInitial)
 
     const handleMeetingUpdateSubmit = async (event) => {
+        handleUpdateProcess(true);
         event.preventDefault();
 
-        let response = await putCall(MEETING+ '/' + data._id, { ...formData });
+        let response = await putCall(MEETING + '/' + data._id, { ...formData });
 
         if (response?.code === 200) {
             showAlert("Meeting updated successfully!", "success", "top-right", 5000);
             handleGetMeetings();
             handleMeetingUpdteDialogClose();
+            handleUpdateProcess(false);
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 5000);
+            handleUpdateProcess(false);
         }
     };
 
     const handleGetMeetingData = async (event) => {
 
-        let response = await getCall(MEETING+ '/' + data._id );
+        let response = await getCall(MEETING + '/' + data._id);
         if (response?.code === 200) {
             setFormData(response?.data);
         } else {
@@ -79,6 +83,11 @@ const Update = forwardRef((props, ref) => {
             setMeetingUpdateDialogOpen(true);
         }
     }));
+
+    const childUpdateRef = useRef();
+    const handleUpdateProcess = (loading=false) => {
+        childUpdateRef.current.handle_UpdateProcess({load: loading});
+    }
 
 
     return (
@@ -130,9 +139,7 @@ const Update = forwardRef((props, ref) => {
                             <Button onClick={handleMeetingUpdteDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
                                 Cancel
                             </Button>
-                            <Button type="submit" style={{ background: "#4caf50" }} variant="contained" endIcon={<SendIcon />}>
-                                Submit
-                            </Button>
+                            <SubmitButtonLoading ref={childUpdateRef} />
                         </DialogActions>
                     </form>
                 </DialogContent>
