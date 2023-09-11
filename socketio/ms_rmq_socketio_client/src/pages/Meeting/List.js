@@ -4,7 +4,7 @@ import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
-import { getSpecificDateTimeAMPMUTC } from 'src/utils/CommonHelpers.js';
+import { getSpecificDateTimeAMPM } from 'src/utils/CommonHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 
@@ -79,7 +79,7 @@ const List = forwardRef((props, ref) => {
         if (data) {
             data = data?.map((meeting) => ({
                 ...meeting, // Spread the existing meeting object
-                timerange: `${getSpecificDateTimeAMPMUTC(meeting?.start_time)} - ${getSpecificDateTimeAMPMUTC(meeting?.end_time)}`, // Calculate the timerange
+                timerange: `${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`, // Calculate the timerange
                 action: () => (
                     <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
                 )

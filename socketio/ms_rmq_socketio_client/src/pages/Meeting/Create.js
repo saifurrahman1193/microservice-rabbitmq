@@ -102,9 +102,9 @@ const Create = ((props) => {
                                         label="Start Time *"
                                         // defaultValue={formData?.start_time}
                                         onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, start_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
+                                            setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
                                         }}
-                                        format="YYYY-MM-DD HH:mm:ss"
+                                        format="DD-MM-YYYY HH:mm:ss"
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -116,9 +116,9 @@ const Create = ((props) => {
                                         label="End Time *"
                                         // defaultValue={formData?.end_time}
                                         onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, end_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
+                                            setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
                                         }}
-                                        format="YYYY-MM-DD HH:mm:ss"
+                                        format="DD-MM-YYYY HH:mm:ss"
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
