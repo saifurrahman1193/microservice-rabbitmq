@@ -111,11 +111,11 @@ const Update = forwardRef((props, ref) => {
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
                                         label="Start Time *"
-                                        // defaultValue={formData?.start_time}
+                                        value={moment(formData?.start_time)}  // utc to moment time (current zone)
                                         onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, start_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
+                                            setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))    // view/moment to utc time to send to api to store in db (utc)
                                         }}
-                                        format="YYYY-MM-DD HH:mm:ss"
+                                        format="DD-MM-YYYY HH:mm:ss"  // format to show in view/moment (current zone) 
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -125,11 +125,11 @@ const Update = forwardRef((props, ref) => {
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
                                         label="End Time *"
-                                        // defaultValue={formData?.end_time}
+                                        value={moment(formData?.end_time)} // utc to moment time (current zone)
                                         onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, end_time: moment(newValue).format('YYYY-MM-DD HH:mm:ss') }))
+                                            setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() })) // view/moment to utc time to send to api to store in db (utc)
                                         }}
-                                        format="YYYY-MM-DD HH:mm:ss"
+                                        format="DD-MM-YYYY HH:mm:ss"  // format to show in view/moment (current zone) 
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>

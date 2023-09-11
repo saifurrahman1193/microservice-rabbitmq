@@ -101,6 +101,7 @@ const Create = ((props) => {
                                     <DateTimePicker
                                         label="Start Time *"
                                         // defaultValue={formData?.start_time}
+                                        // value={formData?.start_time}
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
                                         }}
@@ -114,7 +115,7 @@ const Create = ((props) => {
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
                                         label="End Time *"
-                                        // defaultValue={formData?.end_time}
+                                        // value={formData?.end_time}
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
                                         }}
