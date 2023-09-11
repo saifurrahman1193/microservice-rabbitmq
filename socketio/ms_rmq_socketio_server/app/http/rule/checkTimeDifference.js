@@ -6,15 +6,15 @@ const checkTimeDifference = (start_time, end_time, minAllowedDifference = 0, max
 
     // Calculate the time difference in milliseconds
     const timeDifference = endTime - startTime;
+    console.log('timeDifference', timeDifference);
 
     // Define the maximum allowed time difference (e.g., 1 hour = 3600000 milliseconds)
-
-    // Check if the time difference is greater than the allowed maximum
     if (minAllowedDifference <= timeDifference && timeDifference <= maxAllowedDifference) {
+        return true;
+    }
+    else{
+        console.log('minAllowedDifference <= timeDifference && timeDifference <= maxAllowedDifference');
         throw new Error(msg || 'Ivalid Range.');
     }
-
-    // Return true if the validation passes
-    return true;
 };
 export default checkTimeDifference;
