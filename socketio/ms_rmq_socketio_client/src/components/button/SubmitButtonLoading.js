@@ -12,7 +12,7 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
     const [submittingText, setSubmittingText] = useState("Submit");
 
     useImperativeHandle(ref, () => ({
-        handle_UpdateProcess(config) {
+        handleProcess(config) {
             const { load, progressText, submitText} = config;
             progressText && setProgressingText(progressText);
             submitText && setSubmittingText(submittingText);

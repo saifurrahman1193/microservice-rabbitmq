@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -9,8 +9,8 @@ import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import SendIcon from '@mui/icons-material/Send';
 import { postCall } from 'src/services/api/apiService.js';
+import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
 
 const Create = ((props) => {
 
@@ -18,6 +18,7 @@ const Create = ((props) => {
 
     const handleMeetingCreateSubmit = async (event) => {
         event.preventDefault();
+        handleCreateProcess(true);
 
         let response = await postCall(MEETING, { ...formData });
 
@@ -25,8 +26,10 @@ const Create = ((props) => {
             showAlert("Meeting created successfully!", "success", "top-right", 5000);
             handleGetMeetings();
             handleMeetingCreateDialogClose();
+            handleCreateProcess(false);
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 5000);
+            handleCreateProcess(false);
         }
     };
 
@@ -64,6 +67,11 @@ const Create = ((props) => {
         setFormData(formInitial);
         setMeetingCreateDialogOpen(false);
     };
+
+    const childCreateRef = useRef();
+    const handleCreateProcess = (loading) => {
+        childCreateRef.current.handleProcess({ load: loading });
+    }
 
 
     return (
@@ -119,9 +127,7 @@ const Create = ((props) => {
                             <Button onClick={handleMeetingCreateDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
                                 Cancel
                             </Button>
-                            <Button type="submit" style={{ background: "#4caf50" }} variant="contained" endIcon={<SendIcon />}>
-                                Submit
-                            </Button>
+                            <SubmitButtonLoading ref={childCreateRef} />
                         </DialogActions>
                     </form>
                 </DialogContent>

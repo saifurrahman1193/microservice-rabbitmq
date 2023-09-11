@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import { TextField, Button, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -8,7 +8,6 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
-import SendIcon from '@mui/icons-material/Send';
 import { getCall, putCall } from 'src/services/api/apiService.js';
 import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
 
@@ -85,8 +84,8 @@ const Update = forwardRef((props, ref) => {
     }));
 
     const childUpdateRef = useRef();
-    const handleUpdateProcess = (loading=false) => {
-        childUpdateRef.current.handle_UpdateProcess({load: loading});
+    const handleUpdateProcess = (loading) => {
+        childUpdateRef.current.handleProcess({ load: loading });
     }
 
 
