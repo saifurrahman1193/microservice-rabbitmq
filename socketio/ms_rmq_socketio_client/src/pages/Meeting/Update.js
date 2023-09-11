@@ -115,7 +115,7 @@ const Update = forwardRef((props, ref) => {
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))    // view/moment to utc time to send to api to store in db (utc)
                                         }}
-                                        format="DD-MM-YYYY HH:mm:ss"  // format to show in view/moment (current zone) 
+                                        format="DD-MM-YYYY hh:mm a"  // format to show in view/moment (current zone) 
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -129,7 +129,7 @@ const Update = forwardRef((props, ref) => {
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() })) // view/moment to utc time to send to api to store in db (utc)
                                         }}
-                                        format="DD-MM-YYYY HH:mm:ss"  // format to show in view/moment (current zone) 
+                                        format="DD-MM-YYYY hh:mm a"  // format to show in view/moment (current zone) 
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
