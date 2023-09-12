@@ -28,7 +28,11 @@ const io = new Server(http_server, {
     cors: {
         origin: [
             'http://localhost:804', // from client side
-            'http://localhost:3000' 
+            'http://localhost:3000', 
+            'ws://localhost:804', 
+            'ws://localhost:804/ws', 
+            'ws://localhost:3000', 
+            'ws://localhost:3000/ws', 
         ]
     }
 });
