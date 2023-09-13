@@ -5,9 +5,10 @@ import io from 'socket.io-client';
 
 function App() {
     const [socket, setSocket] = useState(null);
+    const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
     useEffect(() => {
-        setSocket(io("http://localhost:803"));
+        setSocket(io(REACT_APP_BASE_URL));
     }, []);
 
     return (
