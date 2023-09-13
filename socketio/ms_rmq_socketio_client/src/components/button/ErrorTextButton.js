@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '@mui/material';
 
-function ErrorButton(props) {
+function ErrorTextButton(props) {
     const { children, handler } = props;
     return (
         <Button onClick={handler} style={{ color: "#f73378" }} color="error" variant='text'>
@@ -10,4 +10,4 @@ function ErrorButton(props) {
     )
 }
 
-export default ErrorButton
+export default ErrorTextButton

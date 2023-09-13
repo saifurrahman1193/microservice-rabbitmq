@@ -46,6 +46,7 @@ const Action = (props) => {
 
     const childUpdateRef = useRef();
     const handleUpdateMeeting = () => {
+        handleClose();
         childUpdateRef.current.handle_updateMeeting();
     }
 

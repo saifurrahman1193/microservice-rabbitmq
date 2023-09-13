@@ -10,9 +10,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
-import { IconButton } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CellRender from 'src/components/table/CellRender';
 
 const TableBasic = (props) => {

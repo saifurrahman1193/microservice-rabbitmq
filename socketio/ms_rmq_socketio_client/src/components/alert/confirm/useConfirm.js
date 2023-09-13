@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Paper, Typography } from '@mui/material';
 import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 import SuccessButton from 'src/components/button/SuccessButton';
-import ErrorButton from 'src/components/button/ErrorButton';
+import ErrorTextButton from 'src/components/button/ErrorTextButton';
 
 const useConfirm = (props) => {
     const { confrimHandler, cancelHandler } = props;
@@ -61,7 +61,7 @@ const useConfirm = (props) => {
                     <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message}</Typography>
                 </DialogContent>
                 <DialogActions>
-                    <ErrorButton handler={cancel}>{confirmData?.config?.button?.cancel?.label}</ErrorButton>
+                    <ErrorTextButton handler={cancel}>{confirmData?.config?.button?.cancel?.label}</ErrorTextButton>
                     <SuccessButton handler={confrim}>{confirmData?.config?.button?.confirm?.label}</SuccessButton>
                 </DialogActions>
             </Dialog>
