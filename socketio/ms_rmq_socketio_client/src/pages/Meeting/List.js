@@ -58,10 +58,10 @@ const List = forwardRef((props, ref) => {
             data = data?.map((meeting) => ({
                 ...meeting, 
                 timerange: () => (
-                    <PrependTimeChip label={`${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`}/>
+                    <PrependTimeChip label={`${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`} />
                 ),
                 action: () => (
-                    <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
+                    <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert}  />
                 )
             }));
             setMeetings(data)
