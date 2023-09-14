@@ -2,12 +2,14 @@ import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'rea
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
 import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { Card, Grid } from '@mui/material';
+import { Card, Grid} from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
 import { getSpecificDateTimeAMPM } from 'src/utils/DateTimeHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
+import PrependTimeChip from 'src/components/chip/PrependTimeChip.js';
+
 
 const List = forwardRef((props, ref) => {
     const { showAlert } = props;
@@ -54,8 +56,10 @@ const List = forwardRef((props, ref) => {
     const processTableData = async (data) => {
         if (data) {
             data = data?.map((meeting) => ({
-                ...meeting, // Spread the existing meeting object
-                timerange: `${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`, // Calculate the timerange
+                ...meeting, 
+                timerange: () => (
+                    <PrependTimeChip label={`${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`}/>
+                ),
                 action: () => (
                     <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
                 )
