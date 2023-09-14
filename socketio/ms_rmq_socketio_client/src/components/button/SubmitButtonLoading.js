@@ -4,6 +4,7 @@ import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const SubmitButtonLoading = forwardRef((props, ref) => {
+    const { children, ...domProps } = props
 
     const [loading, setLoading] = useState(false);
     const [styles, setStyles] = useState({ background: "#4caf50", color: "#fff" });
@@ -13,7 +14,7 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         handleProcess(config) {
-            const { load, progressText, submitText} = config;
+            const { load, progressText, submitText } = config;
             progressText && setProgressingText(progressText);
             submitText && setSubmittingText(submittingText);
             setLoading(load);
@@ -25,7 +26,6 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
         processStyles(load)
         processIcon(load)
     }
-
 
 
     const processStyles = (load) => {
@@ -44,8 +44,9 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
     }
 
     return (
-        <Button type="submit" style={styles} variant="contained" endIcon={icon} disabled={loading}>
+        <Button type="submit" style={styles} variant="contained" endIcon={icon} disabled={loading} {...domProps}>
             {loading ? progressingText : submittingText}
+            {children}
         </Button>
     )
 })

@@ -8,9 +8,12 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { postCall } from 'src/services/api/apiService.js';
 import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
+import ErrorTextButton from 'src/components/button/ErrorTextButton.js';
+import AddOutlinedButton from 'src/components/button/AddOutlinedButton.js';
+
+
 
 const Create = ((props) => {
 
@@ -76,9 +79,7 @@ const Create = ((props) => {
 
     return (
         <>
-            <Button variant="outlined" onClick={handleMeetingCreateDialogOpen} sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}>
-                Add New Meeting
-            </Button>
+            <AddOutlinedButton handler={handleMeetingCreateDialogOpen}>Add New Meeting</AddOutlinedButton>
 
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
@@ -125,9 +126,7 @@ const Create = ((props) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingCreateDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
-                                Cancel
-                            </Button>
+                            <ErrorTextButton handler={handleMeetingCreateDialogClose}>Cancel</ErrorTextButton>
                             <SubmitButtonLoading ref={childCreateRef} />
                         </DialogActions>
                     </form>
