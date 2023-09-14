@@ -103,8 +103,6 @@ const Create = ((props) => {
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
                                         label="Start Time"
-                                        // defaultValue={formData?.start_time}
-                                        // value={formData?.start_time}
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
                                         }}
@@ -114,7 +112,8 @@ const Create = ((props) => {
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'start_time'),
                                                 error: checkIsError(errors, 'start_time'),
-                                                required: true
+                                                required: true,
+                                                size: 'small'
                                             },
                                         }}
                                     />
@@ -126,7 +125,6 @@ const Create = ((props) => {
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
                                         label="End Time"
-                                        // value={formData?.end_time}
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
                                         }}
@@ -135,7 +133,8 @@ const Create = ((props) => {
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'end_time'),
                                                 error: checkIsError(errors, 'end_time'),
-                                                required: true
+                                                required: true,
+                                                size: 'small'
                                             },
                                         }}
                                     />

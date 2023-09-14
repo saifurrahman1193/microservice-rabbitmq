@@ -124,7 +124,8 @@ const Update = forwardRef((props, ref) => {
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'start_time'),
                                                 error: checkIsError(errors, 'start_time'),
-                                                required: true
+                                                required: true,
+                                                size: 'small'
                                             },
                                         }}
                                     />
@@ -145,7 +146,8 @@ const Update = forwardRef((props, ref) => {
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'end_time'),
                                                 error: checkIsError(errors, 'end_time'),
-                                                required: true
+                                                required: true,
+                                                size: 'small'
                                             },
                                         }}
                                     />
