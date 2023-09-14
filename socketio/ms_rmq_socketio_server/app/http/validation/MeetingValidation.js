@@ -13,7 +13,7 @@ export const createMeeetingValidation = [
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return set_response(res, null, 422, 'failed', errors.errors.map(item => item.msg))
+            return set_response(res, null, 422, 'failed', errors.errors.map(item => item.msg), errors.array())
         }
         next()
     }
@@ -37,7 +37,7 @@ export const updateMeeetingValidation = [
     async (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return set_response(res, null, 422, 'failed', errors.errors.map(item => item.msg))
+            return set_response(res, null, 422, 'failed', errors.errors.map(item => item.msg), errors.array())
         }
         next()
     }
