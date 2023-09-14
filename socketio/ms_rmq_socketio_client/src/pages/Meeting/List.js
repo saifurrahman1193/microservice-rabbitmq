@@ -4,7 +4,7 @@ import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Card, Grid} from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
-import { getSpecificDateTimeAMPM } from 'src/utils/DateTimeHelpers.js';
+import { getSpecificDateTimeDMYAMPM } from 'src/utils/DateTimeHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
@@ -58,7 +58,7 @@ const List = forwardRef((props, ref) => {
             data = data?.map((meeting) => ({
                 ...meeting, 
                 timerange: () => (
-                    <PrependTimeChip label={`${getSpecificDateTimeAMPM(meeting?.start_time)} - ${getSpecificDateTimeAMPM(meeting?.end_time)}`} />
+                    <PrependTimeChip label={`${getSpecificDateTimeDMYAMPM(meeting?.start_time)} - ${getSpecificDateTimeDMYAMPM(meeting?.end_time)}`} />
                 ),
                 action: () => (
                     <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert}  />

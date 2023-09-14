@@ -118,6 +118,9 @@ export const getTodayEndTime = () => {
 export const getSpecificDateTimeAMPM = (datetime) => {
     return moment(datetime).format('yy-MM-DD hh:mm A')
 }
+export const getSpecificDateTimeDMYAMPM = (datetime) => {
+    return moment(datetime).format('DD-MM-yy hh:mm A')
+}
 export const getSpecificDateTimeAMPMUTC = (datetime) => {
     return moment(datetime).utc().format('YYYY-MM-DD hh:mm A')
 }
