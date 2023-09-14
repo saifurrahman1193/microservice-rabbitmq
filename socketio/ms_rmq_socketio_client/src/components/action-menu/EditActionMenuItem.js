@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 function EditActionMenuItem({ children, handler, ...domProps }) {
     return (
-        <MenuItem>
+        <MenuItem onClick={handler}>
             <ListItemIcon>
                 <EditIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small"  {...domProps}/>
             </ListItemIcon>
