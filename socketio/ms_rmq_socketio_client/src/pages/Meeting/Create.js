@@ -109,7 +109,8 @@ const Create = ((props) => {
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
                                         }}
-                                        format="DD-MM-YYYY HH:mm:ss"
+                                        format="DD-MM-YYYY hh:mm a"
+                                        size="small"
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -123,7 +124,7 @@ const Create = ((props) => {
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
                                         }}
-                                        format="DD-MM-YYYY HH:mm:ss"
+                                        format="DD-MM-YYYY hh:mm a"
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
