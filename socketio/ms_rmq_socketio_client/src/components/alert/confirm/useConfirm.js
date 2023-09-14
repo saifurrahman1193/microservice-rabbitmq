@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Paper, Typography } from '@mui/material';
-import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Alert, Typography } from '@mui/material';
 import SuccessButton from 'src/components/button/SuccessButton';
 import ErrorTextButton from 'src/components/button/ErrorTextButton';
 
@@ -53,10 +52,7 @@ const useConfirm = (props) => {
         confirmAlert,
         ConfirmComponent: confirmData?.isOpen && (
             <Dialog open={confirmData?.isOpen} onClose={handleMeetingCreateDialogClose} disableEscapeKeyDown  >
-                <DialogTitle style={{ textAlign: 'center' }}>
-                    <WarningAmberOutlinedIcon style={{ fontSize: 100, color: '#ffa50099' }} /> <br />
-                    <Paper style={{ fontSize: '24px', fontWeight: 'bold', letterSpacing: "1px", color: "#060606a8" }} elevation={0} >{confirmData?.title}</Paper>
-                </DialogTitle>
+                <Alert severity="warning"><strong>Warning!</strong> {confirmData?.title}</Alert>
                 <DialogContent style={{ textAlign: 'center' }}>
                     <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message}</Typography>
                 </DialogContent>
