@@ -21,7 +21,7 @@ const TableBasic = (props) => {
                 data?.length !== 0 &&
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer sx={{ maxHeight: styles?.table?.maxHeight || 'auto' }}>
-                        <Table stickyHeader aria-label='sticky table'>
+                        <Table aria-label='basic table'>
                             <TableHead>
                                 <TableRow>
                                     {columns?.map(column => (
@@ -45,7 +45,6 @@ const TableBasic = (props) => {
                                                     </TableCell>
                                                 )
                                             })}
-
                                         </TableRow>
                                     )
                                 })}
