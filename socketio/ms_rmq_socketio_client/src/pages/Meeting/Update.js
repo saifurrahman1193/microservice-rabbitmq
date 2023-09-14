@@ -1,15 +1,16 @@
 import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
-import { TextField, Button, Grid } from '@mui/material';
+import { TextField, Grid, Divider } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
 import { getCall, putCall } from 'src/services/api/apiService.js';
 import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
+import ErrorTextButton from 'src/components/button/ErrorTextButton.js';
 import { checkIsError, getErrorMessage } from 'src/utils/ErrorHelpers.js';
 
 const Update = forwardRef((props, ref) => {
@@ -97,20 +98,19 @@ const Update = forwardRef((props, ref) => {
         <>
             <Dialog open={meetingUpdateDialogOpen} onClose={handleMeetingUpdteDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Update Meeting</DialogTitle>
+                <Divider />
                 <DialogContent>
-                    <DialogContentText>
-                    </DialogContentText>
                     <form onSubmit={handleMeetingUpdateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4} padding={0} >
+                        <Grid item lg={12}>
                             <LocalizationProvider dateAdapter={AdapterMoment} >
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
@@ -122,6 +122,7 @@ const Update = forwardRef((props, ref) => {
                                         format="DD-MM-YYYY hh:mm a"  // format to show in view/moment (current zone) 
                                         slotProps={{
                                             textField: {
+                                                sx: Styles.textField,
                                                 helperText: getErrorMessage(errors, 'start_time'),
                                                 error: checkIsError(errors, 'start_time'),
                                                 required: true,
@@ -132,7 +133,7 @@ const Update = forwardRef((props, ref) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item lg={12}>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
@@ -155,9 +156,7 @@ const Update = forwardRef((props, ref) => {
                             </LocalizationProvider>
                         </Grid>
                         <DialogActions sx={{ marginTop: "20px" }}>
-                            <Button onClick={handleMeetingUpdteDialogClose} style={{ color: "#f73378" }} color="error" variant='text' >
-                                Cancel
-                            </Button>
+                            <ErrorTextButton handler={handleMeetingUpdteDialogClose}>Cancel</ErrorTextButton>
                             <SubmitButtonLoading ref={childUpdateRef} />
                         </DialogActions>
                     </form>

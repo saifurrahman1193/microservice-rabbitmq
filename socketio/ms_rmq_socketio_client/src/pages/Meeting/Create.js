@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { TextField, Button, Grid } from '@mui/material';
+import { TextField, Divider, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import Styles from './Styles.js';
 import { postCall } from 'src/services/api/apiService.js';
 import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
@@ -86,19 +86,19 @@ const Create = ((props) => {
 
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
+                <Divider />
                 <DialogContent>
-                    <DialogContentText sx={{ pt: 1 }}></DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required/>
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4} padding={0} >
+                        <Grid item lg={12}>
                             <LocalizationProvider dateAdapter={AdapterMoment} >
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
@@ -110,6 +110,7 @@ const Create = ((props) => {
                                         size="small"
                                         slotProps={{
                                             textField: {
+                                                sx: Styles.textField,
                                                 helperText: getErrorMessage(errors, 'start_time'),
                                                 error: checkIsError(errors, 'start_time'),
                                                 required: true,
@@ -120,7 +121,7 @@ const Create = ((props) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
+                        <Grid item lg={12}>
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
