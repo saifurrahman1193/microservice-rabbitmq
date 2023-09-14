@@ -91,7 +91,7 @@ const Create = ((props) => {
                     </DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')}  />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
                         </Grid>
                         <Grid item lg={12}>
                             <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} />
@@ -111,6 +111,12 @@ const Create = ((props) => {
                                         }}
                                         format="DD-MM-YYYY hh:mm a"
                                         size="small"
+                                        slotProps={{
+                                            textField: {
+                                                helperText:getErrorMessage(errors, 'start_time'), 
+                                                error:checkIsError(errors, 'start_time')
+                                            },
+                                        }}
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
@@ -125,6 +131,12 @@ const Create = ((props) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
                                         }}
                                         format="DD-MM-YYYY hh:mm a"
+                                        slotProps={{
+                                            textField: {
+                                                helperText:getErrorMessage(errors, 'end_time'), 
+                                                error:checkIsError(errors, 'end_time')
+                                            },
+                                        }}
                                     />
                                 </DemoContainer>
                             </LocalizationProvider>
