@@ -1,11 +1,16 @@
 import React from 'react'
-import { MenuItem } from '@mui/material';
+import { MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 
 function DeleteActionMenuItem(props) {
-    const { children, handler } = props;
+    const { children, handler, ...domProps } = props;
     return (
-        <MenuItem onClick={handler}><DeleteIcon color="error" style={{ marginRight: "10px" }} /> Delete</MenuItem>
+        <MenuItem>
+            <ListItemIcon>
+                <DeleteIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{children}</ListItemText>
+        </MenuItem>
     )
 }
 

@@ -1,10 +1,15 @@
 import React from 'react'
-import { MenuItem } from '@mui/material';
+import { MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-function EditActionMenuItem({ children, handler }) {
+function EditActionMenuItem({ children, handler, ...domProps }) {
     return (
-        <MenuItem onClick={handler} ><EditIcon color="primary" style={{ marginRight: "10px" }} /> {children}</MenuItem>
+        <MenuItem>
+            <ListItemIcon>
+                <EditIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>{children}</ListItemText>
+        </MenuItem>
     )
 }
 

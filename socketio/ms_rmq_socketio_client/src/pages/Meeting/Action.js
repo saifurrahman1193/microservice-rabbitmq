@@ -70,7 +70,7 @@ const Action = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <EditActionMenuItem handler={handleUpdateMeeting}>Edit</EditActionMenuItem>
+                <EditActionMenuItem handler={handleUpdateMeeting} color="error">Edit</EditActionMenuItem>
                 <DeleteActionMenuItem handler={deleteProcess}>Delete</DeleteActionMenuItem>
             </Menu>
         </>
