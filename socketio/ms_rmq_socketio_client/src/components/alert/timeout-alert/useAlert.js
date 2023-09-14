@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Alert } from '@mui/material';
 import './style.css';
+import PrivacyTipOutlinedIcon from '@mui/icons-material/PrivacyTipOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import WarningAmberOutlinedIcon from '@mui/icons-material/WarningAmberOutlined';
 
 export const useAlert = () => {
 
@@ -42,21 +46,32 @@ export const useAlert = () => {
         }));
     };
 
-    const getAlertStyle = (type='success') => {
+    const getAlertStyle = (type = 'success') => {
         switch (type) {
             case 'error':
-                return { backgroundColor: 'rgb(247, 51, 120)', color: 'white' };
+                return { backgroundColor: 'rgba(220,53,69,.85)', color: 'white' };
             case 'warning':
-                return { backgroundColor: 'yellow', color: 'black' };
+                return { backgroundColor: 'rgba(255,193,7,.85)', color: 'black' };
             case 'info':
-                return { backgroundColor: 'blue', color: 'white' };
+                return { backgroundColor: 'rgba(23,162,184,.85)', color: 'white' };
             case 'success':
-                return { backgroundColor: 'rgb(76, 175, 80)', color: 'white' };
+                return { backgroundColor: 'rgba(40,167,69,.85)', color: 'white' };
             default:
-                return { backgroundColor: 'rgb(76, 175, 80)', color: 'white' }; // Default style
+                return { backgroundColor: 'rgba(40,167,69,.85)', color: 'white' }; // Default style
         }
     };
 
+    const iconComponentMap = {
+        'success': CheckCircleOutlineOutlinedIcon,
+        'error': PrivacyTipOutlinedIcon,
+        'info': InfoOutlinedIcon,
+        'warning': WarningAmberOutlinedIcon,
+    };
+    function IconDynamicComponent(props) {
+        const SelectedComponent = iconComponentMap[alertData?.type] || CheckCircleOutlineOutlinedIcon;
+    
+        return <SelectedComponent {...props} />;
+    }
 
     return {
         showAlert,
@@ -67,6 +82,7 @@ export const useAlert = () => {
                     onClose={closeAlert}
                     severity={alertData?.type}
                     style={getAlertStyle(alertData?.type)}
+                    icon={<IconDynamicComponent />}
                 >
                     {alertData?.message}
                 </Alert>
