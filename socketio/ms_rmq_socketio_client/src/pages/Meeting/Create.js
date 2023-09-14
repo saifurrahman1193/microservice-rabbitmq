@@ -87,7 +87,7 @@ const Create = ((props) => {
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
                 <DialogContent>
-                    <DialogContentText sx={{ pt:1 }}></DialogContentText>
+                    <DialogContentText sx={{ pt: 1 }}></DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
                             <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
@@ -112,8 +112,8 @@ const Create = ((props) => {
                                         size="small"
                                         slotProps={{
                                             textField: {
-                                                helperText:getErrorMessage(errors, 'start_time'), 
-                                                error:checkIsError(errors, 'start_time')
+                                                helperText: getErrorMessage(errors, 'start_time'),
+                                                error: checkIsError(errors, 'start_time')
                                             },
                                         }}
                                     />
@@ -132,8 +132,8 @@ const Create = ((props) => {
                                         format="DD-MM-YYYY hh:mm a"
                                         slotProps={{
                                             textField: {
-                                                helperText:getErrorMessage(errors, 'end_time'), 
-                                                error:checkIsError(errors, 'end_time')
+                                                helperText: getErrorMessage(errors, 'end_time'),
+                                                error: checkIsError(errors, 'end_time')
                                             },
                                         }}
                                     />

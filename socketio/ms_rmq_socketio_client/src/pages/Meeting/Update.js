@@ -102,13 +102,13 @@ const Update = forwardRef((props, ref) => {
                     </DialogContentText>
                     <form onSubmit={handleMeetingUpdateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange}  helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange}  helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} />
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange}  helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} padding={0} >
                             <LocalizationProvider dateAdapter={AdapterMoment} >
@@ -122,8 +122,8 @@ const Update = forwardRef((props, ref) => {
                                         format="DD-MM-YYYY hh:mm a"  // format to show in view/moment (current zone) 
                                         slotProps={{
                                             textField: {
-                                                helperText:getErrorMessage(errors, 'start_time'), 
-                                                error:checkIsError(errors, 'start_time')
+                                                helperText: getErrorMessage(errors, 'start_time'),
+                                                error: checkIsError(errors, 'start_time')
                                             },
                                         }}
                                     />
@@ -142,8 +142,8 @@ const Update = forwardRef((props, ref) => {
                                         format="DD-MM-YYYY hh:mm a"  // format to show in view/moment (current zone) 
                                         slotProps={{
                                             textField: {
-                                                helperText:getErrorMessage(errors, 'end_time'), 
-                                                error:checkIsError(errors, 'end_time')
+                                                helperText: getErrorMessage(errors, 'end_time'),
+                                                error: checkIsError(errors, 'end_time')
                                             },
                                         }}
                                     />
