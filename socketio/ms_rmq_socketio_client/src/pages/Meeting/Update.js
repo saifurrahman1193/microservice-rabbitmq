@@ -24,6 +24,7 @@ const Update = forwardRef((props, ref) => {
     });
 
     const [formData, setFormData] = useState(formInitial)
+    const [errors, setErrors] = useState([])
 
     const handleMeetingUpdateSubmit = async (event) => {
         handleUpdateProcess(true);
@@ -36,9 +37,11 @@ const Update = forwardRef((props, ref) => {
             handleGetMeetings();
             handleMeetingUpdteDialogClose();
             handleUpdateProcess(false);
+            setErrors([])
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 5000);
             handleUpdateProcess(false);
+            setErrors(response?.errors)
         }
     };
 

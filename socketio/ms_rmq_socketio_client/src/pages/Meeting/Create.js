@@ -30,9 +30,11 @@ const Create = ((props) => {
             handleGetMeetings();
             handleMeetingCreateDialogClose();
             handleCreateProcess(false);
+            setErrors([])
         } else {
             showAlert(response?.message?.[0], "error", "top-right", 5000);
             handleCreateProcess(false);
+            setErrors(response?.errors)
         }
     };
 
@@ -45,6 +47,7 @@ const Create = ((props) => {
     });
 
     const [formData, setFormData] = useState(formInitial)
+    const [errors, setErrors] = useState([])
 
     const handleChange = (event) => {
         const { name, value } = event.target;

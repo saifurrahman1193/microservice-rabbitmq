@@ -4,7 +4,7 @@ import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
-import { getSpecificDateTimeAMPM } from 'src/utils/CommonHelpers.js';
+import { getSpecificDateTimeAMPM } from 'src/utils/DateTimeHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
