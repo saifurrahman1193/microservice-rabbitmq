@@ -5,11 +5,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 function DeleteActionMenuItem(props) {
     const { children, handler, ...domProps } = props;
     return (
-        <MenuItem>
+        <MenuItem {...domProps}>
             <ListItemIcon>
-                <DeleteIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small" />
+                <DeleteIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small"  {...domProps}/>
             </ListItemIcon>
-            <ListItemText>{children}</ListItemText>
+            <ListItemText {...domProps}>{children}</ListItemText>
         </MenuItem>
     )
 }

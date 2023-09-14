@@ -6,9 +6,9 @@ function EditActionMenuItem({ children, handler, ...domProps }) {
     return (
         <MenuItem>
             <ListItemIcon>
-                <EditIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small" />
+                <EditIcon sx={{ marginRight: "10px", color: 'rgba(0, 0, 0, 0.54)' }} fontSize="small"  {...domProps}/>
             </ListItemIcon>
-            <ListItemText>{children}</ListItemText>
+            <ListItemText {...domProps}>{children}</ListItemText>
         </MenuItem>
     )
 }
