@@ -90,19 +90,19 @@ const Create = ((props) => {
                     <DialogContentText sx={{ pt: 1 }}></DialogContentText>
                     <form onSubmit={handleMeetingCreateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required/>
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required/>
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required/>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} padding={0} >
                             <LocalizationProvider dateAdapter={AdapterMoment} >
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
-                                        label="Start Time *"
+                                        label="Start Time"
                                         // defaultValue={formData?.start_time}
                                         // value={formData?.start_time}
                                         onChange={(newValue) => {
@@ -113,7 +113,8 @@ const Create = ((props) => {
                                         slotProps={{
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'start_time'),
-                                                error: checkIsError(errors, 'start_time')
+                                                error: checkIsError(errors, 'start_time'),
+                                                required: true
                                             },
                                         }}
                                     />
@@ -124,7 +125,7 @@ const Create = ((props) => {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
-                                        label="End Time *"
+                                        label="End Time"
                                         // value={formData?.end_time}
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
@@ -133,7 +134,8 @@ const Create = ((props) => {
                                         slotProps={{
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'end_time'),
-                                                error: checkIsError(errors, 'end_time')
+                                                error: checkIsError(errors, 'end_time'),
+                                                required: true
                                             },
                                         }}
                                     />

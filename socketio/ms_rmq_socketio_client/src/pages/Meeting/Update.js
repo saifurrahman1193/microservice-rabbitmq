@@ -102,19 +102,19 @@ const Update = forwardRef((props, ref) => {
                     </DialogContentText>
                     <form onSubmit={handleMeetingUpdateSubmit}>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required/>
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Description" name="description" value={formData?.description} onChange={handleChange} helperText={getErrorMessage(errors, 'description')} error={checkIsError(errors, 'description')} required/>
                         </Grid>
                         <Grid item lg={12}>
-                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} />
+                            <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required/>
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} padding={0} >
                             <LocalizationProvider dateAdapter={AdapterMoment} >
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
-                                        label="Start Time *"
+                                        label="Start Time"
                                         value={moment(formData?.start_time)}  // utc to moment time (current zone)
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))    // view/moment to utc time to send to api to store in db (utc)
@@ -123,7 +123,8 @@ const Update = forwardRef((props, ref) => {
                                         slotProps={{
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'start_time'),
-                                                error: checkIsError(errors, 'start_time')
+                                                error: checkIsError(errors, 'start_time'),
+                                                required: true
                                             },
                                         }}
                                     />
@@ -134,7 +135,7 @@ const Update = forwardRef((props, ref) => {
                             <LocalizationProvider dateAdapter={AdapterMoment}>
                                 <DemoContainer components={['DateTimePicker']}>
                                     <DateTimePicker
-                                        label="End Time *"
+                                        label="End Time"
                                         value={moment(formData?.end_time)} // utc to moment time (current zone)
                                         onChange={(newValue) => {
                                             setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() })) // view/moment to utc time to send to api to store in db (utc)
@@ -143,7 +144,8 @@ const Update = forwardRef((props, ref) => {
                                         slotProps={{
                                             textField: {
                                                 helperText: getErrorMessage(errors, 'end_time'),
-                                                error: checkIsError(errors, 'end_time')
+                                                error: checkIsError(errors, 'end_time'),
+                                                required: true
                                             },
                                         }}
                                     />
