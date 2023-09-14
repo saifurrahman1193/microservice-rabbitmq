@@ -7,6 +7,7 @@ import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.j
 import { getSpecificDateTimeAMPM } from 'src/utils/CommonHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
+import NoDataFound from 'src/components/alert/NoDataFound.js';
 
 const List = forwardRef((props, ref) => {
     const { showAlert } = props;
@@ -33,26 +34,6 @@ const List = forwardRef((props, ref) => {
     const [meetings, setMeetings] = useState([]);  // meetings
 
     const meetingTable = {
-        styles: {
-            table: {
-                // maxHeight: '70vh',
-                action: {
-                    edit: {
-                        styles: {
-                            color: 'primary',
-                        }
-                    },
-                    delete: {
-                        styles: {
-                            color: 'error',
-                        }
-                    }
-                }
-            },
-            noDataFound: {
-                marginY: '20px',
-            }
-        },
         columns: [
             { id: '_id', label: 'ID' },
             { id: 'title', label: 'Title' },
@@ -60,12 +41,7 @@ const List = forwardRef((props, ref) => {
             { id: 'timerange', label: 'Time' },
             { id: 'location', label: 'Location', headerStyle: StyledTableHeaderCell },
             { id: 'action', label: 'Action' },
-
-        ],
-        config: {
-            noDataFound: true,
-            tableAction: true,
-        }
+        ]
     }
 
 
@@ -93,8 +69,12 @@ const List = forwardRef((props, ref) => {
             <Card>
                 {meetingLoading && <CircularIndeterminate />}
                 {
-                    !meetingLoading &&
-                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tableType='basic' config={meetingTable?.config} />
+                    !meetingLoading && meetings?.length === 0 &&
+                    <NoDataFound label="No Data Found!" />
+                }
+                {
+                    !meetingLoading && meetings?.length !== 0 &&
+                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
                 }
             </Card>
         </Grid>

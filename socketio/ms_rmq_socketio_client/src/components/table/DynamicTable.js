@@ -15,7 +15,7 @@ const DynamicTable = (props) => {
 }
 
 function DynamicComponent(props) {
-    const SelectedComponent = componentMap[props?.tableType] || TableBasic;
+    const SelectedComponent = componentMap[props?.tabletype] || TableBasic;
 
     return <SelectedComponent {...props} />;
 }

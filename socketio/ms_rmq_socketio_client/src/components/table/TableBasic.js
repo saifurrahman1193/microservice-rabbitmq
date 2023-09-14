@@ -9,20 +9,16 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
-import NoDataFound from 'src/components/alert/NoDataFound.js';
 import CellRender from 'src/components/table/CellRender';
 
 const TableBasic = (props) => {
 
-    const { styles, columns, data, config } = props;
-
+    const { styles, columns, data, children, ...domProps } = props;
 
     return (
         <>
-            {config?.noDataFound && data?.length == 0 && <NoDataFound styles={styles} />}   {/* No Data Found alert when data length = 0 */}
-
             {
-                data?.length != 0 &&
+                data?.length !== 0 &&
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer sx={{ maxHeight: styles?.table?.maxHeight || 'auto' }}>
                         <Table stickyHeader aria-label='sticky table'>

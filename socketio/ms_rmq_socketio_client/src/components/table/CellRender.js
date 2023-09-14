@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 function CellRender(props) {
-
-    const { styles, row, columns, column, data, config } = props;
+    const { styles, row, columns, column, data, config, children, ...domProps } = props;
     const [content, setContent] = useState('');
 
     useEffect(() => {
@@ -17,9 +16,10 @@ function CellRender(props) {
     }, [row, column]);
 
     return (
-        <>
+        <div {...domProps}>
             {content}
-        </>
+            {children}
+        </div>
     )
 }
 

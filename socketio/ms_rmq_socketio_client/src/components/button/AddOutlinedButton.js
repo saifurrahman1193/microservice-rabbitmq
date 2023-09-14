@@ -6,7 +6,7 @@ function AddOutlinedButton(props) {
     const { children, handler, ...domProps } = props;
     return (
 
-        <Button onClick={handler} variant="outlined" sx={{ margin: '15px' }} startIcon={<AddCircleIcon />} CellRender  {...domProps}>
+        <Button onClick={handler} variant="outlined" sx={{ margin: '15px' }} startIcon={<AddCircleIcon />} {...domProps}>
             {children}
         </Button>
     )
