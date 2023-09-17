@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 function ErrorTextButton(props) {
     const { children, handler, ...domProps } = props;
     return (
-        <Button onClick={handler} style={{ color: "#f73378" }} color="error" variant='text' {...domProps}>
+        <Button onClick={handler} style={{ color: "#f73378" }} color="error" variant='text'  size='small' {...domProps}>
             {children}
         </Button>
     )

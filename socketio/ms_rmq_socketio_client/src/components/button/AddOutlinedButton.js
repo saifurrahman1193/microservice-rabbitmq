@@ -5,8 +5,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 function AddOutlinedButton(props) {
     const { children, handler, ...domProps } = props;
     return (
-
-        <Button onClick={handler} variant="outlined" sx={{ margin: '15px' }} startIcon={<AddCircleIcon />} {...domProps}>
+        <Button onClick={handler} variant="outlined" sx={{ margin: '15px' }} startIcon={<AddCircleIcon />}  size='small' {...domProps}>
             {children}
         </Button>
     )

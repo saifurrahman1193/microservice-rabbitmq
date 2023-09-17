@@ -44,7 +44,7 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
     }
 
     return (
-        <Button type="submit" style={styles} variant="contained" endIcon={icon} disabled={loading} {...domProps}>
+        <Button type="submit" style={styles} variant="contained" endIcon={icon} disabled={loading} size='small' {...domProps}>
             {loading ? progressingText : submittingText}
             {children}
         </Button>

@@ -57,8 +57,8 @@ const useConfirm = (props) => {
                     <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message}</Typography>
                 </DialogContent>
                 <DialogActions>
-                    <ErrorTextButton handler={cancel}>{confirmData?.config?.button?.cancel?.label}</ErrorTextButton>
-                    <SuccessButton handler={confrim}>{confirmData?.config?.button?.confirm?.label}</SuccessButton>
+                    <ErrorTextButton handler={cancel} size="small">{confirmData?.config?.button?.cancel?.label}</ErrorTextButton>
+                    <SuccessButton handler={confrim} size="small">{confirmData?.config?.button?.confirm?.label}</SuccessButton>
                 </DialogActions>
             </Dialog>
         )
