@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 function DialogTitlePrimary(props) {
     const { children, closeHandler, ...domProps } = props;
     return (
-        <DialogTitle sx={{ background: '#16a9ff', color: '#fff', display: 'flex', justifyContent: 'space-between' }} {...domProps}>
+        <DialogTitle sx={{ background: '#16a9ff', color: '#fff', display: 'flex', justifyContent: 'space-between', paddingY: '8px' }} {...domProps}>
             {children}
             <Box>
                 <IconButton onClick={closeHandler} sx={{ color:'#e3f2fd' }} >
