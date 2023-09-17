@@ -98,9 +98,9 @@ const Update = forwardRef((props, ref) => {
         <>
             <Dialog open={meetingUpdateDialogOpen} onClose={handleMeetingUpdteDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Update Meeting</DialogTitle>
-                <Divider />
-                <DialogContent>
-                    <form onSubmit={handleMeetingUpdateSubmit}>
+                <form onSubmit={handleMeetingUpdateSubmit}>
+                    <Divider />
+                    <DialogContent>
                         <Grid item lg={12}>
                             <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required />
                         </Grid>
@@ -155,12 +155,13 @@ const Update = forwardRef((props, ref) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <DialogActions sx={{ marginTop: "20px" }}>
-                            <ErrorTextButton handler={handleMeetingUpdteDialogClose}>Cancel</ErrorTextButton>
-                            <SubmitButtonLoading ref={childUpdateRef} />
-                        </DialogActions>
-                    </form>
-                </DialogContent>
+                    </DialogContent>
+                    <Divider />
+                    <DialogActions sx={{ marginY: "10px" }}>
+                        <ErrorTextButton handler={handleMeetingUpdteDialogClose}>Cancel</ErrorTextButton>
+                        <SubmitButtonLoading ref={childUpdateRef} />
+                    </DialogActions>
+                </form>
             </Dialog>
         </>
     )

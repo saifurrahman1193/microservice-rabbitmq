@@ -87,8 +87,8 @@ const Create = ((props) => {
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
                 <DialogTitle>Create Meeting</DialogTitle>
                 <Divider />
-                <DialogContent>
-                    <form onSubmit={handleMeetingCreateSubmit}>
+                <form onSubmit={handleMeetingCreateSubmit}>
+                    <DialogContent>
                         <Grid item lg={12}>
                             <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Title" name="title" value={formData?.title} onChange={handleChange} helperText={getErrorMessage(errors, 'title')} error={checkIsError(errors, 'title')} required />
                         </Grid>
@@ -142,13 +142,14 @@ const Create = ((props) => {
                                 </DemoContainer>
                             </LocalizationProvider>
                         </Grid>
-                        <DialogActions sx={{ marginTop: "20px" }}>
-                            <ErrorTextButton handler={handleMeetingCreateDialogClose}>Cancel</ErrorTextButton>
-                            <SubmitButtonLoading ref={childCreateRef} />
-                        </DialogActions>
-                    </form>
-                </DialogContent>
-            </Dialog>
+                    </DialogContent>
+                    <Divider />
+                    <DialogActions sx={{ marginY: "10px" }}>
+                        <ErrorTextButton handler={handleMeetingCreateDialogClose}>Cancel</ErrorTextButton>
+                        <SubmitButtonLoading ref={childCreateRef} />
+                    </DialogActions>
+                </form>
+            </Dialog >
         </>
     )
 })

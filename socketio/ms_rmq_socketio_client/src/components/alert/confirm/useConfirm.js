@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Dialog, DialogTitle, DialogContent, DialogActions, Alert, Typography } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Alert, Typography, Divider } from '@mui/material';
 import SuccessButton from 'src/components/button/SuccessButton';
 import ErrorTextButton from 'src/components/button/ErrorTextButton';
 
@@ -52,11 +52,12 @@ const useConfirm = (props) => {
         confirmAlert,
         ConfirmComponent: confirmData?.isOpen && (
             <Dialog open={confirmData?.isOpen} onClose={handleMeetingCreateDialogClose} disableEscapeKeyDown  >
-                <Alert severity="warning"><strong>Warning!</strong> {confirmData?.title}</Alert>
-                <DialogContent style={{ textAlign: 'center' }}>
-                    <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message}</Typography>
+                <Alert variant="filled" severity="warning"><strong>Warning!</strong> {confirmData?.title || 'Are you sure?'}</Alert>
+                <DialogContent style={{ textAlign: 'center', background:'#fff3e0' }}>
+                    <Typography variant="h6" style={{ letterSpacing: "1px" }} >{confirmData?.message || 'Do you really want to perform the action?'}</Typography>
                 </DialogContent>
-                <DialogActions>
+                <Divider/>
+                <DialogActions sx={{ background:"#fff3e0" }}>
                     <ErrorTextButton handler={cancel} size="small">{confirmData?.config?.button?.cancel?.label}</ErrorTextButton>
                     <SuccessButton handler={confrim} size="small">{confirmData?.config?.button?.confirm?.label}</SuccessButton>
                 </DialogActions>
