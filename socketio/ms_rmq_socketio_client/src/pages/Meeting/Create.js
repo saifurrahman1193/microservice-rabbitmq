@@ -13,7 +13,7 @@ import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
 import ErrorTextButton from 'src/components/button/ErrorTextButton.js';
 import AddOutlinedButton from 'src/components/button/AddOutlinedButton.js';
 import { checkIsError, getErrorMessage } from 'src/utils/ErrorHelpers.js';
-
+import DialogTitlePrimary from 'src/components/dialog/title/DialogTitlePrimary.js';
 
 const Create = ((props) => {
 
@@ -85,7 +85,7 @@ const Create = ((props) => {
             <AddOutlinedButton handler={handleMeetingCreateDialogOpen}>Add New Meeting</AddOutlinedButton>
 
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
-                <DialogTitle>Create Meeting</DialogTitle>
+                <DialogTitlePrimary  closeHandler={handleMeetingCreateDialogClose}>Create Meeting</DialogTitlePrimary>
                 <Divider />
                 <form onSubmit={handleMeetingCreateSubmit}>
                     <DialogContent>

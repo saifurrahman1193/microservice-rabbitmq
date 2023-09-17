@@ -29,14 +29,14 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
 
     const processStyles = (load) => {
         if (load) {
-            setStyles({ background: "#fff", color: "green" })
+            setStyles({ background: "#fff", color: "#16a9ff" })
         } else {
             setStyles({ background: "#16a9ff", color: "#fff" })
         }
     }
     const processIcon = (load) => {
         if (load) {
-            setIcon(<CircularProgress size={24} style={{ color: "#4caf50" }} />)
+            setIcon(<CircularProgress size={24} style={{ color: "#16a9ff" }} />)
         } else {
             setIcon(<KeyboardArrowRightIcon />)
         }
