@@ -1,5 +1,5 @@
 import React from 'react'
-import { DialogTitle, Box } from '@mui/material';
+import { DialogTitle, Box, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 function DialogTitlePrimary(props) {
@@ -8,9 +8,11 @@ function DialogTitlePrimary(props) {
         <DialogTitle sx={{ background: '#16a9ff', color: '#fff', display: 'flex', justifyContent: 'space-between' }} {...domProps}>
             {children}
             <Box>
-                <CloseIcon onClick={closeHandler} style={{ cursor: 'pointer' }} />
+                <IconButton onClick={closeHandler} sx={{ color:'#e3f2fd' }} >
+                    <CloseIcon/>
+                </IconButton>
             </Box>
-        </DialogTitle>
+        </DialogTitle >
     )
 }
 
