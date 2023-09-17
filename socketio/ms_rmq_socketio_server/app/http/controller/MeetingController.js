@@ -3,9 +3,15 @@ import { set_response } from '../../helpers/APIResponser.js';
 import { logger } from '../../helpers/LogHelper.js';
 
 export const index = async (req, res) => {
+    let formData = { ...req?.query, ...req?.body }
+    console.log(formData);
+    const { page=1, perPage=10 } = formData;
+
     const data = await Meeting.aggregate([
         { $sort: { _id: -1 } },
-    ]);
+    ]).skip((page - 1) * perPage)
+    .limit(perPage);
+
     return set_response(res, data, 200, 'success', ['Successfully completed'])
 }
 
