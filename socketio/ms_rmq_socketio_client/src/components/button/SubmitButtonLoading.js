@@ -1,17 +1,16 @@
 import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import { Button } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
 import CircularProgress from '@mui/material/CircularProgress';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const SubmitButtonLoading = forwardRef((props, ref) => {
     const { children, ...domProps } = props
 
     const [loading, setLoading] = useState(false);
-    const [styles, setStyles] = useState({ background: "#4caf50", color: "#fff" });
-    const [icon, setIcon] = useState(<SendIcon />);
+    const [styles, setStyles] = useState({ background: "#16a9ff", color: "#fff" });
+    const [icon, setIcon] = useState(<KeyboardArrowRightIcon />);
     const [progressingText, setProgressingText] = useState("Processing...");
     const [submittingText, setSubmittingText] = useState("Submit");
-
     useImperativeHandle(ref, () => ({
         handleProcess(config) {
             const { load, progressText, submitText } = config;
@@ -32,14 +31,14 @@ const SubmitButtonLoading = forwardRef((props, ref) => {
         if (load) {
             setStyles({ background: "#fff", color: "green" })
         } else {
-            setStyles({ background: "#4caf50", color: "#fff" })
+            setStyles({ background: "#16a9ff", color: "#fff" })
         }
     }
     const processIcon = (load) => {
         if (load) {
             setIcon(<CircularProgress size={24} style={{ color: "#4caf50" }} />)
         } else {
-            setIcon(<SendIcon />)
+            setIcon(<KeyboardArrowRightIcon />)
         }
     }
 
