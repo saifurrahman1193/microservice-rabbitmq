@@ -6,13 +6,14 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import { Dialog, DialogContent } from '@mui/material';
 import Styles from './Styles.js';
 import { getCall, putCall } from 'src/services/api/apiService.js';
 import SubmitButtonLoading from 'src/components/button/SubmitButtonLoading.js';
 import ErrorTextButton from 'src/components/button/ErrorTextButton.js';
 import { checkIsError, getErrorMessage } from 'src/utils/ErrorHelpers.js';
 import DialogTitlePrimary from 'src/components/dialog/title/DialogTitlePrimary.js';
+import DialogActionsGeneral from 'src/components/dialog/actions/DialogActionsGeneral.js';
 
 const Update = forwardRef((props, ref) => {
 
@@ -157,11 +158,10 @@ const Update = forwardRef((props, ref) => {
                             </LocalizationProvider>
                         </Grid>
                     </DialogContent>
-                    <Divider />
-                    <DialogActions sx={{ marginY: "10px" }}>
+                    <DialogActionsGeneral>
                         <ErrorTextButton handler={handleMeetingUpdteDialogClose}>Cancel</ErrorTextButton>
                         <SubmitButtonLoading ref={childUpdateRef} />
-                    </DialogActions>
+                    </DialogActionsGeneral>
                 </form>
             </Dialog>
         </>
