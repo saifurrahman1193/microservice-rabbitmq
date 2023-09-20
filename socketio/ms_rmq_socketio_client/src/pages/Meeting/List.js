@@ -56,9 +56,7 @@ const List = forwardRef((props, ref) => {
 
     const processTableData = async (data) => {
         if (data) {
-            setMeetings(data?.items);
-            setPaginator(data?.paginator);
-            data = data?.items?.map((meeting) => ({
+            let result = data?.items?.map((meeting) => ({
                 ...meeting,
                 timerange: () => (
                     <PrependTimeChip label={`${getSpecificDateTimeDMYAMPM(meeting?.start_time)} - ${getSpecificDateTimeDMYAMPM(meeting?.end_time)}`} />
@@ -67,6 +65,8 @@ const List = forwardRef((props, ref) => {
                     <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
                 )
             }));
+            setPaginator(data?.paginator);
+            setMeetings(result);
         }
     };
 
