@@ -9,7 +9,7 @@ import { getCall } from 'src/services/api/apiService.js';
 import Action from 'src/pages/Meeting/Action.js';
 import NoDataFound from 'src/components/alert/NoDataFound.js';
 import PrependTimeChip from 'src/components/chip/PrependTimeChip.js';
-
+import PaginationButtons from 'src/components/pagination/PaginationButtons.js';
 
 const List = forwardRef((props, ref) => {
     const { showAlert } = props;
@@ -78,7 +78,11 @@ const List = forwardRef((props, ref) => {
                 }
                 {
                     !meetingLoading && meetings?.length !== 0 &&
-                    <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
+                    <>
+                        <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
+                        <PaginationButtons />
+                    </>
+                    
                 }
             </Card>
         </Grid>
