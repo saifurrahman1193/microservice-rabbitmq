@@ -80,7 +80,7 @@ const List = forwardRef((props, ref) => {
                     !meetingLoading && meetings?.length !== 0 &&
                     <>
                         <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
-                        <PaginationButtons />
+                        <PaginationButtons/>
                     </>
                     
                 }
