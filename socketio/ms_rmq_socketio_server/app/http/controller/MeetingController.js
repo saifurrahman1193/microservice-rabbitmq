@@ -4,7 +4,7 @@ import { logger } from '../../helpers/LogHelper.js';
 import { paginate } from '../../helpers/Pagination.js';
 
 export const index = async (req, res) => {
-    let formData = { ...req?.query, ...req?.body }
+    let formData = { ...req?.query }
 
     let data = await paginate(req, formData, Meeting)
 

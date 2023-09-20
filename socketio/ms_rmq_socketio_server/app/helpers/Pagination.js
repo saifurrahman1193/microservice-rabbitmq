@@ -1,7 +1,9 @@
+import { removeParameterFromURL } from './URLHelper.js';
+
 export const paginate = async (request, formData, Model) => {
 
     const {
-        api_url = process.env.BASE_URL + request.originalUrl,
+        api_url = removeParameterFromURL(process.env.BASE_URL + request.originalUrl, 'page'),
         page = 1,         // default page 1
         perPage = 10,      // default per page 10 records show
     } = formData;
@@ -11,10 +13,8 @@ export const paginate = async (request, formData, Model) => {
     let pageCount = Math.ceil(total_count / perPage);
     let previousPage = currentPage > 1 ? (currentPage - 1) : null;
     let nextPage = pageCount > currentPage ? (currentPage + 1) : null;
-    let current_page_items_count = currentPage==1 ? perPage : (total_count - (perPage * previousPage)) || 0;
+    let current_page_items_count = currentPage == 1 ? perPage : (total_count - (perPage * previousPage)) || 0;
     let offset = currentPage > 1 ? previousPage * perPage : 0; // start from 0,10,20,30
-
-    console.log(current_page_items_count, previousPage);
 
 
     let paginator = {
