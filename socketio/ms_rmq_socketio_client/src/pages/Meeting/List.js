@@ -20,9 +20,9 @@ const List = forwardRef((props, ref) => {
         }
     }));
 
-    const handleGetMeetings = async (e) => {
+    const handleGetMeetings = async (e, page=1) => {
         setMeetingsLoading(true);
-        let response = await getCall(MEETING);
+        let response = await getCall(MEETING, {page: page});
 
         if (response?.code === 200) {
             await processTableData(response?.data)
@@ -34,6 +34,7 @@ const List = forwardRef((props, ref) => {
 
     const [meetingLoading, setMeetingsLoading] = useState(false);
     const [meetings, setMeetings] = useState([]);  // meetings
+    const [paginator, setPaginator] = useState({});  // meetings
 
     const meetingTable = {
         columns: [
@@ -55,7 +56,9 @@ const List = forwardRef((props, ref) => {
 
     const processTableData = async (data) => {
         if (data) {
-            data = data?.map((meeting) => ({
+            setMeetings(data?.items);
+            setPaginator(data?.paginator);
+            data = data?.items?.map((meeting) => ({
                 ...meeting, 
                 timerange: () => (
                     <PrependTimeChip label={`${getSpecificDateTimeDMYAMPM(meeting?.start_time)} - ${getSpecificDateTimeDMYAMPM(meeting?.end_time)}`} />
@@ -64,7 +67,6 @@ const List = forwardRef((props, ref) => {
                     <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert}  />
                 )
             }));
-            setMeetings(data)
         }
     };
 
@@ -80,7 +82,7 @@ const List = forwardRef((props, ref) => {
                     !meetingLoading && meetings?.length !== 0 &&
                     <>
                         <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
-                        <PaginationButtons/>
+                        <PaginationButtons paginator={paginator} handler={handleGetMeetings} />
                     </>
                     
                 }
