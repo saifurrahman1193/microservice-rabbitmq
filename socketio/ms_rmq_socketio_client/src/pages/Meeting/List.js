@@ -2,7 +2,7 @@ import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'rea
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
 import DynamicTable from 'src/components/table/DynamicTable';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
-import { Card, Grid} from '@mui/material';
+import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
 import { getSpecificDateTimeDMYAMPM } from 'src/utils/DateTimeHelpers.js';
 import { getCall } from 'src/services/api/apiService.js';
@@ -20,9 +20,9 @@ const List = forwardRef((props, ref) => {
         }
     }));
 
-    const handleGetMeetings = async (e, page=1) => {
+    const handleGetMeetings = async (e, page = 1) => {
         setMeetingsLoading(true);
-        let response = await getCall(MEETING, {page: page});
+        let response = await getCall(MEETING, { page: page });
 
         if (response?.code === 200) {
             await processTableData(response?.data)
@@ -59,12 +59,12 @@ const List = forwardRef((props, ref) => {
             setMeetings(data?.items);
             setPaginator(data?.paginator);
             data = data?.items?.map((meeting) => ({
-                ...meeting, 
+                ...meeting,
                 timerange: () => (
                     <PrependTimeChip label={`${getSpecificDateTimeDMYAMPM(meeting?.start_time)} - ${getSpecificDateTimeDMYAMPM(meeting?.end_time)}`} />
                 ),
                 action: () => (
-                    <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert}  />
+                    <Action data={meeting} handleGetMeetings={handleGetMeetings} showAlert={showAlert} />
                 )
             }));
         }
@@ -84,7 +84,7 @@ const List = forwardRef((props, ref) => {
                         <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
                         <PaginationButtons paginator={paginator} handler={handleGetMeetings} />
                     </>
-                    
+
                 }
             </Card>
         </Grid>

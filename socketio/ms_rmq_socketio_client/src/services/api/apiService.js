@@ -11,7 +11,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json'
 
 export const getCall = async (url, params, token = null) => {
     try {
-        let res = await axios.get(API_BASE_URL+url, {
+        let res = await axios.get(API_BASE_URL + url, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
             },
@@ -33,10 +33,10 @@ export const getCall = async (url, params, token = null) => {
     }
 };
 
-export const postCall = async (url, data, token = null, headers={}) => {
+export const postCall = async (url, data, token = null, headers = {}) => {
     try {
         // alert(url+' '+token)
-        let res = await axios.post(API_BASE_URL+url, data, {
+        let res = await axios.post(API_BASE_URL + url, data, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 ...headers
@@ -44,13 +44,13 @@ export const postCall = async (url, data, token = null, headers={}) => {
         });
 
         if (res?.data?.code !== 200) {
-            if ([401, 403]?.includes(res?.data?.code) ) {
+            if ([401, 403]?.includes(res?.data?.code)) {
                 // alert(JSON.stringify(res))
                 localStorage.removeItem('user')
                 localStorage.removeItem('roles')
                 localStorage.removeItem('permissions')
                 // store.dispatch(USER_LOGOUT())
-                logout_cleaner() 
+                logout_cleaner()
             }
             return res?.data
         } else {
@@ -62,10 +62,10 @@ export const postCall = async (url, data, token = null, headers={}) => {
     }
 };
 
-export const putCall = async (url, data, token = null, headers={}) => {
+export const putCall = async (url, data, token = null, headers = {}) => {
     try {
         // alert(url+' '+token)
-        let res = await axios.put(API_BASE_URL+url, data, {
+        let res = await axios.put(API_BASE_URL + url, data, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 ...headers
@@ -73,13 +73,13 @@ export const putCall = async (url, data, token = null, headers={}) => {
         });
 
         if (res?.data?.code !== 200) {
-            if ([401, 403]?.includes(res?.data?.code) ) {
+            if ([401, 403]?.includes(res?.data?.code)) {
                 // alert(JSON.stringify(res))
                 localStorage.removeItem('user')
                 localStorage.removeItem('roles')
                 localStorage.removeItem('permissions')
                 // store.dispatch(USER_LOGOUT())
-                logout_cleaner() 
+                logout_cleaner()
             }
             return res?.data
         } else {
@@ -91,10 +91,10 @@ export const putCall = async (url, data, token = null, headers={}) => {
     }
 };
 
-export const patchCall = async (url, data, token = null, headers={}) => {
+export const patchCall = async (url, data, token = null, headers = {}) => {
     try {
         // alert(url+' '+token)
-        let res = await axios.patch(API_BASE_URL+url, data, {
+        let res = await axios.patch(API_BASE_URL + url, data, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 ...headers
@@ -102,13 +102,13 @@ export const patchCall = async (url, data, token = null, headers={}) => {
         });
 
         if (res?.data?.code !== 200) {
-            if ([401, 403]?.includes(res?.data?.code) ) {
+            if ([401, 403]?.includes(res?.data?.code)) {
                 // alert(JSON.stringify(res))
                 localStorage.removeItem('user')
                 localStorage.removeItem('roles')
                 localStorage.removeItem('permissions')
                 // store.dispatch(USER_LOGOUT())
-                logout_cleaner() 
+                logout_cleaner()
             }
             return res?.data
         } else {
@@ -122,10 +122,10 @@ export const patchCall = async (url, data, token = null, headers={}) => {
 
 
 
-export const deleteCall = async (url, data, token = null, headers={}) => {
+export const deleteCall = async (url, data, token = null, headers = {}) => {
     try {
         // alert(url+' '+token)
-        let res = await axios.delete(API_BASE_URL+url, data, {
+        let res = await axios.delete(API_BASE_URL + url, data, {
             headers: {
                 Authorization: token ? `Bearer ${token}` : "",
                 ...headers
@@ -133,13 +133,13 @@ export const deleteCall = async (url, data, token = null, headers={}) => {
         });
 
         if (res?.data?.code !== 200) {
-            if ([401, 403]?.includes(res?.data?.code) ) {
+            if ([401, 403]?.includes(res?.data?.code)) {
                 // alert(JSON.stringify(res))
                 localStorage.removeItem('user')
                 localStorage.removeItem('roles')
                 localStorage.removeItem('permissions')
                 // store.dispatch(USER_LOGOUT())
-                logout_cleaner() 
+                logout_cleaner()
             }
             return res?.data
         } else {
@@ -153,7 +153,7 @@ export const deleteCall = async (url, data, token = null, headers={}) => {
 
 
 const logout_cleaner = () => {
-    
+
     window.location.href = '/'
     let backdrops = document.querySelectorAll('.modal-backdrop')
     backdrops.forEach(element => {
