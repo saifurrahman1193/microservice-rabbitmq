@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 export default function PaginationButtons(props) {
     const { paginator, children, handler, stackStyle, ...domProps } = props;
 
-    const [page, setPage] = useState(1);
     const onChange = (e, page) => {
-        setPage(page);
+        e.preventDefault();
         handler(e, page);
     };
 
@@ -34,7 +33,7 @@ export default function PaginationButtons(props) {
                 showFirstButton                 // show first button |< < 
                 showLastButton                  // show the last button = > >|
                 count={paginator?.total_pages}  // count the number of pages to show
-                page={page}                     // page number
+                page={paginator?.current_page}                     // page number
                 boundaryCount={1}               // start & end show n buttons
                 onChange={onChange}             // on click button change event handler for page change
                 color="primary"                 // color the button
