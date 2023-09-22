@@ -21,7 +21,7 @@ const TableBasic = (props) => {
                 data?.length !== 0 &&
                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                     <TableContainer sx={{ maxHeight: styles?.table?.maxHeight || 'auto' }}>
-                        <Table aria-label='basic table'>
+                        <Table aria-label='basic table' size="small" {...domProps}>
                             <TableHead>
                                 <TableRow>
                                     {columns?.map(column => (
