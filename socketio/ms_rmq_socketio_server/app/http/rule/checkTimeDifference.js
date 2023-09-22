@@ -1,7 +1,7 @@
 // Custom validation function to check the time difference
 const checkTimeDifference = (start_time, end_time, minAllowedDifference = 0, maxAllowedDifference = 0, msg = '') => {
-    const startTime = new Date(start_time);
-    const endTime = new Date(end_time);
+    const startTime = new Date(start_time);  // UTC time
+    const endTime = new Date(end_time);      // UTC time
 
     // Calculate the time difference in milliseconds
     const timeDifference = endTime - startTime;

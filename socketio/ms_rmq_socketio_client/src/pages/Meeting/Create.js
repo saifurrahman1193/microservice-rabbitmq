@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { TextField, Divider, Grid } from '@mui/material';
 import moment from 'moment'; // If you're using ES Modules
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Dialog, DialogContent } from '@mui/material';
 import Styles from './Styles.js';
@@ -15,7 +11,7 @@ import AddOutlinedButton from 'src/components/button/AddOutlinedButton.js';
 import { checkIsError, getErrorMessage } from 'src/utils/ErrorHelpers.js';
 import DialogTitlePrimary from 'src/components/dialog/title/DialogTitlePrimary.js';
 import DialogActionsGeneral from 'src/components/dialog/actions/DialogActionsGeneral.js';
-
+import BasicDateTimePicker from 'src/components/forms/date/BasicDateTimePicker.js';
 
 const Create = ((props) => {
 
@@ -87,7 +83,7 @@ const Create = ((props) => {
             <AddOutlinedButton handler={handleMeetingCreateDialogOpen}>Add New Meeting</AddOutlinedButton>
 
             <Dialog open={meetingCreateDialogOpen} onClose={handleMeetingCreateDialogClose} maxWidth="sm" fullWidth={true} disableEscapeKeyDown  >
-                <DialogTitlePrimary  closeHandler={handleMeetingCreateDialogClose}>Create Meeting</DialogTitlePrimary>
+                <DialogTitlePrimary closeHandler={handleMeetingCreateDialogClose}>Create Meeting</DialogTitlePrimary>
                 <Divider />
                 <form onSubmit={handleMeetingCreateSubmit}>
                     <DialogContent>
@@ -101,48 +97,28 @@ const Create = ((props) => {
                             <TextField size="small" sx={Styles.textField} fullWidth label="Meeting Location" name="location" value={formData?.location} onChange={handleChange} helperText={getErrorMessage(errors, 'location')} error={checkIsError(errors, 'location')} required />
                         </Grid>
                         <Grid item lg={12}>
-                            <LocalizationProvider dateAdapter={AdapterMoment} >
-                                <DemoContainer components={['DateTimePicker']}>
-                                    <DateTimePicker
-                                        label="Start Time"
-                                        onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
-                                        }}
-                                        format="DD-MM-YYYY hh:mm a"
-                                        size="small"
-                                        slotProps={{
-                                            textField: {
-                                                sx: Styles.textField,
-                                                helperText: getErrorMessage(errors, 'start_time'),
-                                                error: checkIsError(errors, 'start_time'),
-                                                required: true,
-                                                size: 'small'
-                                            },
-                                        }}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            <BasicDateTimePicker
+                                label='Start Time'
+                                onChange={(newValue) => {
+                                    setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc() }))
+                                }}
+                                errors={errors}
+                                name='start_time'
+                                required
+                                sx={Styles.textField}
+                            />
                         </Grid>
                         <Grid item lg={12}>
-                            <LocalizationProvider dateAdapter={AdapterMoment}>
-                                <DemoContainer components={['DateTimePicker']}>
-                                    <DateTimePicker
-                                        label="End Time"
-                                        onChange={(newValue) => {
-                                            setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
-                                        }}
-                                        format="DD-MM-YYYY hh:mm a"
-                                        slotProps={{
-                                            textField: {
-                                                helperText: getErrorMessage(errors, 'end_time'),
-                                                error: checkIsError(errors, 'end_time'),
-                                                required: true,
-                                                size: 'small'
-                                            },
-                                        }}
-                                    />
-                                </DemoContainer>
-                            </LocalizationProvider>
+                            <BasicDateTimePicker
+                                label='End Time'
+                                onChange={(newValue) => {
+                                    setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
+                                }}
+                                errors={errors}
+                                name='end_time'
+                                required
+                                sx={Styles.textField}
+                            />
                         </Grid>
                     </DialogContent>
                     <DialogActionsGeneral>
