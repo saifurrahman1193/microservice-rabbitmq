@@ -81,9 +81,9 @@ const List = forwardRef((props, ref) => {
                 {
                     !meetingLoading && meetings?.length !== 0 &&
                     <>
-                        <TableBasic 
-                            columns={meetingTable?.columns} 
-                            data={meetings} 
+                        <TableBasic
+                            columns={meetingTable?.columns}
+                            data={meetings}
                         />
                         <PaginationButtons paginator={paginator} handler={handleGetMeetings} />
                     </>
