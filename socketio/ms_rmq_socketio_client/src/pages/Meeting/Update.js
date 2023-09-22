@@ -114,8 +114,7 @@ const Update = forwardRef((props, ref) => {
                                 label='Start Time'
                                 value={moment(formData?.start_time)}  // utc to moment time (current zone)
                                 onChange={(newValue) => {
-                                    console.log(console.log(moment(newValue), console.log(moment(newValue).utc())) );
-                                    setFormData((prev) => (  { ...prev, start_time: moment(newValue).utc() }))
+                                    setFormData((prev) => ({ ...prev, start_time: moment(newValue).utc().utcOffset(6) }))
                                 }}
                                 errors={errors}
                                 name='start_time'
@@ -128,7 +127,7 @@ const Update = forwardRef((props, ref) => {
                                 label='End Time'
                                 value={moment(formData?.end_time)}  // utc to moment time (current zone)
                                 onChange={(newValue) => {
-                                    setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc() }))
+                                    setFormData((prev) => ({ ...prev, end_time: moment(newValue).utc().utcOffset(6) }))
                                 }}
                                 errors={errors}
                                 name='end_time'
