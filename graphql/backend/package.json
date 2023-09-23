@@ -1,0 +1,22 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+    "description": "- [GraphQL](#graphql)\r - [Contents](#contents)\r - [Tools](#tools)\r   - [Built With](#built-with)\r - [Commands](#commands)\r   - [Docker](#docker)\r - [Routes](#routes)\r - [Resources](#resources)",
+    "main": "index.js",
+    "scripts": {
+        "compile": "tsc",
+        "start": "npm run compile && node ./dist/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "devDependencies": {
+        "@types/node": "^20.6.3",
+        "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "@apollo/server": "^4.9.3",
+        "graphql": "^16.8.1"
+    }
+}
