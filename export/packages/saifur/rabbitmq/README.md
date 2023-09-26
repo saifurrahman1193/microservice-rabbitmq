@@ -23,7 +23,7 @@ A dynamic File Manager
   - [License](#license)
 
 ## Design Patterns
-- Bridge
+- Factory Design Pattern
 
 
 ## Features
