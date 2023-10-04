@@ -1,6 +1,6 @@
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { StyledTableHeaderCell } from 'src/components/table/style.js';
-import DynamicTable from 'src/components/table/DynamicTable';
+import TableBasic from 'src/components/table/TableBasic';
 import { MEETING } from 'src/services/api/api_path/APIPath.js';
 import { Card, Grid } from '@mui/material';
 import CircularIndeterminate from 'src/components/loader/CircularIndeterminate.js';
@@ -81,7 +81,10 @@ const List = forwardRef((props, ref) => {
                 {
                     !meetingLoading && meetings?.length !== 0 &&
                     <>
-                        <DynamicTable styles={meetingTable?.styles} columns={meetingTable?.columns} data={meetings} tabletype='basic' config={meetingTable?.config} />
+                        <TableBasic
+                            columns={meetingTable?.columns}
+                            data={meetings}
+                        />
                         <PaginationButtons paginator={paginator} handler={handleGetMeetings} />
                     </>
 

@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+    msrmq_gql_server:
+      image: gql-node-server-image
+      container_name: ms-gql-server-container
+      build:          # let docker know that we build with dockerfile in locally instead of dockerhub
+        context: .   # which is the directory dockerfile will be searched for
+        dockerfile: Dockerfile    # the file name that will be build
+      ports:
+        - "805:4000"
+      volumes:
+        - .:/app
+      stdin_open: true
+      tty: true
+      networks:
+      - ms_rmq_network
+networks:
+  ms_rmq_network:
+    external: true
