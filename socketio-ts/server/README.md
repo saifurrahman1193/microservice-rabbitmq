@@ -1,6 +1,13 @@
-## Installation
+## Project Setup
 ```
-npm init -y
+npm install typescript
+npx tsc --init
+tsc --version
+npm i express typescript nodemon ts-node @types/express @types/node
+```
+## package.json
+```
+  "type": "module",
 ```
 
 ## Commands 
@@ -11,6 +18,10 @@ sudo docker-compose down
 sudo docker-compose build && docker-compose up -d
 ```
 
+#### Docker Network 
+```
+docker network create ms_rmq_network
+```
 
 ## Documentation
 - https://www.youtube.com/watch?v=H91aqUHn8sE 
