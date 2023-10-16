@@ -18,9 +18,16 @@
 | Process Name | Version |
 | ------------ | ------- |
 | Node         | 16.18.1 |
-| GraphQL      | 4.18.2  |
-| TypeScript   | 3.0.1   |
-| mongoose     |         |
+| NPM          | 8.19.2  |
+| GraphQL      | 16.8.1  |
+| TypeScript   | 5.2.2   |
+|              |         |
+|              |         |
+|              |         |
+|              |         |
+|              |         |
+
+
 
 ## Commands 
 
