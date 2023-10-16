@@ -23,5 +23,10 @@ sudo docker-compose build && docker-compose up -d
 docker network create ms_rmq_network
 ```
 
+## Run 
+```
+npm run dev
+```
+
 ## Documentation
 - https://www.youtube.com/watch?v=H91aqUHn8sE 
