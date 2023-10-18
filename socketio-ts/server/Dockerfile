@@ -13,4 +13,4 @@ RUN npm install
 EXPOSE 5000
 
 # Command to run your Node.js application
-# CMD ["npm", "start"]
+CMD ["npm", "start"]
