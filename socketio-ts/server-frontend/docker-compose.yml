@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+  msrmq_socketio_ts_server_client:
+    image: socketio-ts-server-client-image
+    command: 'npx vite --port 5000 --host=0.0.0.0'
+    container_name: ms-socketio-ts-server-client-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "806:5000"
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+    networks:
+      - ms_rmq_network
+networks:
+  ms_rmq_network:
+    external: true
