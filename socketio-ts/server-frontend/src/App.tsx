@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AdminLayout from '@/scenes/layout/admin-panel';
+import AdminLayout from '@/components/layout/admin-panel';
 import Dashborad from '@/modules/dashboard';
 import Login from '@/modules/accesscontrol/login';
 import ForgotPassword from '@/modules/accesscontrol/forgot-password';
