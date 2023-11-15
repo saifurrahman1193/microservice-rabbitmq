@@ -19,7 +19,7 @@ const AdminLayout = (props: Props) => {
             <Header />
             <SideBar />
             {<Outlet/>}
-            {/* <Footer />  */}
+            <Footer /> 
         </>
     )
 }
