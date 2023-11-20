@@ -5,9 +5,13 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import compression from 'compression';
 import cors from 'cors';
+import mongoose from 'mongoose';
+import  * as mongodb from './config/mongodb';
 
 
 dotenv.config();
+
+mongodb.connect();  // connect to MongoDB
 
 const app = express();
 app.use(cors({
