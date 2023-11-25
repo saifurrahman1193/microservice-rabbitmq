@@ -4,8 +4,8 @@ import { getAllUsers, deleteUser, updateUser } from '../controller/UserControlle
 import isAuthenticated from '../middleware/IsAuthenticatedMiddlware';
 import isOwner from '../middleware/IsOwnerMiddleware';
 
-export default (router: Router) => {
-    router.get('/users', isAuthenticated, getAllUsers);
-    router.delete('/users/:id', isAuthenticated, isOwner, deleteUser);
-    router.patch('/users/:id', isAuthenticated, isOwner, updateUser);
+export default (path: string, router: Router) => {
+    router.get(path+'/', isAuthenticated, getAllUsers);
+    router.delete(path+'/:id', isAuthenticated, isOwner, deleteUser);
+    router.put(path+'/:id', isAuthenticated, isOwner, updateUser);
 };
