@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 import bodyParser from 'body-parser';
+import multer from 'multer';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import compression from 'compression';
@@ -20,7 +21,10 @@ app.use(cors({
 app.use(compression());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(router)
+// for parsing multipart/form-data
+var forms = multer();
+app.use(forms.array(undefined!)); 
+app.use('/', router());
 const server = http.createServer(app);
 
 

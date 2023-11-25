@@ -1,18 +1,32 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import { Schema, model, connect } from 'mongoose';
 
-const UserSchema = new Schema({ 
-    name: {type: String, required: true},
-    email: {type: String, required: false},
-    username: {type: String, required: true},
-    authentication:{
+interface IAuthentication {
+    salt: string;
+    password: string;
+    sessionToken?: string;
+}
+
+interface IUser {
+    name: string;
+    email: string;
+    username: string;
+    authentication: IAuthentication;
+    avatar: string;
+}
+
+
+const UserSchema = new Schema<IUser>({
+    name: { type: String, required: true },
+    email: { type: String, required: false },
+    username: { type: String, required: true },
+    authentication: {
         password: { type: String, required: true, select: false },
         salt: { type: String, required: true, select: false },
-        sessionToken: { type: String, select: false}
+        sessionToken: { type: String, select: false }
     },
 })
 
-export const User =  mongoose.model('User', UserSchema, 'user');
+export const User = model('User', UserSchema, 'user');
 
 export const getUsers = () => User.find();
 export const getUserByEmail = (email: string) => User.findOne({ email });
