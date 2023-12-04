@@ -1,4 +1,4 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
 import { getUserByUserName, createUser } from '../model/User';
 import { authentication, random } from '../helper/Auth';
 
@@ -11,13 +11,13 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const user = await getUserByUserName(username).select('+authentication.salt +authentication.password');
-        
+
 
         if (!user) {
             return res.sendStatus(400);
         }
 
-        const expectedHash = authentication(user?.authentication?.salt||'', password);
+        const expectedHash = authentication(user?.authentication?.salt || '', password);
 
         if (user?.authentication?.password != expectedHash) {
             return res.sendStatus(403);
@@ -40,6 +40,7 @@ export const login = async (req: Request, res: Response) => {
 export const register = async (req: Request, res: Response) => {
     try {
 
+
         const { name, email, username, password } = req.body;
 
         if (!username || !password) {
@@ -47,6 +48,7 @@ export const register = async (req: Request, res: Response) => {
         }
 
         const existinUser = await getUserByUserName(username)
+
         if (existinUser) {
             return res.sendStatus(400);
         }

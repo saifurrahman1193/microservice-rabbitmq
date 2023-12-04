@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { deleteUserById, getUsers, getUserById } from '../model/User';
-import { get } from 'lodash';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
