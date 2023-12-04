@@ -56,26 +56,29 @@ export const updateUser = async (req: Request, res: Response) => {
 
 export const updateProfile = async (req: Request, res: Response) => {
     try {
-
         const { name, username } = req.body;
 
-        if (!username) {
-            return res.sendStatus(400);
-        }
+        // console.log(name, username);
+        
+        
 
-        const user_id = get(req, 'identity._id') || '';
+        // if (!username) {
+        //     return res.sendStatus(400);
+        // }
 
-        const user = await getUserById(user_id);
+        // const user_id = get(req, 'identity._id') || '';
 
-        if (!user) {
-            return res.sendStatus(400);
-        }
+        // const user = await getUserById(user_id);
 
-        user.username = username;
-        user.name = name;
-        await user.save();
+        // if (!user) {
+        //     return res.sendStatus(400);
+        // }
 
-        return res.status(200).json(user).end();
+        // user.username = username;
+        // user.name = name;
+        // await user.save();
+
+        // return res.status(200).json(user).end();
     } catch (error) {
         console.log(error);
         return res.sendStatus(400);

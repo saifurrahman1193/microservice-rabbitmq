@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
+import { config } from './index';
 
 export const connect = async() => {
-    await mongoose.connect('mongodb://local-central-mongo-db-container:27017/socket_server')  // ms-socketio-mongo-db-container = mongodb container name
+    await mongoose.connect(config?.mongo?.url, {
+        retryWrites:true, w: 'majority'
+    })  // ms-socketio-mongo-db-container = mongodb container name
     .then(() => {
         console.log('Connected to MongoDB');
     }).catch(error => {
