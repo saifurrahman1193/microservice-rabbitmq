@@ -8,7 +8,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
         return res.status(200).json(users);
     } catch (error) {
-        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 };
 
@@ -20,7 +20,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         return res.json(deletedUser);
     } catch (error) {
-        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 }
 
@@ -47,7 +47,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         return res.status(200).json(user).end();
     } catch (error) {
-        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 }
 
@@ -77,6 +77,6 @@ export const updateProfile = async (req: Request, res: Response) => {
 
         // return res.status(200).json(user).end();
     } catch (error) {
-        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 }

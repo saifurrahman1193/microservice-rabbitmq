@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { get } from 'lodash';
+import {set_response} from '../helper/APIResponser';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -7,16 +8,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const currentUserId = get(req, 'identity._id') || '' as string;
 
         if (!currentUserId) {
-            return res.sendStatus(400);
+            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
         }
 
         if (currentUserId.toString() !== id) {
-            return res.sendStatus(403);
+            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
         }
 
         next();
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 }

@@ -22,6 +22,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         return next();
     } catch (error) {
-        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
     }
 }

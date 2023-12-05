@@ -1,6 +1,5 @@
 import express from 'express';
 import http from 'http';
-import https from 'https';
 import { config } from './config/index';
 import userRoutes from './route/user';
 import authRoutes from './route/authentication';
@@ -40,12 +39,12 @@ export const startServer = async () => {
 
         if (req.method == 'OPTIONS') {
             res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-            return res.status(200).json({});
+            return set_response(res, null, 200, 'success', ['Request successful'], null)
         }
-
         next();
     });
 
+    
     /** Routes */
     router.use('/api/user', userRoutes);
     router.use('/api/auth', authRoutes);
@@ -60,10 +59,9 @@ export const startServer = async () => {
     /** Error handling */
     router.use((req, res, next) => {
         const error = new Error('Not found');
-        console.log(error);
-        set_response(res, null, 200, 'success', [error.message], null);
+        return set_response(res, null, 404, 'success', ['Not Found '+error.message], null);
     });
 
     http.createServer(router).listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
-    https.createServer(router).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
+    // https.createServer(options, router).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 };
