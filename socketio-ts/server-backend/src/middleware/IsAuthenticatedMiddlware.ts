@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
+import {set_response} from '../helper/APIResponser';
 
 import { getUserBySessionToken } from '../model/User';
 
@@ -8,20 +9,19 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const sessionToken = req.cookies['SOCKET-SERVER-AUTH'];
 
         if (!sessionToken) {
-            return res.sendStatus(403);
+            return set_response(res, null, 403, 'error', ['Forbidden: Session token not found'], null);
         }
 
         const existingUser = await getUserBySessionToken(sessionToken);
 
         if (!existingUser) {
-            return res.sendStatus(403);
+            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
         }
 
         merge(req, { identity: existingUser });
 
         return next();
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 }

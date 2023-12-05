@@ -32,8 +32,6 @@ export const login = async (req: Request, res: Response) => {
 
         set_response(res, user, 200, 'success', ['Successfully logged in'], null);
     } catch (error) {
-        console.error(error);
-        return res.sendStatus(500);
         set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 };

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { deleteUserById, getUsers, getUserById } from '../model/User';
+import {set_response} from '../helper/APIResponser';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -7,8 +8,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
         return res.status(200).json(users);
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 };
 
@@ -20,8 +20,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         return res.json(deletedUser);
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 }
 
@@ -32,14 +31,14 @@ export const updateUser = async (req: Request, res: Response) => {
         const { name, username } = req.body;
 
         if (!username) {
-            return res.sendStatus(400);
+            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], { missingFields: ['username'] });
         }
 
 
         const user = await getUserById(id);
-
+        
         if (!user) {
-            return res.sendStatus(400);
+            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
         }
 
         user.username = username;
@@ -48,8 +47,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         return res.status(200).json(user).end();
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 }
 
@@ -79,7 +77,6 @@ export const updateProfile = async (req: Request, res: Response) => {
 
         // return res.status(200).json(user).end();
     } catch (error) {
-        console.log(error);
-        return res.sendStatus(400);
+        set_response(res, null, 500, 'error', ['Internal Server Error: '+error], null);
     }
 }
