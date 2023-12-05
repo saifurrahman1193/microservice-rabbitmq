@@ -1,3 +1,10 @@
 import { startServer } from './server';
+import * as mongodb from './config/mongodb';
 
-startServer();
+
+const start = async() =>{
+    await mongodb.connect();
+    await startServer();
+}
+
+start();

@@ -1,23 +1,25 @@
 import express from 'express';
 import http from 'http';
+import https from 'https';
 import { config } from './config/index';
 import userRoutes from './route/user';
 import authRoutes from './route/authentication';
-import * as mongodb from './config/mongodb';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import multer from 'multer';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
+import LoggerMiddlware from './middleware/Logger';
+import { set_response } from './helper/APIResponser';
+
+
+
 
 const router = express();
 
 
 /** Only Start Server if Mongoose Connects */
 export const startServer = async () => {
-
-    await mongodb.connect();
-
     router.use(cors({ credentials: true }));
     router.use(compression());
     router.use(cookieParser());
@@ -26,20 +28,7 @@ export const startServer = async () => {
     var forms = multer();
     router.use(forms.array(undefined!));
 
-
-    /** Log the request */
-    router.use((req, res, next) => {
-        /** Log the req */
-        console.log(`Incomming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
-
-        res.on('finish', () => {
-            /** Log the res */
-            console.log(`Result - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}] - STATUS: [${res.statusCode}]`);
-        });
-
-        next();
-    });
-
+    router.use(LoggerMiddlware); // for logging
 
     router.use(express.urlencoded({ extended: true }));
     router.use(express.json());
@@ -62,18 +51,19 @@ export const startServer = async () => {
     router.use('/api/auth', authRoutes);
 
     /** Healthcheck */
-    router.get('/ping', (req, res, next) => res.status(200).json({ hello: 'Hello world. This is a test!' }));
+    router.get('/ping', (req, res, next) => 
+        set_response(res, null, 200, 'success', ['Request successful'], null)
+    );
+
+    
 
     /** Error handling */
     router.use((req, res, next) => {
         const error = new Error('Not found');
-
         console.log(error);
-
-        res.status(404).json({
-            message: error.message
-        });
+        set_response(res, null, 200, 'success', [error.message], null);
     });
 
     http.createServer(router).listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
+    https.createServer(router).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 };
