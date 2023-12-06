@@ -7,10 +7,6 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
 
-        if (!username || !password) {
-            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], { missingFields: ['username', 'password'] });
-        }
-
         const user = await getUserByUserName(username).select('+authentication.salt +authentication.password');
 
         if (!user) {
@@ -40,13 +36,6 @@ export const login = async (req: Request, res: Response) => {
 export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
-
-        if (!username) {
-            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], { missingFields: ['username'] })
-        }
-        if (!password) {
-            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], { missingFields: ['password'] })
-        }
 
         const existinUser = await getUserByUserName(username)
 

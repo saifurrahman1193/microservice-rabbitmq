@@ -17,6 +17,7 @@ const router = express();
 /** Only Start Server if Mongoose Connects */
 export const startServer = async () => {
     router.use(express.urlencoded({ extended: true }));
+    router.use(express.json());
     router.use(cors({ credentials: true }));
     router.use(compression());
     router.use(cookieParser());
@@ -26,7 +27,6 @@ export const startServer = async () => {
 
     router.use(LoggerMiddlware); // for logging
 
-    router.use(express.json());
 
     /** Rules of our API */
     router.use((req, res, next) => {
