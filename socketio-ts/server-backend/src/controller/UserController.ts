@@ -8,7 +8,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
         return res.status(200).json(users);
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 };
 
@@ -20,7 +20,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         return res.json(deletedUser);
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 }
 
@@ -31,7 +31,7 @@ export const updateUser = async (req: Request, res: Response) => {
         const { name, username } = req.body;
 
         if (!username) {
-            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], { missingFields: ['username'] });
+            return set_response(res, null, 400, 'error', ['Bad Request: Missing required fields'], null);
         }
 
 
@@ -47,7 +47,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
         return res.status(200).json(user).end();
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 }
 
@@ -77,6 +77,6 @@ export const updateProfile = async (req: Request, res: Response) => {
 
         // return res.status(200).json(user).end();
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 }

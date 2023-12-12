@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
 
         return set_response(res, user, 200, 'success', ['Successfully logged in'], null);
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 };
 
@@ -56,6 +56,6 @@ export const register = async (req: Request, res: Response) => {
 
         return set_response(res, null, 201, 'success', ['User created successfully'], null);
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
 }

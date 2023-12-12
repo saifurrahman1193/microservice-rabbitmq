@@ -1,22 +1,29 @@
-// src/validation.ts
-import Joi from 'joi';
+import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../helper/APIResponser';
+import { HttpStatusCode, HttpCodeHelper } from '../helper/HttpCodeHelper';
 
-// Joi validation schema for login
-export const loginSchema = Joi.object({
-    username: Joi.string().required(),
-    password: Joi.string().required(),
-});
+const descriptor = <any>{
+    username: {
+        type: 'string',
+        required: true,
+        message: 'Username is required',
+    },
+    password: {
+        type: 'string',
+        required: true,
+        message: 'Password is required',
+    },
+};
 
-// Middleware function for login validation
-export const validateLogin = (req: Request, res: Response, next: NextFunction) => {
-    const { error, value } = loginSchema.validate(req.body);
 
-    if (error) {
-        return set_response(res, null, 422, 'error', error.details.map(detail => detail.message), null)
-    }
-
-    // Attach the validated data to the request object for later use
-    next();
+export const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
+    const validator = new Schema(descriptor);
+    validator.validate({ ...req.body }, (errors: any) => {
+        if (errors) {
+            let messages = errors?.map((error: any) => error?.message)
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', messages, errors);
+        }
+        next();
+    });
 };
