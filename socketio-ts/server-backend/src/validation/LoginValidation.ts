@@ -1,7 +1,7 @@
 import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../helper/APIResponser';
-import { HttpStatusCode, HttpCodeHelper } from '../helper/HttpCodeHelper';
+import { HttpStatusCode } from '../helper/HttpCodeHelper';
 
 const descriptor = <any>{
     username: {

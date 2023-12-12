@@ -1,26 +1,35 @@
-// src/validation.ts
+import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../helper/APIResponser';
+import { HttpStatusCode } from '../helper/HttpCodeHelper';
 
-// Joi validation schema for register
-// export const registerSchema = Joi.object({
-//     username: Joi.string().required().messages({
-//         'any.required': 'Username is required',
-//     }),
-//     password: Joi.string().min(8).required().messages({
-//         'string.min': 'Password must be at least 8 characters long',
-//         'any.required': 'Password is required',
-//     }),
-// });
 
-// Middleware function for register validation
-export const validateRegister = (req: Request, res: Response, next: NextFunction) => {
-    // const { error, value } = registerSchema.validate(req.body);
+const descriptor = <any>{
+    name: {
+        type: 'string',
+        required: true,
+        message: 'Name is required',
+    },
+    username: {
+        type: 'string',
+        required: true,
+        message: 'Username is required',
+    },
+    password: {
+        type: 'string',
+        required: true,
+        message: 'Password is required',
+    },
+};
 
-    // if (error) {
-    //     return set_response(res, null, 422, 'error', error.details.map(detail => detail.message), null)
-    // }
 
-    // Attach the validated data to the request object for later use
-    next();
+export const validateRegister = async (req: Request, res: Response, next: NextFunction) => {
+    const validator = new Schema(descriptor);
+    validator.validate({ ...req.body }, (errors: any) => {
+        if (errors) {
+            let messages = errors?.map((error: any) => error?.message)
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', messages, errors);
+        }
+        next();
+    });
 };
