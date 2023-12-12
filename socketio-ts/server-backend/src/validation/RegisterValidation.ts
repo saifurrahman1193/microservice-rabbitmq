@@ -23,7 +23,7 @@ const descriptor = <any>{
 };
 
 
-export const validateRegister = async (req: Request, res: Response, next: NextFunction) => {
+export  const RegisterValidation = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Schema(descriptor);
     validator.validate({ ...req.body }, (errors: any) => {
         if (errors) {

@@ -17,7 +17,7 @@ const descriptor = <any>{
 };
 
 
-export const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
+export const LoginValidation = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Schema(descriptor);
     validator.validate({ ...req.body }, (errors: any) => {
         if (errors) {
