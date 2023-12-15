@@ -12,21 +12,18 @@ interface PasswordValidationRule {
 }
 
 export default async (
-    rule: PasswordValidationRule, 
-    value: string, 
+    rule: PasswordValidationRule,
+    value: string,
     callback: ValidationCallback
 ): Promise<void> => {
-    try {
-        // Check if the password is in the list of common passwords
-        if (commonPasswords.includes(value.toLowerCase())) {
-            // If the password is too common, reject the promise with an error
-            throw new Error(rule.message || 'Password is too common');
-        }
-
-        // Password is not too common, resolve the Promise
-        callback(); // Assuming the callback only handles success cases
-    } catch (error) {
-        // Reject the promise with the error
-        return Promise.reject(error);
+    // Check if the password is in the list of common passwords
+    if (commonPasswords.includes(value.toLowerCase())) {
+        // If the password is too common, reject the promise with an error
+        throw new Error(rule.message || 'Password is too common');
     }
+
+    // Password is not too common, resolve the Promise
+    callback(); // Assuming the callback only handles success cases
 };
+
+
