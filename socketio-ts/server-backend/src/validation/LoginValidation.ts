@@ -2,6 +2,7 @@ import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../helper/APIResponser';
 import { HttpStatusCode } from '../helper/HttpCodeHelper';
+import validateAgainstCommonPasswordsRule from '../rule/ValidateAgainstCommonPasswordsRule';
 
 const descriptor = <any>{
     username: {
@@ -9,11 +10,13 @@ const descriptor = <any>{
         required: true,
         message: 'Username is required',
     },
-    password: {
-        type: 'string',
-        required: true,
-        message: 'Password is required',
-    },
+    password: [
+        { type: 'string', required: true, message: 'Password is required' },
+        { min: 8, message: 'Password must be at least 8 characters long' },
+        { max: 50, message: 'Password cannot exceed 50 characters' },
+        { pattern: /^\S*$/, message: 'Password cannot contain spaces' },
+        { validator: validateAgainstCommonPasswordsRule, message: 'Avoid using common passwords' }
+    ],
 };
 
 
