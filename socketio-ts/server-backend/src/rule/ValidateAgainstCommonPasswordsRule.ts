@@ -6,20 +6,22 @@ interface ValidationCallback {
     (error?: Error): void;
 }
 
-interface PasswordValidationRule {
+interface ValidationRule {
     message?: string;
     // Add more rule properties as needed
 }
 
 export default async (
-    rule: PasswordValidationRule,
+    rule: ValidationRule,
     value: string,
     callback: ValidationCallback
 ): Promise<void> => {
+    const { message } = rule;
+
     // Check if the password is in the list of common passwords
     if (commonPasswords.includes(value.toLowerCase())) {
         // If the password is too common, reject the promise with an error
-        throw new Error(rule.message || 'Password is too common');
+        throw new Error(message || 'Password is too common');
     }
 
     // Password is not too common, resolve the Promise

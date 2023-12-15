@@ -27,7 +27,15 @@ export const LoginValidation = async (req: Request, res: Response, next: NextFun
         await validator.validate({ ...req.body });
         next();
     } catch (errors: any) {
-        const messages = errors.map((error: any) => error?.message);
-        return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', messages, errors);
+        const messages = errors.errors.map((error: any) => {
+            if (error instanceof Error) {
+                return error.message;
+            } else if (error.message) {
+                return error.message;
+            } else {
+                return 'Validation error';
+            }
+        });
+        return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', messages, errors.errors);
     }
 };
