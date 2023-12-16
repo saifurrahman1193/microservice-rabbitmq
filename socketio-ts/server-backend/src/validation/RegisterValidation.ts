@@ -24,7 +24,7 @@ const descriptor = <any>{
         { min: 4, message: 'Username must be at least 4 characters long' },
         { max: 50, message: 'Username cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
-        { validator: (rule: any, value:any, callback:any, model: any) => UniqueRule(rule, value, callback, User),  message: 'Username is already exist.' 
+        { asyncValidator: (rule: any, value:any, callback:any, model: any) => UniqueRule(rule, value, callback, User),  message: 'Username is already exist.' 
         },
     ],
     password: [
@@ -32,7 +32,7 @@ const descriptor = <any>{
         { min: 8, message: 'Password must be at least 8 characters long' },
         { max: 50, message: 'Password cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Password cannot contain spaces' },
-        { validator: ValidateAgainstCommonPasswordsRule, message: 'Avoid using common passwords' }
+        { asyncValidator: ValidateAgainstCommonPasswordsRule, message: 'Avoid using common passwords' }
     ],
 };
 
