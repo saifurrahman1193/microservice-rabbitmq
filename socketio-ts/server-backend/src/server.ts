@@ -3,6 +3,7 @@ import http from 'http';
 import { config } from './config/index';
 import userRoutes from './route/user';
 import authRoutes from './route/authentication';
+import appRoutes from './route/app';
 import cors from 'cors';
 import multer from 'multer';
 import cookieParser from 'cookie-parser';
@@ -44,6 +45,7 @@ export const startServer = async () => {
     /** Routes */
     router.use('/api/user', userRoutes);
     router.use('/api/auth', authRoutes);
+    router.use('/api/app', appRoutes);
 
     /** Healthcheck */
     router.get('/ping', (req, res, next) =>

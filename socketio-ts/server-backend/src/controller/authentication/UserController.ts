@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { deleteUserById, getUsers, getUserById } from '../model/authentication/User';
-import {set_response} from '../helper/APIResponser';
+import { deleteUserById, getUsers, getUserById } from '../../model/authentication/User';
+import {set_response} from '../../helper/APIResponser';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {

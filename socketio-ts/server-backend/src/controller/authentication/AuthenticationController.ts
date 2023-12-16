@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
-import { getUserByUserName, createUser } from '../model/authentication/User';
-import { authentication, random } from '../helper/Auth';
-import { set_response } from '../helper/APIResponser';
+import { getUserByUserName, createUser } from '../../model/authentication/User';
+import { authentication, random } from '../../helper/Auth';
+import { set_response } from '../../helper/APIResponser';
+import { HttpStatusCode } from '../../helper/HttpCodeHelper';
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -54,7 +55,7 @@ export const register = async (req: Request, res: Response) => {
             }
         });
 
-        return set_response(res, null, 201, 'success', ['User created successfully'], null);
+        return set_response(res, null, HttpStatusCode.Created, 'success', ['User created successfully'], null);
     } catch (error) {
         return set_response(res, null, 500, 'error', ['Internal Server Error: '], null);
     }
