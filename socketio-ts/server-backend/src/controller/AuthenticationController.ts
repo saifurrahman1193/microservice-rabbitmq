@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserByUserName, createUser } from '../model/User';
+import { getUserByUserName, createUser } from '../model/authentication/User';
 import { authentication, random } from '../helper/Auth';
 import { set_response } from '../helper/APIResponser';
 

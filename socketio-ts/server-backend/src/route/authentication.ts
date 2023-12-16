@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { login, register } from '../controller/AuthenticationController';
-import { LoginValidation } from '../validation/LoginValidation';
-import { RegisterValidation } from '../validation/RegisterValidation';
+import { LoginValidation } from '../validation/authentication/LoginValidation';
+import { RegisterValidation } from '../validation/authentication/RegisterValidation';
 
 const router = Router();
 

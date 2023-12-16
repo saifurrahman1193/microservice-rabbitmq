@@ -1,31 +1,15 @@
 import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
-import { set_response } from '../helper/APIResponser';
-import { HttpStatusCode } from '../helper/HttpCodeHelper';
-import ValidateAgainstCommonPasswordsRule from '../rule/ValidateAgainstCommonPasswordsRule';
-import UniqueRule from '../rule/common/UniqueRule';
-import { User } from '../model/User';
+import { set_response } from '../../helper/APIResponser';
+import { HttpStatusCode } from '../../helper/HttpCodeHelper';
+import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/ValidateAgainstCommonPasswordsRule';
 
-interface ValidationDescriptor {
-    name: Array<any>;
-    username: Array<any>;
-    password: Array<any>;
-}
-
-const descriptor = <any>{
-    name: [
-        { type: 'string', required: true, message: 'Name is required' },
-        { min: 4, message: 'Name must be at least 4 characters long' },
-        { max: 50, message: 'Name cannot exceed 50 characters' },
-        { pattern: /^\S*$/, message: 'Name cannot contain spaces' },
-    ],
+const descriptor =<any> {
     username: [
         { type: 'string', required: true, message: 'Username is required' },
         { min: 4, message: 'Username must be at least 4 characters long' },
         { max: 50, message: 'Username cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
-        { asyncValidator: (rule: any, value:any, callback:any, model: any) => UniqueRule(rule, value, callback, User),  message: 'Username is already exist.' 
-        },
     ],
     password: [
         { type: 'string', required: true, message: 'Password is required' },
@@ -36,7 +20,7 @@ const descriptor = <any>{
     ],
 };
 
-export const RegisterValidation = async (req: Request, res: Response, next: NextFunction) => {
+export const LoginValidation = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Schema(descriptor);
     
     try {
