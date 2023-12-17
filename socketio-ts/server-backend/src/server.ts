@@ -1,6 +1,6 @@
 import express from 'express';
 import http from 'http';
-import { config } from './config/index';
+import { config } from './config/index.config';
 import userRoutes from './route/user';
 import authRoutes from './route/authentication';
 import appRoutes from './route/app';
@@ -8,7 +8,7 @@ import cors from 'cors';
 import multer from 'multer';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
-import LoggerMiddlware from './middleware/Logger';
+import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/APIResponser';
 
 

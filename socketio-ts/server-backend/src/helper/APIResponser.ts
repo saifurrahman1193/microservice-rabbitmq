@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { HttpStatusCode } from '../helper/HttpCodeHelper';
 
 interface ErrorResponse {
     message: string;
@@ -6,7 +7,7 @@ interface ErrorResponse {
 }
 
 export const set_response = (res: Response, data: any, code: number, status: string, msg: string[], errors: ErrorResponse[] | null) => {
-    return res.status(code || 200).json({
+    return res.status(code || HttpStatusCode.OK).json({
         status: status,
         code: code,
         data: data,

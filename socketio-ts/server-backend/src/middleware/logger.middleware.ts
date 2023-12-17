@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
 
-import { getUserBySessionToken } from '../model/authentication/User';
+import { getUserBySessionToken } from '../service/authentication/user.service';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     /** Log the req */

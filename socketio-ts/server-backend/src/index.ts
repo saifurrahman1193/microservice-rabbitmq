@@ -1,5 +1,5 @@
 import { startServer } from './server';
-import * as mongodb from './config/mongodb';
+import * as mongodb from './config/mongodb.config';
 
 
 const start = async() =>{

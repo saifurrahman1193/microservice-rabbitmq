@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { App as AppModel, createApp } from '../../model/app/App';
+import { App as AppModel, createApp } from '../../model/app/app.model';
 import { set_response } from '../../helper/APIResponser';
 import { HttpStatusCode } from '../../helper/HttpCodeHelper';
 import { generateAccessToken } from '../../helper/Crypto';
-import { getUserBySessionToken } from '../../model/authentication/User';
+import { getUserBySessionToken } from '../../service/authentication/user.service';
 
 export const create = async (req: Request, res: Response) => {
     try {

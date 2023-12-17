@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
 import {set_response} from '../helper/APIResponser';
 
-import { getUserBySessionToken } from '../model/authentication/User';
+import { getUserBySessionToken } from '../service/authentication/user.service';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
