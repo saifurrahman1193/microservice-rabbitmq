@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { toTitleCase } from '../../helper/Common';
+import { toTitleCase } from '../../helper/common.helper';
 
 interface ValidationRule {
     message?: string;

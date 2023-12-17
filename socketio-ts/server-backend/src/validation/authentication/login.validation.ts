@@ -1,8 +1,8 @@
 import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
-import { set_response } from '../../helper/APIResponser';
-import { HttpStatusCode } from '../../helper/HttpCodeHelper';
-import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/ValidateAgainstCommonPasswordsRule';
+import { set_response } from '../../helper/apiresponser.helper';
+import { HttpStatusCode } from '../../helper/httpcode.helper';
+import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/validateagainstcommonpasswords.rule';
 
 const descriptor =<any> {
     username: [

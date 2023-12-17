@@ -9,7 +9,7 @@ import multer from 'multer';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import LoggerMiddlware from './middleware/logger.middleware';
-import { set_response } from './helper/APIResponser';
+import { set_response } from './helper/apiresponser.helper';
 
 
 const router = express();

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { getUserByUserName, createUser } from '../../service/authentication/user.service';
-import { authentication, random } from '../../helper/Auth';
-import { set_response } from '../../helper/APIResponser';
-import { HttpStatusCode } from '../../helper/HttpCodeHelper';
+import { authentication, random } from '../../helper/auth.helper';
+import { set_response } from '../../helper/apiresponser.helper';
+import { HttpStatusCode } from '../../helper/httpcode.helper';
 
 export const login = async (req: Request, res: Response) => {
     try {

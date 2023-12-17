@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
-import {set_response} from '../helper/APIResponser';
+import {set_response} from '../helper/apiresponser.helper';
 
 import { getUserBySessionToken } from '../service/authentication/user.service';
 

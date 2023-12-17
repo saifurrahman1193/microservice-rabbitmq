@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { HttpStatusCode } from '../helper/HttpCodeHelper';
+import { HttpStatusCode } from './httpcode.helper';
 
 interface ErrorResponse {
     message: string;
