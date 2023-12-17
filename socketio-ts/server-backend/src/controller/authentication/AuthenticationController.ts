@@ -38,12 +38,6 @@ export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
 
-        const existinUser = await getUserByUserName(username)
-
-        if (existinUser) {
-            return set_response(res, null, 409, 'error', ['Conflict: User Already Exist!'], null)
-        }
-
         const salt = random();
         const user = await createUser({
             name,
