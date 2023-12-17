@@ -5,13 +5,19 @@ enum IsActiveEnum {
 }
 interface IApp {
     name: string;
+    password: string;
     namespace_path: string;
     is_active: IsActiveEnum;
+    created_by: string;
+    created_at: Date;
 }
 const AppSchema = new Schema<IApp>({
     name: { type: String, required: true },
+    password: { type: String, required: true },
     namespace_path: { type: String, required: true },
     is_active: { type: Number, enum: [IsActiveEnum.Inactive, IsActiveEnum.Active], default: IsActiveEnum.Active },
+    created_by: { type: String },
+    created_at: { type: Date },
 });
 
 export const App = model('App', AppSchema, 'app');

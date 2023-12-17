@@ -3,14 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../../helper/APIResponser';
 import { HttpStatusCode } from '../../helper/HttpCodeHelper';
 import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/ValidateAgainstCommonPasswordsRule';
-import UniqueRule from '../../rule/common/UniqueRule';
-import { User } from '../../model/authentication/User';
-
-interface ValidationDescriptor {
-    name: Array<any>;
-    username: Array<any>;
-    password: Array<any>;
-}
 
 const descriptor = <any>{
     name: [
@@ -24,7 +16,6 @@ const descriptor = <any>{
         { min: 4, message: 'Username must be at least 4 characters long' },
         { max: 50, message: 'Username cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
-        { asyncValidator: (rule: any, value:any, callback:any, model: any) => UniqueRule(rule, value, callback, User),  message: 'Username is already exist.' }
     ],
     password: [
         { type: 'string', required: true, message: 'Password is required' },
