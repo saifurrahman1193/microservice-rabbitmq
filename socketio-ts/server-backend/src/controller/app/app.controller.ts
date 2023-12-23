@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
-import { App as AppModel, createApp } from '../../model/app/app.model';
+import { App as AppModel } from '../../model/app/app.model';
+import { createApp } from '../../service/app/app.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generateAccessToken } from '../../helper/crypto.helper';
-import { getUserBySessionToken } from '../../service/authentication/user.service';
+import { getMyInfo } from '../../service/authentication/user.service';
 
 export const create = async (req: Request, res: Response) => {
     try {
         const { name, is_active } = req.body;
-        const sessionToken = req.cookies['SOCKET-SERVER-AUTH'];
-        const me = await getUserBySessionToken(sessionToken);
+        const me = await getMyInfo(req);
 
         const app = await createApp({
             name,
