@@ -4,12 +4,13 @@ import { createApp } from '../../service/app/app.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generateAccessToken } from '../../helper/crypto.helper';
-import { getMyInfo } from '../../service/authentication/user.service';
+import { userService } from '../../service/authentication/user.service';
 
 export const create = async (req: Request, res: Response) => {
     try {
         const { name, is_active } = req.body;
-        const me = await getMyInfo(req);
+        const me = await userService.getMyInfo(req);
+
 
         const app = await createApp({
             name,
@@ -22,7 +23,6 @@ export const create = async (req: Request, res: Response) => {
 
         return set_response(res, app, HttpStatusCode.OK, 'success', ['Successfully created the app'], null);
     } catch (error: any) {
-        console.error('Error creating app:', error);
         return set_response(res, null, HttpStatusCode.InternalServerError, 'error', ['Failed to create the app'], error);
     }
 };

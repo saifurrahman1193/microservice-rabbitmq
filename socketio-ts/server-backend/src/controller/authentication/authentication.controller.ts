@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getUserByUserName, createUser } from '../../service/authentication/user.service';
+import { userService } from '../../service/authentication/user.service';
 import { authentication, random } from '../../helper/auth.helper';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
@@ -8,7 +8,7 @@ export const login = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
 
-        const user = await getUserByUserName(username).select('+authentication.salt +authentication.password');
+        const user = await userService.getUserByUserName(username).select('+authentication.salt +authentication.password');
 
         if (!user) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', ['Not Found: User not found'], [{field: 'username', message: 'User not found'}]);
@@ -38,13 +38,13 @@ export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
 
-        const existinguser = await getUserByUserName(username);
+        const existinguser = await userService.getUserByUserName(username);
         if (existinguser) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', ['User already exist'], [{field: 'username', message: 'User already exist'}]);
         }
 
         const salt = random();
-        const user = await createUser({
+        const user = await userService.createUser({
             name,
             email,
             username,

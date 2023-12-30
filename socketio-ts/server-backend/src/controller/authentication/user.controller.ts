@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { deleteUserById, getUsers, getUserById } from '../../service/authentication/user.service';
+import { userService } from '../../service/authentication/user.service';
 import {set_response} from '../../helper/apiresponser.helper';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
-        const users = await getUsers();
+        const users = await userService.getUsers();
 
         return res.status(200).json(users);
     } catch (error) {
@@ -16,7 +16,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
 
-        const deletedUser = await deleteUserById(id);
+        const deletedUser = await userService.deleteUserById(id);
 
         return res.json(deletedUser);
     } catch (error) {
@@ -35,7 +35,7 @@ export const updateUser = async (req: Request, res: Response) => {
         }
 
 
-        const user = await getUserById(id);
+        const user = await userService.getUserById(id);
         
         if (!user) {
             return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);

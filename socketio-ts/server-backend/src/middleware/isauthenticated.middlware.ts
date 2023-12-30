@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
 import {set_response} from '../helper/apiresponser.helper';
 
-import { getUserBySessionToken } from '../service/authentication/user.service';
+import { userService } from '../service/authentication/user.service';
 
 export default async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             return set_response(res, null, 403, 'error', ['Forbidden: Session token not found'], null);
         }
 
-        const existingUser = await getUserBySessionToken(sessionToken);
+        const existingUser = await userService.getUserBySessionToken(sessionToken);
 
         if (!existingUser) {
             return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);

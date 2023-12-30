@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { merge } from 'lodash';
 
-import { getUserBySessionToken } from '../service/authentication/user.service';
-
 export default async (req: Request, res: Response, next: NextFunction) => {
     /** Log the req */
     console.log(`Incomming - METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`);
