@@ -7,7 +7,7 @@ const getAppById = async (_id: string): Promise<IApp | null> => await App.findOn
 const createApp = async (values: Record<string, any>): Promise<IApp> => await new App(values).save().then((item) => item.toObject());
 const updateAppById = async (id: string, values: Record<string, any>): Promise<IApp | null> => await App.findByIdAndUpdate(id, values)
 
-export {
+export const appService = {
     getApps,
     getAppByName,
     getAppById,

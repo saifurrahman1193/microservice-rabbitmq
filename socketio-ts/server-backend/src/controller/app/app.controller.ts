@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { App as AppModel } from '../../model/app/app.model';
-import { createApp } from '../../service/app/app.service';
+import { appService } from '../../service/app/app.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generateAccessToken } from '../../helper/crypto.helper';
@@ -12,7 +12,7 @@ export const create = async (req: Request, res: Response) => {
         const me = await userService.getMyInfo(req);
 
 
-        const app = await createApp({
+        const app = await appService.createApp({
             name,
             password: generateAccessToken(60),
             namespace_path: '/' + name,
