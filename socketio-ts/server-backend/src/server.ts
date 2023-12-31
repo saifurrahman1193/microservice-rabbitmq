@@ -36,7 +36,7 @@ export const startServer = async () => {
 
         if (req.method == 'OPTIONS') {
             res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-            return set_response(res, null, 200, 'success', ['Request successful'], null)
+            return set_response(res, null, 200,  true , ['Request successful'], null)
         }
         next();
     });
@@ -49,14 +49,14 @@ export const startServer = async () => {
 
     /** Healthcheck */
     router.get('/ping', (req, res, next) =>
-        set_response(res, null, 200, 'success', ['Request successful'], null)
+        set_response(res, null, 200,  true , ['Request successful'], null)
     );
 
 
     /** Error handling */
     router.use((req, res, next) => {
         const error = new Error('Not found');
-        return set_response(res, null, 404, 'success', ['Not Found ' + error.message], null);
+        return set_response(res, null, 404,  true , ['Not Found ' + error.message], null);
     });
 
     http.createServer(router).listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));

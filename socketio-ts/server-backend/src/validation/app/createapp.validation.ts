@@ -29,6 +29,6 @@ export const CreateAppValidation = async (req: Request, res: Response, next: Nex
                 return 'Validation error';
             }
         });
-        return set_response(res, null, HttpStatusCode.UnprocessableEntity, 'error', messages, errors.errors);
+        return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , messages, errors.errors);
     }
 };

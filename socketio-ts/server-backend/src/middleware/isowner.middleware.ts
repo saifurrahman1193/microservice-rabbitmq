@@ -8,15 +8,15 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         const currentUserId = get(req, 'identity._id') || '' as string;
 
         if (!currentUserId) {
-            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
+            return set_response(res, null, 404,  false , ['Not Found: User not found'], null);
         }
 
         if (currentUserId.toString() !== id) {
-            return set_response(res, null, 404, 'error', ['Not Found: User not found'], null);
+            return set_response(res, null, 404,  false , ['Not Found: User not found'], null);
         }
 
         next();
     } catch (error) {
-        return set_response(res, null, 500, 'error', ['Internal Server Error: '], error);
+        return set_response(res, null, 500,  false , ['Internal Server Error: '], error);
     }
 }

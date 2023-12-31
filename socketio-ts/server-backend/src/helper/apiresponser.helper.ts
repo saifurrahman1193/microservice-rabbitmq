@@ -6,7 +6,7 @@ interface ErrorResponse {
     field: string;
 }
 
-export const set_response = (res: Response, data: any, code: number, status: string, msg: string[], errors: ErrorResponse[] | null) => {
+export const set_response = (res: Response, data: any, code: number, status: boolean, msg: string[], errors: ErrorResponse[] | null) => {
     return res.status(code || HttpStatusCode.OK).json({
         status: status,
         code: code,
