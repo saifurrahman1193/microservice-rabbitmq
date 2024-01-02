@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  jenkins:
+    build:
+      context: .
+    ports:
+      - "201:8080"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+    environment:
+      - JENKINS_HOME=/var/jenkins_home
+
+volumes:
+  jenkins_data:
