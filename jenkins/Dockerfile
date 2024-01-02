@@ -9,4 +9,4 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN /usr/local/bin/install-plugins.sh < /usr/share/jenkins/ref/plugins.txt
 
 # Set up Jenkins configuration as code (JCasC)
-COPY jcasc.yaml /var/jenkins_home/casc_configs/jcasc.yaml
+# COPY jcasc.yaml /var/jenkins_home/casc_configs/jcasc.yaml

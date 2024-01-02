@@ -2,6 +2,8 @@ version: '3'
 
 services:
   jenkins:
+    image: jenkins-image
+    container_name: jenkins-container
     build:
       context: .
     ports:
