@@ -1,14 +1,16 @@
 version: '3'
-
 services:
   grafana:
     image: grafana/grafana:latest
+    container_name: grafana-container
     ports:
       - "221:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - grafana_data:/var/lib/grafana
-
-volumes:
-  grafana_data:
+      - ./grafana_data:/var/lib/grafana
+    networks:
+      - local_central_db_network
+networks:
+  local_central_db_network:
+    external: true
