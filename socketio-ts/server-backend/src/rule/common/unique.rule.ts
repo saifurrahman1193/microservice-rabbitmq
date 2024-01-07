@@ -1,27 +1,25 @@
-import { Model } from 'mongoose';
-import { toTitleCase } from '../../helper/common.helper';
+import { Document, Model } from 'mongoose';
 
-interface ValidationRule {
-    message?: string;
-    field?: string; // Add more rule properties as needed
-}
+const unique = async (
+    model: any,
+    field: string,
+    value: any
+): Promise<number> => {
+    try {
+        // Build the filter object
+        const filter: any = {
+            [field]: value,
+        };
 
-interface ValidationCallback {
-    (error?: Error): void;
-}
+        // Get the MongoDB document from the model
+        const existingDocument: any = await model.findOne(filter).exec();
 
-export default async (
-    rule: ValidationRule,
-    value: string,
-    callback: ValidationCallback,
-    model: Model<any> 
-): Promise<void> => {
-    const { field, message } = rule;
-
-    // Check if the field already exists in the database
-    const existingRecord = await model.findOne({ [`${field}`]: value });
-    if (existingRecord) {
-        throw new Error(message || `${toTitleCase(field || '')} is already exist.`);
+        // Return 1 if there are no matching documents, otherwise return 0
+        return existingDocument ? 0 : 1;
+    } catch (error) {
+        console.error('Error checking uniqueness in MongoDB:', error);
+        return 0; // Return 0 in case of an error
     }
-    callback();
 };
+
+export { unique };

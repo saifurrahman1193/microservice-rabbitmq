@@ -3,6 +3,8 @@ import { userService } from '../../service/authentication/user.service';
 import { authentication, random } from '../../helper/auth.helper';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
+import { unique } from '../../rule/common/unique.rule';
+import User from '../../model/authentication/user.model';
 
 export const login = async (req: Request, res: Response) => {
     try {
@@ -11,13 +13,13 @@ export const login = async (req: Request, res: Response) => {
         const user = await userService.getUserByUserName(username).select('+authentication.salt +authentication.password');
 
         if (!user) {
-            return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , ['Not Found: User not found'], [{field: 'username', message: 'User not found'}]);
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, ['Not Found: User not found'], [{ field: 'username', message: 'User not found' }]);
         }
 
         const expectedHash = authentication(user.authentication.salt, password);
 
         if (user.authentication.password !== expectedHash) {
-            return set_response(res, null, HttpStatusCode.Unauthorized,  false , ['Unauthorized: Password does not match'], [{field: 'password', message: 'Unauthorized: Password does not match'}]);
+            return set_response(res, null, HttpStatusCode.Unauthorized, false, ['Unauthorized: Password does not match'], [{ field: 'password', message: 'Unauthorized: Password does not match' }]);
         }
 
         const salt = random();
@@ -27,9 +29,9 @@ export const login = async (req: Request, res: Response) => {
 
         res.cookie('SOCKET-SERVER-AUTH', user.authentication.sessionToken, { domain: 'localhost', path: '/', secure: true, httpOnly: true });
 
-        return set_response(res, user, HttpStatusCode.OK,  true , ['Successfully logged in'], null);
+        return set_response(res, user, HttpStatusCode.OK, true, ['Successfully logged in'], null);
     } catch (error: any) {
-        return set_response(res, null, HttpStatusCode.InternalServerError,  false , ['Internal Server Error: '], error);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], error);
     }
 };
 
@@ -37,9 +39,9 @@ export const login = async (req: Request, res: Response) => {
 export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
-
-        const existinguser = await userService.getUserByUserName(username);
-        if (existinguser) {
+        
+        const validation = await unique(User, 'username', username);
+        if (!validation) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , ['User already exist'], [{field: 'username', message: 'User already exist'}]);
         }
 
@@ -54,8 +56,8 @@ export const register = async (req: Request, res: Response) => {
             }
         });
 
-        return set_response(res, user, HttpStatusCode.Created,  true , ['User created successfully'], null);
+        return set_response(res, user, HttpStatusCode.Created, true, ['User created successfully'], null);
     } catch (error: any) {
-        return set_response(res, null, HttpStatusCode.InternalServerError,  false , ['Internal Server Error: '], error);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], error);
     }
 }
