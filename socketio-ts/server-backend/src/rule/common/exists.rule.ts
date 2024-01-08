@@ -1,9 +1,14 @@
 import { toTitleCase } from '../../helper/common.helper';
 
-const unique = async (params: any): Promise<any> => {
+const unique = async (
+    model: any,
+    field: string,
+    value: any,
+    exceptField?: string | null,
+    exceptValue?: any,
+    message?: string,
+): Promise<any> => {
     try {
-        let { model, field, value, exceptField, exceptValue, message } = params;
-
         // Build the filter object
         const filter: any = {
             [field]: value,

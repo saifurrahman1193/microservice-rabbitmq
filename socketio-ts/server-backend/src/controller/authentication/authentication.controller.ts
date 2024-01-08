@@ -38,13 +38,16 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
     try {
+        // destructuring
         const { name, email, username, password } = req.body;
 
-        const validator = await unique(User, 'username', username, null, null);
+        // validation
+        const validator = await unique({'model': User, 'field':'username', 'value': username});
         if (validator.fails) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
         }
 
+        // Create a new user
         const salt = random();
         const user = await userService.createUser({
             name,
