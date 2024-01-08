@@ -14,7 +14,7 @@ interface IApp {
 const AppSchema = new Schema<IApp>({
     name: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    namespace_path: { type: String, required: true, unique: true},
+    namespace_path: { type: String, required: true, unique: true },
     is_active: { type: Number, enum: [IsActiveEnum.Inactive, IsActiveEnum.Active], default: IsActiveEnum.Active },
     created_by: { type: String },
     created_at: { type: Date },

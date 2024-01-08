@@ -5,12 +5,20 @@ import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generateAccessToken } from '../../helper/crypto.helper';
 import { userService } from '../../service/authentication/user.service';
 import { convertMongoErrorToCustomError } from '../../helper/mongo.helper';
+import { unique } from '../../rule/common/unique.rule';
+import { App as AppModel } from '../../model/app/app.model';
 
 export const create = async (req: Request, res: Response) => {
     try {
         const { name, is_active } = req.body;
-        const me = await userService.getMyInfo(req);
 
+        // validation
+        let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': name });
+        if (validator.fails) {
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
+        }
+
+        const me = await userService.getMyInfo(req);
 
         const app = await appService.createApp({
             name,

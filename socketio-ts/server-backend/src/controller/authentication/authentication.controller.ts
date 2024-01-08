@@ -5,7 +5,7 @@ import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { unique } from '../../rule/common/unique.rule';
 import { exists } from '../../rule/common/exists.rule';
-import User from '../../model/authentication/user.model';
+import { User } from '../../model/authentication/user.model';
 
 export const login = async (req: Request, res: Response) => {
     try {
