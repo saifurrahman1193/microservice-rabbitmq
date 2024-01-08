@@ -1,30 +1,44 @@
+import { toTitleCase } from '../../helper/common.helper';
+import { set_response } from '../../helper/apiresponser.helper';
+import { HttpStatusCode } from '../../helper/httpcode.helper';
+
 const unique = async (
-  model: any,
-  field: string,
-  value: any,
-  exceptField?: string,
-  exceptValue?: any
-): Promise<number> => {
-  try {
-    // Build the filter object
-    const filter: any = {
-      [field]: value,
-    };
+    model: any,
+    field: string,
+    value: any,
+    exceptField?: string | null,
+    exceptValue?: any,
+    message?: string,
+): Promise<any> => {
+    try {
+        // Build the filter object
+        const filter: any = {
+            [field]: value,
+        };
 
-    // If exceptField and exceptValue are provided, exclude them from the filter
-    if (exceptField && exceptValue) {
-      filter[exceptField] = { $ne: exceptValue };
+        // If exceptField and exceptValue are provided, exclude them from the filter
+        if (exceptField && exceptValue) {
+            filter[exceptField] = { $ne: exceptValue };
+        }
+
+        // Get the MongoDB document from the model
+        const existingDocument: any = await model.findOne(filter).exec();
+
+        message = message || `${toTitleCase(field || '')} is already exist.`
+
+            
+        if (existingDocument) 
+        {
+            let errors = [{field: 'username', message: message}]
+            return {fails: true, messages: [message], errors: errors};
+        }
+        else{
+            return {fails: false}
+        }
+    } catch (error) {
+        console.error('Error checking uniqueness in MongoDB:', error);
+        return 0; // Return 0 in case of an error
     }
-
-    // Get the MongoDB document from the model
-    const existingDocument: any = await model.findOne(filter).exec();
-
-    // Return 1 if there are no matching documents, otherwise return 0
-    return existingDocument ? 0 : 1;
-  } catch (error) {
-    console.error('Error checking uniqueness in MongoDB:', error);
-    return 0; // Return 0 in case of an error
-  }
 };
 
 export { unique };

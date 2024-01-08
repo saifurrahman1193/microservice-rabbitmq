@@ -40,9 +40,9 @@ export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
         
-        const validation = await unique(User, 'username', username);
-        if (!validation) {
-            return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , ['User already exist'], [{field: 'username', message: 'User already exist'}]);
+        const validator = await unique(User, 'username', username, null, null, 'Username is already exist');
+        if (validator.fails) {
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , validator.messages, validator.errors);
         }
 
         const salt = random();

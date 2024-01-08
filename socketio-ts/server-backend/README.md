@@ -28,6 +28,13 @@ docker network create ms_rmq_network
 npm run dev
 ```
 
+
+## Database
+```
+use socket_server
+
+```
+
 ## GIT
 ```
 feat: New feature for the user.
