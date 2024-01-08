@@ -7,6 +7,7 @@ import { userService } from '../../service/authentication/user.service';
 import { convertMongoErrorToCustomError } from '../../helper/mongo.helper';
 import { unique } from '../../rule/common/unique.rule';
 import { App as AppModel } from '../../model/app/app.model';
+import { authentication, random } from '../../helper/auth.helper';
 
 export const create = async (req: Request, res: Response) => {
     try {
@@ -19,10 +20,17 @@ export const create = async (req: Request, res: Response) => {
         }
 
         const me = await userService.getMyInfo(req);
+        
 
+        // Create/register a new app
+        const salt = random();
+        const password = generateAccessToken(60); // generate a 60 char auto password
         const app = await appService.createApp({
             name,
-            password: generateAccessToken(60),
+            authentication: {
+                salt,
+                password: authentication(salt, password) // make sure the password is hashed
+            },
             namespace_path: '/' + name,
             is_active,
             created_by: me ? me.username : null,
