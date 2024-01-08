@@ -20,7 +20,7 @@ const unique = async (params: any): Promise<any> => {
         message = message || `${toTitleCase(field || '')} is already exist.`
 
         return existingDocument
-            ? { fails: true, messages: [message], errors: [{ field: 'username', message }] }
+            ? { fails: true, messages: [message], errors: [{ field, message }] }
             : { fails: false };
     } catch (error) {
         console.error('Error checking uniqueness in MongoDB:', error);
