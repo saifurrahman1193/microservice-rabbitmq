@@ -1,14 +1,9 @@
 import { toTitleCase } from '../../helper/common.helper';
 
-const unique = async (
-    model: any,
-    field: string,
-    value: any,
-    exceptField?: string | null,
-    exceptValue?: any,
-    message?: string,
-): Promise<any> => {
+const exists = async (params: any): Promise<any> => {
     try {
+        let { model, field, value, exceptField, exceptValue, message } = params;
+
         // Build the filter object
         const filter: any = {
             [field]: value,
@@ -22,15 +17,15 @@ const unique = async (
         // Get the MongoDB document from the model
         const existingDocument: any = await model.findOne(filter).exec();
 
-        message = message || `${toTitleCase(field || '')} is already exist.`
+        message = message || `${toTitleCase(field || '')} is not exist.`
 
         return existingDocument
-            ? { fails: true, messages: [message], errors: [{ field: 'username', message }] }
-            : { fails: false };
+            ? { fails: false }
+            : { fails: true, messages: [message], errors: [{ field: 'username', message }] };
     } catch (error) {
-        console.error('Error checking uniqueness in MongoDB:', error);
-        return { fails: true, messages: ['Error checking uniqueness in MongoDB'], errors: error };
+        console.error('Error checking existance in MongoDB:', error);
+        return { fails: true, messages: ['Error checking existance in MongoDB'], errors: error };
     }
 };
 
-export { unique };
+export { exists };
