@@ -39,10 +39,10 @@ export const login = async (req: Request, res: Response) => {
 export const register = async (req: Request, res: Response) => {
     try {
         const { name, email, username, password } = req.body;
-        
-        const validator = await unique(User, 'username', username, null, null, 'Username is already exist');
+
+        const validator = await unique(User, 'username', username, null, null);
         if (validator.fails) {
-            return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , validator.messages, validator.errors);
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
         }
 
         const salt = random();

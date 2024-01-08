@@ -1,6 +1,4 @@
 import { toTitleCase } from '../../helper/common.helper';
-import { set_response } from '../../helper/apiresponser.helper';
-import { HttpStatusCode } from '../../helper/httpcode.helper';
 
 const unique = async (
     model: any,
