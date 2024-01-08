@@ -25,16 +25,10 @@ const unique = async (
         const existingDocument: any = await model.findOne(filter).exec();
 
         message = message || `${toTitleCase(field || '')} is already exist.`
-
             
-        if (existingDocument) 
-        {
-            let errors = [{field: 'username', message: message}]
-            return {fails: true, messages: [message], errors: errors};
-        }
-        else{
-            return {fails: false}
-        }
+        return existingDocument
+                ? { fails: true, messages: [message], errors: [{ field: 'username', message }] }
+                : { fails: false };
     } catch (error) {
         console.error('Error checking uniqueness in MongoDB:', error);
         return 0; // Return 0 in case of an error
