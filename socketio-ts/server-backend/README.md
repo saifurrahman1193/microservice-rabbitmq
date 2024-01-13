@@ -54,3 +54,38 @@ chore: Routine tasks, maintenance, or housekeeping.
 - https://www.youtube.com/watch?v=H91aqUHn8sE 
 - https://www.youtube.com/watch?v=b8ZUb_Okxro
 - https://github.com/mamun-swe/api.auth.asazaoa.com
+
+
+### API
+#### Pagination
+```
+{
+ "data": [
+   {
+     "id": 1,
+     "title": "Post 1",
+     "content": "Lorem ipsum dolor sit amet.",
+     "category": "Technology"
+   },
+   {
+     "id": 2,
+     "title": "Post 2",
+     "content": "Praesent fermentum orci in ipsum.",
+     "category": "Sports"
+   },
+   {
+     "id": 3,
+     "title": "Post 3",
+     "content": "Vestibulum ante ipsum primis in faucibus.",
+     "category": "Fashion"
+   }
+ ],
+ "pagination": {
+   "total_records": 100,
+   "current_page": 1,
+   "total_pages": 10,
+   "next_page": 2,
+   "prev_page": null
+ }
+}
+```

@@ -8,12 +8,13 @@ import { convertMongoErrorToCustomError } from '../../helper/mongo.helper';
 import { unique } from '../../rule/common/unique.rule';
 import { App as AppModel } from '../../model/app/app.model';
 import { authentication, random } from '../../helper/auth.helper';
+import { paginate } from '../../helper/pagination.helper';
 
 export const create = async (req: Request, res: Response) => {
     try {
         const { name, is_active } = req.body;
 
-        // validation
+        // DB level validation
         let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': name });
         if (validator.fails) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
@@ -41,6 +42,18 @@ export const create = async (req: Request, res: Response) => {
     } catch (error: any) {
         const customErrors = await convertMongoErrorToCustomError(error);
         return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Failed to create the app'], customErrors);
+    }
+};
+
+export const getAllPaginated = async (req: Request, res: Response) => {
+    try {
+        let formData = { ...req?.query, ...req?.body }
+
+        const data = await paginate(req, formData, AppModel);
+
+        return set_response(res, data, HttpStatusCode.OK, true, ['APP list'], null);
+    } catch (error) {
+        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
     }
 };
 
