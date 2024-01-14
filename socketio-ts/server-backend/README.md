@@ -54,6 +54,7 @@ chore: Routine tasks, maintenance, or housekeeping.
 - https://www.youtube.com/watch?v=H91aqUHn8sE 
 - https://www.youtube.com/watch?v=b8ZUb_Okxro
 - https://github.com/mamun-swe/api.auth.asazaoa.com
+- https://medium.com/@ipenywis/node-js-socket-io-namespaces-rooms-and-connections-02-14e84dbdba46
 
 
 ### API
