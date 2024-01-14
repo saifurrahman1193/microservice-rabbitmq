@@ -1,4 +1,3 @@
-import { User } from '../../model/authentication/user.model';
 import { IApp, App } from '../../model/app/app.model';
 
 const getApps = async (): Promise<IApp[]> => await App.find();

@@ -14,7 +14,7 @@ interface IAuthentication {
 interface IApp extends Document {
     name: string;
     authentication: IAuthentication;
-    namespace_path: string;
+    // namespace_path: string;
     is_active: IsActiveEnum;
     created_by?: string;
     created_at?: Date;
@@ -26,7 +26,7 @@ const AppSchema = new Schema<IApp>({
         password: { type: String, required: true, select: false },
         salt: { type: String, required: true, select: false },
     },
-    namespace_path: { type: String, required: true, unique: true },
+    // namespace_path: { type: String, required: true, unique: true },
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],

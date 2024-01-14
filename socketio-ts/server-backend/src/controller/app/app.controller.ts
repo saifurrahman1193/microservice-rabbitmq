@@ -32,7 +32,7 @@ export const create = async (req: Request, res: Response) => {
                 salt,
                 password: authentication(salt, password) // make sure the password is hashed
             },
-            namespace_path: '/' + name,
+            // namespace_path: '/' + name,
             is_active,
             created_by: me ? me.username : null,
             created_at: new Date().toISOString(),
