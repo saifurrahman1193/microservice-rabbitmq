@@ -6,22 +6,25 @@ enum IsActiveEnum {
 }
 
 interface INamespace extends Document {
+    name: string;
     path: string;
     is_active: IsActiveEnum;
-    created_by?: string;
+    created_by?: number;
     created_at?: Date;
+    app_id?: string;
 }
 
 const NamespaceSchema = new Schema<INamespace>({
+    name: { type: String, required: true, unique: true },
     path: { type: String, required: true, unique: true },
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
         default: IsActiveEnum.Active,
     },
-    app: { type: Schema.Types.ObjectId, ref: 'App' }, // Reference to App model
     created_by: { type: String },
     created_at: { type: Date },
+    app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
 });
 
 const Namespace = model<INamespace>('Namespace', NamespaceSchema, 'namespace');

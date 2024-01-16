@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 enum IsActiveEnum {
     Inactive = 0,
@@ -14,10 +14,10 @@ interface IAuthentication {
 interface IApp extends Document {
     name: string;
     authentication: IAuthentication;
-    // namespace_path: string;
     is_active: IsActiveEnum;
-    created_by?: string;
+    created_by?: number;
     created_at?: Date;
+    // namespace: Types.ObjectId[]; // Reference to Namespace model
 }
 
 const AppSchema = new Schema<IApp>({
@@ -26,7 +26,6 @@ const AppSchema = new Schema<IApp>({
         password: { type: String, required: true, select: false },
         salt: { type: String, required: true, select: false },
     },
-    // namespace_path: { type: String, required: true, unique: true },
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
@@ -34,8 +33,9 @@ const AppSchema = new Schema<IApp>({
     },
     created_by: { type: String },
     created_at: { type: Date },
+    // namespace: [{ type: Schema.Types.ObjectId, ref: 'Namespace' }] // Reference to Namespace model
 });
 
-const App = model<IApp>('App', AppSchema, 'app');
+const AppModel = model<IApp>('AppModel', AppSchema, 'app');
 
-export { IApp, App };
+export { IApp, AppModel };
