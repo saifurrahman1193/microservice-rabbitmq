@@ -1,4 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
+import { INamespace } from './namespace.model';
 
 enum IsActiveEnum {
     Inactive = 0,
@@ -17,7 +18,7 @@ interface IApp extends Document {
     is_active: IsActiveEnum;
     created_by?: number;
     created_at?: Date;
-    // namespace: Types.ObjectId[]; // Reference to Namespace model
+    namespace: Types.Array<INamespace['id']>; // Reference to Namespace model
 }
 
 const AppSchema = new Schema<IApp>({
@@ -33,7 +34,7 @@ const AppSchema = new Schema<IApp>({
     },
     created_by: { type: String },
     created_at: { type: Date },
-    // namespace: [{ type: Schema.Types.ObjectId, ref: 'Namespace' }] // Reference to Namespace model
+    namespace: [{ type: Schema.Types.ObjectId, ref: 'Namespace' }] // Reference to Namespace model
 });
 
 const AppModel = model<IApp>('AppModel', AppSchema, 'app');

@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 enum IsActiveEnum {
     Inactive = 0,
@@ -11,7 +11,7 @@ interface INamespace extends Document {
     is_active: IsActiveEnum;
     created_by?: number;
     created_at?: Date;
-    app_id?: string;
+    app_id?: Types.ObjectId;
 }
 
 const NamespaceSchema = new Schema<INamespace>({

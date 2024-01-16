@@ -5,10 +5,10 @@ import { HttpStatusCode } from '../../helper/httpcode.helper';
 import mongoose, { ClientSession } from 'mongoose';
 import { Request } from 'express';
 
-const getAppsPaginated = async (req: Request): Promise<any> => {
-    return await AppModel.find()
-        .populate('namespace') // Assuming 'posts' is the name of the field in the User schema referencing the Post model
-        .exec();
+const getNamespacePaginated = async (req: Request): Promise<any> => {
+    return await Namespace.find()
+        .populate('app_id') // Assuming 'posts' is the name of the field in the User schema referencing the Post model
+        // .exec();
 };
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
@@ -30,7 +30,7 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
                 name,
                 path,
                 is_active,
-                app_id: app._id,
+                app: app._id,
             }))
         );
 
@@ -70,8 +70,8 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
 const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
 
-export const appService = {
-    getAppsPaginated,
+export const namespaceService = {
+    getNamespacePaginated,
     getAppByName,
     getAppById,
     createApp,

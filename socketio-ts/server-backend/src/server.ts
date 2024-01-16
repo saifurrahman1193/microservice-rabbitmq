@@ -1,16 +1,17 @@
 import express from 'express';
 import http from 'http';
 import { config } from './config/index.config';
-import userRoutes from './route/user';
-import authRoutes from './route/authentication';
-import appRoutes from './route/app';
+import userRoutes from './route/user.routes';
+import authRoutes from './route/authentication.routes';
+import appRoutes from './route/app.routes';
+import namespaceRoutes from './route/namespace.routes';
 import cors from 'cors';
 import multer from 'multer';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/apiresponser.helper';
-
+import routes from './route/index.routes';
 
 const router = express();
 
@@ -42,22 +43,8 @@ export const startServer = async () => {
     });
 
 
-    /** Routes */
-    router.use('/api/user', userRoutes);
-    router.use('/api/auth', authRoutes);
-    router.use('/api/app', appRoutes);
-
-    /** Healthcheck */
-    router.get('/ping', (req, res, next) =>
-        set_response(res, null, 200,  true , ['Request successful'], null)
-    );
-
-
-    /** Error handling */
-    router.use((req, res, next) => {
-        const error = new Error('Not found');
-        return set_response(res, null, 404,  true , ['Not Found ' + error.message], null);
-    });
+    // Use your routes configuration
+    router.use(routes);
 
     http.createServer(router).listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
     // https.createServer(options, router).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))

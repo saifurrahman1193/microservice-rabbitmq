@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { appService } from '../../service/app/app.service';
+import { namespaceService } from '../../service/app/namespace.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generateAccessToken } from '../../helper/crypto.helper';
@@ -41,9 +41,13 @@ export const getAllPaginated = async (req: Request, res: Response) => {
     try {
         let formData = { ...req?.query, ...req?.body }
 
-        const data = await paginate(req, formData, AppModel);
+        // const data = await paginate(req, formData, NamespaceModel);
+        const data = await namespaceService.getNamespacePaginated(req);
+        console.log(data);
+        console.log(data.namespace);
+        
 
-        return set_response(res, data, HttpStatusCode.OK, true, ['APP list'], null);
+        return set_response(res, data, HttpStatusCode.OK, true, ['Namespace list'], null);
     } catch (error) {
         return set_response(res, null, 500, false, ['Internal Server Error: '], null);
     }
