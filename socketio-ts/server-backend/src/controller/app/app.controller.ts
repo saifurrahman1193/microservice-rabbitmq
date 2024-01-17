@@ -54,9 +54,7 @@ export const create = async (req: Request, res: Response) => {
 
 export const getAllPaginated = async (req: Request, res: Response) => {
     try {
-        let formData = { ...req?.query, ...req?.body }
 
-        // const data = await paginate(req, formData, AppModel);
         const data = await appService.getAppsPaginated(req);
         console.log(data);
         console.log(data.namespace);
