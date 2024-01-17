@@ -6,9 +6,12 @@ import mongoose, { ClientSession } from 'mongoose';
 import { Request } from 'express';
 
 const getAppsPaginated = async (req: Request): Promise<any> => {
-    return await AppModel.find()
-        .populate('namespace') // Assuming 'posts' is the name of the field in the User schema referencing the Post model
+    let data = await AppModel.find()
+        .lean()
+        .populate('namespace') // Use the virtual property 'namespaces'
         .exec();
+
+    return data;
 };
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });

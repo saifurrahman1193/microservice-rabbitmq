@@ -7,8 +7,9 @@ import { Request } from 'express';
 
 const getNamespacePaginated = async (req: Request): Promise<any> => {
     return await Namespace.find()
-        .populate('app_id') // Assuming 'posts' is the name of the field in the User schema referencing the Post model
-        // .exec();
+        .lean()
+        .populate('app') // Assuming 'posts' is the name of the field in the User schema referencing the Post model
+        .exec();
 };
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });

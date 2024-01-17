@@ -27,6 +27,16 @@ const NamespaceSchema = new Schema<INamespace>({
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
 });
 
+// Add a virtual property to the AppSchema
+NamespaceSchema.virtual('app', {
+    type: 'ObjectId',
+    ref: 'AppModel',
+    foreignField: '_id',
+    localField: 'app_id',
+    justOne : true
+});
+
+
 const Namespace = model<INamespace>('Namespace', NamespaceSchema, 'namespace');
 
 export { INamespace, Namespace };

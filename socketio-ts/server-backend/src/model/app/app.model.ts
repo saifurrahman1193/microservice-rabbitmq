@@ -18,7 +18,6 @@ interface IApp extends Document {
     is_active: IsActiveEnum;
     created_by?: number;
     created_at?: Date;
-    namespace: Types.Array<INamespace['id']>; // Reference to Namespace model
 }
 
 const AppSchema = new Schema<IApp>({
@@ -34,8 +33,16 @@ const AppSchema = new Schema<IApp>({
     },
     created_by: { type: String },
     created_at: { type: Date },
-    namespace: [{ type: Schema.Types.ObjectId, ref: 'Namespace' }] // Reference to Namespace model
 });
+
+// Add a virtual property to the AppSchema
+AppSchema.virtual('namespace', {
+    type: 'ObjectId',
+    ref: 'Namespace',
+    localField: '_id',
+    foreignField: 'app_id',
+});
+
 
 const AppModel = model<IApp>('AppModel', AppSchema, 'app');
 
