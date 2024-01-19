@@ -56,8 +56,8 @@ export const getAllPaginated = async (req: Request, res: Response) => {
     try {
 
         const data = await appService.getAppsPaginated(req);
-        console.log(data);
-        console.log(data.namespace);
+        // console.log(data);
+        // console.log(data.namespace);
         
 
         return set_response(res, data, HttpStatusCode.OK, true, ['APP list'], null);
