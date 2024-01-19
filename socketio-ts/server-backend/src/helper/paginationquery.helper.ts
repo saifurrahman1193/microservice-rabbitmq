@@ -94,3 +94,11 @@ export const paginate = async<T extends Document>(
 export const paginationquery = {
     paginate
 }
+
+
+// ---------usage 1------------
+// let formData = { ...req?.query, ...req?.body }
+
+// return await paginationquery.paginate({
+//     request: req, formData: formData, query: AppModel, populate: { path: 'namespace' }, isLean: true, sort: null
+// });

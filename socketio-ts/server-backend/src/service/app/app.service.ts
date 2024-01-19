@@ -5,29 +5,6 @@ import { HttpStatusCode } from '../../helper/httpcode.helper';
 import mongoose, { ClientSession } from 'mongoose';
 import { Request } from 'express';
 import { paginationquery } from '../../helper/paginationquery.helper';
-import { removeParameterFromURL } from '../../helper/url.helper';
-
-
-// const getAppsPaginated = async (req: Request): Promise<any> => {
-//     let data = await AppModel.find()
-//         .lean()
-//         .populate('namespace') // Use the virtual property 'namespaces'
-//         .exec();
-//     return data;
-// };
-
-// const getAppsPaginated = async (req: Request): Promise<any> => {
-//     let formData = { ...req?.query, ...req?.body }
-//     const data = await paginate(req, formData, AppModel);
-//     return data;
-// };
-
-// const getAppsPaginated = async (req: Request): Promise<any> => {
-//     let formData = { ...req?.query, ...req?.body }
-//     const query = AppModel
-//     return await paginationquery.paginate(req, formData, query, null);
-// };
-
 
 const getAppsPaginated = async (req: Request): Promise<any> => {
     let formData = { ...req?.query, ...req?.body }
