@@ -16,7 +16,7 @@ interface IApp extends Document {
     name: string;
     authentication: IAuthentication;
     is_active: IsActiveEnum;
-    created_by?: number;
+    created_by?: Types.ObjectId;
     created_at?: Date;
 }
 
@@ -31,8 +31,8 @@ const AppSchema = new Schema<IApp>({
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
         default: IsActiveEnum.Active,
     },
-    created_by: { type: String },
-    created_at: { type: Date },
+    created_by: { type: Schema.Types.ObjectId, ref: 'User' },
+    created_at: { type: Date, default: () => Date.now() },
 });
 
 // Add a virtual property to the AppSchema

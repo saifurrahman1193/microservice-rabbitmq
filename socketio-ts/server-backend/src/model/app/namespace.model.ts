@@ -9,7 +9,7 @@ interface INamespace extends Document {
     name: string;
     path: string;
     is_active: IsActiveEnum;
-    created_by?: number;
+    created_by?: Types.ObjectId;
     created_at?: Date;
     app_id?: Types.ObjectId;
 }
@@ -22,8 +22,8 @@ const NamespaceSchema = new Schema<INamespace>({
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
         default: IsActiveEnum.Active,
     },
-    created_by: { type: String },
-    created_at: { type: Date },
+    created_by: { type: Schema.Types.ObjectId, ref: 'User' },
+    created_at: { type: Date, default: () => Date.now() },
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
 });
 

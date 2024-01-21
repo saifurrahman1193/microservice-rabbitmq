@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 // Define the authentication interface
 interface IAuthentication {
@@ -14,6 +14,8 @@ interface IUser extends Document {
     username: string;
     authentication: IAuthentication;
     avatar?: string;
+    created_by?: Types.ObjectId;
+    created_at?: Date;
 }
 
 // Define the user schema
@@ -26,7 +28,9 @@ const UserSchema = new Schema<IUser>({
         salt: { type: String, required: true, select: false },
         sessionToken: { type: String, select: false }
     },
-    avatar: { type: String, required: false } // Assuming avatar is required, adjust as needed
+    avatar: { type: String, required: false }, // Assuming avatar is required, adjust as needed
+    created_by: { type: Schema.Types.ObjectId, ref: 'User' },
+    created_at: { type: Date, default: () => Date.now() },
 });
 
 // Define and export the user model
