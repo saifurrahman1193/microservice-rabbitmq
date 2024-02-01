@@ -66,3 +66,12 @@ export const getAllPaginated = async (req: Request, res: Response) => {
     }
 };
 
+export const getSingle = async (req: Request, res: Response) => {
+    try {
+        const data = await appService.getAppById(req?.params?.id);
+
+        return set_response(res, data, HttpStatusCode.OK, true, ['APP list'], null);
+    } catch (error) {
+        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
+    }
+};

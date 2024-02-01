@@ -16,7 +16,11 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
-const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id });
+const getAppById = async (_id: string | null): Promise<any> => {
+    return await AppModel.findOne({ _id })
+                .lean(true)
+                .populate({ path: 'namespace' })
+};
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
