@@ -4,7 +4,7 @@ const app = express();
 
 
 /** Only Socket Server if Mongoose Connects */
-export const socketServer = async (app_server: any) => {
+export const setupSocketServer = async (app_server: any) => {
 
     // Socket.io server configuration
     const io = new Server(app_server, {

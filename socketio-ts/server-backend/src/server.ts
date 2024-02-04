@@ -8,7 +8,7 @@ import compression from 'compression';
 import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/apiresponser.helper';
 import routes from './route/index.routes';
-import {socketServer} from './socket';
+import {setupSocketServer} from './socket';
 const app = express();
 
 
@@ -46,6 +46,7 @@ export const startServer = async () => {
     // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 
 
-    socketServer(app_server);
+    setupSocketServer(app_server);
+    
 
 };
