@@ -16,7 +16,8 @@ const app = express();
 export const startServer = async () => {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
-    app.use(cors({ origin: "*", credentials: true }));
+    app.use(cors());
+   
     app.use(compression());
     app.use(cookieParser());
     // for parsing multipart/form-data
@@ -42,11 +43,12 @@ export const startServer = async () => {
     // Use your routes configuration
     app.use(routes);
 
-    const app_server = http.createServer(app).listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
-    // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
-
+    const app_server = http.createServer(app)
 
     setupSocketServer(app_server);
+
+    app_server.listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
+    // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 
 
 };

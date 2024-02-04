@@ -1,11 +1,8 @@
 
-const getAllNamespaces = () => 1;
-const getUserWiseAllNamespaces = () => 1;
-const getUserWiseActiveNamespaces = () => 1;
+const createDynamicNamespace = () => {
+    
+};
 
-export const userService = {
-    getAllNamespaces,
-    getUserWiseAllNamespaces,
-    getUserWiseActiveNamespaces,
-
+export const namespaceService = {
+    createDynamicNamespace,
 }
