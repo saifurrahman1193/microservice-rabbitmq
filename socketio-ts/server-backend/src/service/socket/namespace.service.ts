@@ -1,4 +1,3 @@
-import { User } from '../../model/authentication/user.model';
 
 const getAllNamespaces = () => 1;
 const getUserWiseAllNamespaces = () => 1;
