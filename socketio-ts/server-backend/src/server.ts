@@ -8,7 +8,7 @@ import compression from 'compression';
 import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/apiresponser.helper';
 import routes from './route/index.routes';
-import {setupSocketServer} from './socket';
+import { setupSocketServer } from './service/socket';
 const app = express();
 
 
@@ -47,6 +47,6 @@ export const startServer = async () => {
 
 
     setupSocketServer(app_server);
-    
+
 
 };
