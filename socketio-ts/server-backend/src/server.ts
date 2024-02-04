@@ -8,7 +8,7 @@ import compression from 'compression';
 import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/apiresponser.helper';
 import routes from './route/index.routes';
-import { Server, Socket } from 'socket.io';
+import {socketServer} from './socket';
 const app = express();
 
 
@@ -46,22 +46,6 @@ export const startServer = async () => {
     // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 
 
-    // Socket.io server configuration
-    const io = new Server(app_server, {
-        cors: {
-            origin: "*", // Replace with your frontend URL
-            methods: ["GET", "POST"],
-            allowedHeaders: [],
-            credentials: true,
-        },
-    });
-
-    io.on('connection', (socket: Socket) => {
-        console.log('a socket user connected');
-
-        socket.on('disconnect', () => {
-            console.log('socket user disconnected');
-        });
-    });
+    socketServer(app_server);
 
 };
