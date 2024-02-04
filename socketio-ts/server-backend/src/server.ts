@@ -57,10 +57,10 @@ export const startServer = async () => {
     });
 
     io.on('connection', (socket: Socket) => {
-        console.log('a user connected');
+        console.log('a socket user connected');
 
         socket.on('disconnect', () => {
-            console.log('user disconnected');
+            console.log('socket user disconnected');
         });
     });
 
