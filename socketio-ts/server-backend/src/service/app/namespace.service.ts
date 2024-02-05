@@ -12,6 +12,11 @@ const getNamespacePaginated = async (req: Request): Promise<any> => {
         .exec();
 };
 
+const checkExistanceNamespaceByPath = async (path: any): Promise<any> => {
+    console.log(path);
+    
+    return await Namespace.exists({ path: path })
+};
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id });
 
@@ -73,6 +78,7 @@ const updateAppById = async (id: string, values: Record<string, any>): Promise<a
 
 export const namespaceService = {
     getNamespacePaginated,
+    checkExistanceNamespaceByPath,
     getAppByName,
     getAppById,
     createApp,
