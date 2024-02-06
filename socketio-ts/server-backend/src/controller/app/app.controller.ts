@@ -7,7 +7,6 @@ import { userService } from '../../service/authentication/user.service';
 import { convertMongoErrorToCustomError } from '../../helper/mongo.helper';
 import { unique } from '../../rule/common/unique.rule';
 import { AppModel } from '../../model/app/app.model';
-import { authentication, random } from '../../helper/auth.helper';
 
 export const create = async (req: Request, res: Response) => {
     try {
@@ -29,17 +28,16 @@ export const create = async (req: Request, res: Response) => {
 
         // Create a new app
         const password = generateRandomText(60); // generate a 60 char auto password
-        // const result = await appService.createApp({
-        //     name,
-        //     password,
-        //     is_active,
-        //     created_by: me ? me?._id : null,
-        //     created_at: new Date().toISOString(),
-        //     namespace: namespaces_formatted
-        // });
+        const result = await appService.createApp({
+            name,
+            password,
+            is_active,
+            created_by: me ? me?._id : null,
+            created_at: new Date().toISOString(),
+            namespace: namespaces_formatted
+        });
 
-        // return set_response(res, result.data, result.code, result.status, result.msg, result.errors);
-        console.log(password);
+        return set_response(res, result.data, result.code, result.status, result.msg, result.errors);
     } catch (error: any) {
         console.log(error);
         
