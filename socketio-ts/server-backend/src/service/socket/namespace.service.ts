@@ -17,7 +17,7 @@ const processNamespace = async (io: Server) => {
                 console.log(`A user connected to registered namespace: ${namespaceName}`);
                 // Handle connections within the registered namespace
 
-                roomService.joinRoom(socket);
+                roomService.joinRoom(socket);  // joining to a room
 
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);

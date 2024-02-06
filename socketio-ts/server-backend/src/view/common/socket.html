@@ -9,7 +9,12 @@
     <h1>Socket.IO Test</h1>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io('http://localhost:86/otl');
+        const socket = io('http://localhost:86/otl', {
+                            query: {
+                                app_id: 'value1',
+                                app_password: 'value2',
+                            }
+                        });
 
         socket.on('connect', () => {
             console.log('connected');

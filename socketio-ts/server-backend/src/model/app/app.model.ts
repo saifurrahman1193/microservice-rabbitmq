@@ -1,20 +1,13 @@
 import { Schema, model, Document, Types } from 'mongoose';
-import { INamespace } from './namespace.model';
 
 enum IsActiveEnum {
     Inactive = 0,
     Active = 1,
 }
 
-// Define the authentication interface
-interface IAuthentication {
-    salt: string;
-    password: string;
-}
-
 interface IApp extends Document {
     name: string;
-    authentication: IAuthentication;
+    password: string;
     is_active: IsActiveEnum;
     created_by?: Types.ObjectId;
     created_at?: Date;
@@ -22,10 +15,7 @@ interface IApp extends Document {
 
 const AppSchema = new Schema<IApp>({
     name: { type: String, required: true, unique: true },
-    authentication: {
-        password: { type: String, required: true, select: false },
-        salt: { type: String, required: true, select: false },
-    },
+    password: { type: String, required: true},
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
