@@ -8,10 +8,11 @@ const processNamespace = async (io: Server) => {
 
     namespace.on('connection', async (socket: Socket) => {
         const namespaceName = socket.nsp.name;
+        const queryParams = socket.handshake.query;
 
         // Check if the namespace is registered in MongoDB
         try {
-            const namespaceExists = await namespaceServiceDB.checkExistanceNamespaceByPath(namespaceName);
+            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, queryParams);
 
             if (namespaceExists) {
                 console.log(`A user connected to registered namespace: ${namespaceName}`);
