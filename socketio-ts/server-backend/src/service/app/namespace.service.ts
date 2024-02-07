@@ -19,12 +19,6 @@ const checkExistanceNamespaceByPath = async (path: any): Promise<any> => {
 };
 
 const checkExistanceValidNamespace = async (path: any, queryParams: any): Promise<any> => {
-    // return await Namespace.exists({
-    //     path: path,
-    //     app_id: queryParams?.app_id,
-    //     // app_password: queryParams?.app_password
-    // })
-
     const namespaceDoc: any = await Namespace.findOne({
         path: path,
         app_id: queryParams?.app_id,
@@ -32,7 +26,6 @@ const checkExistanceValidNamespace = async (path: any, queryParams: any): Promis
     .lean()
     .populate('app');
 
-    // Check if the Namespace document and the referenced App document exist
     return namespaceDoc && namespaceDoc?.app?.password == queryParams?.app_password;
 };
 
