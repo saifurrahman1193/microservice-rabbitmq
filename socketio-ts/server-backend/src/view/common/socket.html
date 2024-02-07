@@ -21,11 +21,14 @@
         });
 
         // Join a specific room
-        const roomName = 'room1';
-        socket.emit('joinRoom', roomName);
+        const room1 = 'room1';
+        const room2 = 'room2';
+
+        // socket.emit('joinRoom', room1);
+        socket.emit('joinRooms', [room1, room2]);
         
-        socket.on('joinedRoom', (msg) => {
-            console.log('======joinedRoom======', msg);
+        socket.on('joinedRoom', (data) => {
+            console.log('======joinedRoom======', data);
         });
 
         socket.on('disconnect', () => {
