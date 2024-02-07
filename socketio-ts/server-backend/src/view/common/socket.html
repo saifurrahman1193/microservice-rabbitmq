@@ -23,6 +23,10 @@
         // Join a specific room
         const roomName = 'room1';
         socket.emit('joinRoom', roomName);
+        
+        socket.on('joinedRoom', (msg) => {
+            console.log('======joinedRoom======', msg);
+        });
 
         socket.on('disconnect', () => {
             console.log('disconnected');
