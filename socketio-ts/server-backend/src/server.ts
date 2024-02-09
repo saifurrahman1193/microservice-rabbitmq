@@ -43,10 +43,10 @@ export const startServer = async () => {
     // Use your routes configuration
     app.use(routes);
 
-    const app_server = http.createServer(app)
+    const express_server = http.createServer(app)
 
-    setupSocketServer(app_server);  // socket server setup
+    setupSocketServer(express_server);  // socket server setup
 
-    app_server.listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
+    express_server.listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
     // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))
 };
