@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io';
 
+// event
 const joinRoom = (socket: Socket) => {
     socket.on('joinRoom', (room) => {
         socket.join(room);
@@ -7,6 +8,7 @@ const joinRoom = (socket: Socket) => {
     });
 };
 
+// event
 const joinRooms = (socket: Socket) => {
     socket.on('joinRooms', (rooms: Array<string>) => {
         socket.join(rooms)
@@ -16,6 +18,7 @@ const joinRooms = (socket: Socket) => {
     });
 };
 
+// event
 const joinedRoom = (socket: Socket, room: any) => {
     console.log(`User ${socket.id} joined room: ${room}`);
     
