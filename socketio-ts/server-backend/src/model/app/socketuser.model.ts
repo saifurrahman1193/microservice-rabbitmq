@@ -14,12 +14,14 @@ interface ISocketUser extends Document {
 
     created_by?: Types.ObjectId;
     created_at?: Date;
+    updated_by?: Types.ObjectId;
+    updated_at?: Date;
 }
 
 const SocketUserSchema = new Schema<ISocketUser>({
-    user_id: { type: String, required: true},    
-    socket_id: { type: String, required: true},    
-    username: { type: String, required: false },
+    user_id: { type: String, required: false},    // client = user_id
+    socket_id: { type: String, required: true},  // server user_id = socket_id
+    username: { type: String, required: false },    // client = user_name
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
     is_active: {
         type: Number,
@@ -29,6 +31,8 @@ const SocketUserSchema = new Schema<ISocketUser>({
 
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
+    updated_by: { type: Schema.Types.ObjectId, ref: 'User' },
+    updated_at: { type: Date, default: () => Date.now() },
 });
 
 // Add a virtual property to the SocketUserSchema

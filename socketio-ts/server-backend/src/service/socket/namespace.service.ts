@@ -1,5 +1,6 @@
 import { Server, Socket } from 'socket.io';
 import { namespaceService as namespaceServiceDB } from '../app/namespace.service';
+import { socketuserService } from '../app/socketuser.service';
 import { roomService } from './room.service';
 roomService
 
@@ -20,6 +21,16 @@ const processNamespace = async (io: Server) => {
 
                 roomService.joinRoom(socket);  // joining to a room
                 roomService.joinRooms(socket);  // joining to multiple room
+
+                // const result = await socketuserService.createSocketUser({
+                //     user_id: queryParams?.user_id,
+                //     socket_id: socket.id,
+                //     username: queryParams?.username,
+                //     // app_id: await namespaceServiceDB.getAppIdByNamespace(namespaceName),
+
+                //     // created_by,
+                //     created_at: new Date().toISOString(),
+                // });
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
                 // Handle unauthorized connections or take appropriate action
@@ -33,6 +44,8 @@ const processNamespace = async (io: Server) => {
     });
 
 };
+
+
 
 export const namespaceService = {
     processNamespace,
