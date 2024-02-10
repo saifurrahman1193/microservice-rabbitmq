@@ -9,9 +9,10 @@ interface INamespace extends Document {
     name: string;
     path: string;
     is_active: IsActiveEnum;
+    app_id?: Types.ObjectId;
+
     created_by?: Types.ObjectId;
     created_at?: Date;
-    app_id?: Types.ObjectId;
 }
 
 const NamespaceSchema = new Schema<INamespace>({
@@ -22,9 +23,10 @@ const NamespaceSchema = new Schema<INamespace>({
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
         default: IsActiveEnum.Active,
     },
+    app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
+    
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
-    app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
 });
 
 // Add a virtual property to the AppSchema
