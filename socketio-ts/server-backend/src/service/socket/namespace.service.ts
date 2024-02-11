@@ -22,15 +22,18 @@ const processNamespace = async (io: Server) => {
                 roomService.joinRoom(socket);  // joining to a room
                 roomService.joinRooms(socket);  // joining to multiple room
 
-                // const result = await socketuserService.createSocketUser({
-                //     user_id: queryParams?.user_id,
-                //     socket_id: socket.id,
-                //     username: queryParams?.username,
-                //     // app_id: await namespaceServiceDB.getAppIdByNamespace(namespaceName),
+                const result = await socketuserService.createSocketUser({
+                    user_id: queryParams?.user_id,
+                    socket_id: socket.id,
+                    username: queryParams?.username,
+                    app_id: await namespaceServiceDB.getAppIdByNamespace(namespaceName),
 
-                //     // created_by,
-                //     created_at: new Date().toISOString(),
-                // });
+                    // created_by,
+                    created_at: new Date().toISOString(),
+                });
+
+                console.log(result);
+                
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
                 // Handle unauthorized connections or take appropriate action

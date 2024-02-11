@@ -55,7 +55,7 @@ const createSocketUser = async (values: Record<string, any>): Promise<any> => {
             data: socketuser.toObject(),
             code: HttpStatusCode.OK,
             status: true,
-            msg: ['Successfully created the app'],
+            msg: ['Successfully created the socket user'],
             errors: null,
         };
     } catch (error: any) {

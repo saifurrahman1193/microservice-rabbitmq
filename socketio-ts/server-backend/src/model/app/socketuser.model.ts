@@ -44,6 +44,6 @@ SocketUserSchema.virtual('app', {
     justOne : true
 });
 
-const SocketUser = model<ISocketUser>('SocketUser', SocketUserSchema, 'app');
+const SocketUser = model<ISocketUser>('SocketUser', SocketUserSchema, 'socketuser');
 
 export { ISocketUser, SocketUser };
