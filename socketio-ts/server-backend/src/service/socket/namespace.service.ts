@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io';
 import { namespaceService as namespaceServiceDB } from '../app/namespace.service';
-import { socketuserService } from '../app/socketuser.service';
+import { userService } from './user.service';
 import { roomService } from './room.service';
 roomService
 
@@ -22,30 +22,20 @@ const processNamespace = async (io: Server) => {
                 roomService.joinRoom(socket);  // joining to a room
                 roomService.joinRooms(socket);  // joining to multiple room
 
-                const result = await socketuserService.createSocketUser({
-                    user_id: queryParams?.user_id,
-                    socket_id: socket.id,
-                    username: queryParams?.username,
-                    app_id: await namespaceServiceDB.getAppIdByNamespace(namespaceName),
-
-                    // created_by,
-                    created_at: new Date().toISOString(),
-                });
-
-                console.log(result);
-                
+                userService.onConnectSuccessDBLog(socket)
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
                 // Handle unauthorized connections or take appropriate action
                 socket.disconnect();
+                userService.onConnectFailDBLog(socket)
             }
         } catch (error) {
             console.error('Error checking namespace in MongoDB:', error);
             // Handle the error as needed
             socket.disconnect();
+            userService.onConnectFailDBLog(socket)
         }
     });
-
 };
 
 

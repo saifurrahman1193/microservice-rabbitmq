@@ -32,7 +32,7 @@ const checkExistanceValidNamespace = async (path: any, queryParams: any): Promis
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id });
 
-const getAppIdByNamespace = async (namespace: string): Promise<any> => await Namespace.findOne({ path: namespace }, 'app_id');
+const getAppByNamespace = async (namespace: string): Promise<any> => await Namespace.findOne({ path: namespace });
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
@@ -96,7 +96,7 @@ export const namespaceService = {
     checkExistanceValidNamespace,
     getAppByName,
     getAppById,
-    getAppIdByNamespace,
+    getAppByNamespace,
     createApp,
     updateAppById,
 }

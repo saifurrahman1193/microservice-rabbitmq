@@ -78,9 +78,52 @@ const createSocketUser = async (values: Record<string, any>): Promise<any> => {
     }
 };
 
+const updateSocketUser = async (values: Record<string, any>): Promise<any> => {
+    let session: ClientSession | null = null;
+
+    try {
+        session = await mongoose.startSession();
+        session.startTransaction();
+
+        const socketuser = await SocketUser.findOneAndUpdate({socket_id}, values, { session });
+
+        await socketuser.save();
+
+        // Commit the transaction
+        await session.commitTransaction();
+        session.endSession();
+
+        return {
+            data: socketuser.toObject(),
+            code: HttpStatusCode.OK,
+            status: true,
+            msg: ['Successfully created the socket user'],
+            errors: null,
+        };
+    } catch (error: any) {
+        if (session) {
+            // If any operation fails, roll back the entire transaction
+            await session.abortTransaction();
+            session.endSession();
+        }
+
+        console.error(error);
+
+        const customErrors = await convertMongoErrorToCustomError(error);
+        return {
+            data: null,
+            code: HttpStatusCode.InternalServerError,
+            status: false,
+            msg: ['Failed to create the socket user'],
+            errors: customErrors,
+        };
+    }
+};
+
 
 // const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
 
 export const socketuserService = {
     createSocketUser,
+    updateSocketUser,
 }
