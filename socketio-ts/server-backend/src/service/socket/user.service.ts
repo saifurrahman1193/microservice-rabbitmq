@@ -19,18 +19,11 @@ const onConnectSuccessDBLog = async(socket: Socket) => {
     });
 };
 
-const onConnectFailDBLog = async(socket: Socket) => {
-
-    const namespaceName = socket.nsp.name;
-    const queryParams = socket.handshake.query;
-
-    const app_data = await namespaceServiceDB.getAppByNamespace(namespaceName);
-
-    const result = await socketuserService.updateSocketUser({
-        user_id: queryParams?.user_id,
-        socket_id: socket.id,
-        username: queryParams?.username,
-        app_id: app_data?.app_id,
+const onConnectFailDBLog = async(params: any) => {
+    await socketuserService.updateSocketUser({
+        socket_id: params?.socket_id,
+        is_active: 0,
+        updated_at: new Date().toISOString(),
     });
 };
 
