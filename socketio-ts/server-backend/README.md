@@ -5,16 +5,21 @@
   - [Client Side Events](#client-side-events)
     - [Events](#events)
         - [single-chat/receive-message](#single-chatreceive-message)
-  - [Server Side Events](#server-side-events)
-    - [Events](#events-1)
       - [Default Events](#default-events)
         - [connect](#connect)
         - [disconnect](#disconnect)
       - [Custom Events](#custom-events)
+        - [joined-room](#joined-room)
+  - [Server Side Events](#server-side-events)
+    - [Events](#events-1)
+      - [Default Events](#default-events-1)
+        - [connect](#connect-1)
+        - [disconnect](#disconnect-1)
+      - [Custom Events](#custom-events-1)
         - [join-room](#join-room)
         - [join-rooms](#join-rooms)
         - [leave-room](#leave-room)
-        - [joined-room](#joined-room)
+        - [joined-room](#joined-room-1)
         - [left-room](#left-room)
         - [single-chat/send-message](#single-chatsend-message)
 - [Project Setup](#project-setup)
@@ -33,6 +38,11 @@
 ### Client Side Events
 #### Events
 ###### single-chat/receive-message
+##### Default Events
+###### connect
+###### disconnect
+##### Custom Events
+###### joined-room
 
 
 ### Server Side Events

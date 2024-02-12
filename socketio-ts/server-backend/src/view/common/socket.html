@@ -27,7 +27,9 @@
         const room1 = 'room1';
         const room2 = 'room2';
 
-        socket.emit('join-room', room1);
+        socket.emit('join-room', room1, (response) => {
+            console.log('Server responded:', response?.message);
+        });
         socket.emit('join-rooms', [room1, room2]);
 
         socket.on('joined-room', (data) => {

@@ -21,12 +21,10 @@ const processNamespace = async (io: Server) => {
                 userService.onConnectSuccessDBLog({socket_id:socket.id, namespace: namespaceName })
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
-                // Handle unauthorized connections or take appropriate action
                 socket.disconnect();
             }
         } catch (error) {
             console.error('Error checking namespace in MongoDB:', error);
-            // Handle the error as needed
             socket.disconnect();
         }
 
