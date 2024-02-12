@@ -4,18 +4,14 @@ import { namespaceService as namespaceServiceDB } from '../app/namespace.service
 
 // db insert
 // connection is established so db entry
-const onConnectSuccessDBLog = async(socket: Socket) => {
-
-    const namespaceName = socket.nsp.name;
-    const queryParams = socket.handshake.query;
-
-    const app_data = await namespaceServiceDB.getAppByNamespace(namespaceName);
+const onConnectSuccessDBLog = async(params: any) => {
+    const app_data = await namespaceServiceDB.getAppByNamespace(params?.namespace);
 
     const result = await socketuserService.createSocketUser({
-        user_id: queryParams?.user_id,
-        socket_id: socket.id,
-        username: queryParams?.username,
-        app_id: app_data?.app_id,
+        user_id: params?.user_id,
+        socket_id: params?.socket_id,
+        username: params?.username,
+        app_id: params?.app_id,
     });
 };
 

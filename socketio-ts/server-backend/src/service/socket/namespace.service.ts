@@ -2,7 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { namespaceService as namespaceServiceDB } from '../app/namespace.service';
 import { userService } from './user.service';
 import { roomService } from './room.service';
-roomService
+// import { singleChatService } from './singlechat.service';
 
 const processNamespace = async (io: Server) => {
     const namespace = io.of(/^\/\w+$/);  // Dynamic Namespace
@@ -21,8 +21,9 @@ const processNamespace = async (io: Server) => {
 
                 roomService.joinRoom(socket);  // joining to a room
                 roomService.joinRooms(socket);  // joining to multiple room
+                // singleChatService.
 
-                userService.onConnectSuccessDBLog(socket)
+                userService.onConnectSuccessDBLog({socket_id:socket.id, namespace: namespaceName })
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
                 // Handle unauthorized connections or take appropriate action
