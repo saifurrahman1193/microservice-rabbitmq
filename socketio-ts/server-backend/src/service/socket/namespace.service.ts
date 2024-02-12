@@ -23,7 +23,7 @@ const processNamespace = async (io: Server) => {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
                 socket.disconnect();
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error checking namespace in MongoDB:', error);
             socket.disconnect();
         }
