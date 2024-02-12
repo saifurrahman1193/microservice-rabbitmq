@@ -2,7 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { namespaceService as namespaceServiceDB } from '../app/namespace.service';
 import { userService } from './user.service';
 import { roomService } from './room.service';
-// import { singleChatService } from './singlechat.service';
+import { singleChatService } from './singlechat.service';
 
 const processNamespace = async (io: Server) => {
     const namespace = io.of(/^\/\w+$/);  // Dynamic Namespace
@@ -19,9 +19,9 @@ const processNamespace = async (io: Server) => {
                 // console.log(`A user connected to registered namespace: ${namespaceName}`);
                 // Handle connections within the registered namespace
 
-                roomService.joinRoom(socket);  // joining to a room
-                roomService.joinRooms(socket);  // joining to multiple room
-                // singleChatService.
+                roomService.joinRoomProcess(socket);  // joining to a room
+                roomService.joinRoomsProcess(socket);  // joining to multiple room
+                singleChatService.sendMessageProcess(socket)
 
                 userService.onConnectSuccessDBLog({socket_id:socket.id, namespace: namespaceName })
             } else {

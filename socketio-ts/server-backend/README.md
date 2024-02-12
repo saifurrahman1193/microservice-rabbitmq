@@ -4,6 +4,7 @@
 - [All Terms](#all-terms)
   - [Client Side Events](#client-side-events)
     - [Events](#events)
+        - [single-chat/receive-message](#single-chatreceive-message)
   - [Server Side Events](#server-side-events)
     - [Events](#events-1)
       - [Default Events](#default-events)
@@ -15,6 +16,7 @@
         - [leave-room](#leave-room)
         - [joined-room](#joined-room)
         - [left-room](#left-room)
+        - [single-chat/send-message](#single-chatsend-message)
 - [Project Setup](#project-setup)
   - [package.json](#packagejson)
   - [Commands](#commands)
@@ -30,6 +32,7 @@
 ## All Terms
 ### Client Side Events
 #### Events
+###### single-chat/receive-message
 
 
 ### Server Side Events
@@ -43,6 +46,7 @@
 ###### leave-room
 ###### joined-room
 ###### left-room
+###### single-chat/send-message
 
 
 ## Project Setup

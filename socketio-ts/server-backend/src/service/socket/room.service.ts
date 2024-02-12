@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 
 // event
-const joinRoom = (socket: Socket) => {
+const joinRoomProcess = (socket: Socket) => {
     socket.on('join-room', (room) => {
         socket.join(room);
         joinedRoom(socket, room)
@@ -9,7 +9,7 @@ const joinRoom = (socket: Socket) => {
 };
 
 // event
-const joinRooms = (socket: Socket) => {
+const joinRoomsProcess = (socket: Socket) => {
     socket.on('join-rooms', (rooms: Array<string>) => {
         socket.join(rooms)
         rooms.forEach(room => {
@@ -29,6 +29,6 @@ const joinedRoom = (socket: Socket, room: any) => {
 
 
 export const roomService = {
-    joinRoom,
-    joinRooms
+    joinRoomProcess,
+    joinRoomsProcess
 }

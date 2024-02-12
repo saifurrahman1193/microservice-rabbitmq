@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io';
 
 // event
-const sendMessage = (socket: Socket) => {
+const sendMessageProcess = (socket: Socket) => {
     socket.on('single-chat/send-message', (params: any) => {
         console.log(`Received message from ${socket.id}: ${params?.message}`);
 
@@ -12,5 +12,5 @@ const sendMessage = (socket: Socket) => {
 
 
 export const singleChatService = {
-    sendMessage,
+    sendMessageProcess,
 }
