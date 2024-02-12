@@ -4,10 +4,9 @@ import { namespaceService as namespaceServiceDB } from '../app/namespace.service
 
 // Database insert on successful connection
 const onConnectSuccessDBLog = async (params: {
-    user_id: string;
+    user_id?: string;
     socket_id: string;
-    username: string;
-    app_id: string;
+    username?: string;
     namespace: string;
 }): Promise<void> => {
     try {
@@ -18,7 +17,7 @@ const onConnectSuccessDBLog = async (params: {
             user_id: params?.user_id,
             socket_id: params?.socket_id,
             username: params?.username,
-            app_id: params?.app_id,
+            app_id: app_data?.app_id,
         });
     } catch (error: any) {
         // Handle any errors that occurred during database insertion

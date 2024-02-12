@@ -2,14 +2,14 @@ import { Socket } from 'socket.io';
 
 // event
 const joinRoomProcess = (socket: Socket) => {
-    socket.on('join-room', (room: string, acknowledgment: any | null) => {
+    socket.on('join-room', (room: string, acknowledgment: (result: any) => void) => {
         joinRoom(socket, room, acknowledgment);
     });
 };
 
 // event
 const joinRoomsProcess = (socket: Socket) => {
-    socket.on('join-rooms', (rooms: Array<string>, acknowledgment: any | null) => {
+    socket.on('join-rooms', (rooms: Array<string>, acknowledgment: (result: any) => void) => {
         rooms.forEach((room) => {
             socket.join(room);
             joinRoom(socket, room, acknowledgment);
@@ -18,7 +18,7 @@ const joinRoomsProcess = (socket: Socket) => {
 };
 
 // function
-const joinRoom = (socket: Socket, room: any, acknowledgment: any | null) => {
+const joinRoom = (socket: Socket, room: any, acknowledgment: (result: any) => void) => {
     console.log(`User ${socket.id} joined room: ${room}`);
 
     // Emit 'joined-room' event to the specified room
