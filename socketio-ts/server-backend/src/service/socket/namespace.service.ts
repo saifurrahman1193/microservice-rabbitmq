@@ -11,18 +11,13 @@ const processNamespace = async (io: Server) => {
         const namespaceName = socket.nsp.name;
         const queryParams = socket.handshake.query;
 
-        // Check if the namespace is registered in MongoDB
         try {
-            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, queryParams);
+            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, queryParams); // Check if the namespace is registered in MongoDB
 
             if (namespaceExists) {
-                // console.log(`A user connected to registered namespace: ${namespaceName}`);
-                // Handle connections within the registered namespace
-
                 roomService.joinRoomProcess(socket);  // joining to a room
                 roomService.joinRoomsProcess(socket);  // joining to multiple room
                 singleChatService.sendMessageProcess(socket)
-
                 userService.onConnectSuccessDBLog({socket_id:socket.id, namespace: namespaceName })
             } else {
                 console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
@@ -43,8 +38,6 @@ const processNamespace = async (io: Server) => {
     });
     
 };
-
-
 
 export const namespaceService = {
     processNamespace,
