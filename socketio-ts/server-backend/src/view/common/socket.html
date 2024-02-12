@@ -44,17 +44,6 @@
             console.log('disconnected');
         });
 
-        socket.on('reconnect', (attemptNumber) => {
-            console.log(`Reconnected to server after ${attemptNumber} attempts`);
-        });
-
-        socket.on('reconnect-attempt', (attemptNumber) => {
-            console.log(`Attempting to reconnect (attempt ${attemptNumber})`);
-        });
-
-        socket.on('single-chat/send-message', (message) => {
-            console.log(`Received message: ${message}`);
-        });
     </script>
 </body>
 
