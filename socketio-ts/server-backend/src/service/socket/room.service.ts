@@ -2,7 +2,7 @@ import { Socket } from 'socket.io';
 
 // event
 const joinRoom = (socket: Socket) => {
-    socket.on('joinRoom', (room) => {
+    socket.on('join-room', (room) => {
         socket.join(room);
         joinedRoom(socket, room)
     });
@@ -10,7 +10,7 @@ const joinRoom = (socket: Socket) => {
 
 // event
 const joinRooms = (socket: Socket) => {
-    socket.on('joinRooms', (rooms: Array<string>) => {
+    socket.on('join-rooms', (rooms: Array<string>) => {
         socket.join(rooms)
         rooms.forEach(room => {
             joinedRoom(socket, room)
@@ -22,7 +22,7 @@ const joinRooms = (socket: Socket) => {
 const joinedRoom = (socket: Socket, room: any) => {
     console.log(`User ${socket.id} joined room: ${room}`);
     
-    socket.to(room).emit('joinedRoom', {
+    socket.to(room).emit('joined-room', {
         user: socket.id, room: room, rooms: socket.rooms
     })
 }

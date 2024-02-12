@@ -10,29 +10,50 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io('http://localhost:86/otl', {
-                            query: {
-                                app_id: '65c2618466e7f0e7b1613582',
-                                app_password: 'Oy6TZlEsQxy9kTAbvgtRMNYFcHIHjYativmlaEAa3Z6AE7x9bkL2mCYYItXS',
-                            }
-                        });
+            query: {
+                // app_id: '65c2618466e7f0e7b1613582',  // home
+                // app_password: 'Oy6TZlEsQxy9kTAbvgtRMNYFcHIHjYativmlaEAa3Z6AE7x9bkL2mCYYItXS',
+
+                app_id: '65c45ead2cd858e4e2f5b2ad',  // office
+                app_password: 'DRlGaNmmb9SnW5gjuvAA7IMpNKrFDAAderryD1xzZZXk51xrjQffk1AvakYZ',
+            }
+        });
 
         socket.on('connect', (data) => {
-            console.log('connected');
+            console.log('connected', socket.id);
         });
 
         // Join a specific room
         const room1 = 'room1';
         const room2 = 'room2';
 
-        // socket.emit('joinRoom', room1);
-        socket.emit('joinRooms', [room1, room2]);
-        
-        socket.on('joinedRoom', (data) => {
-            console.log('======joinedRoom======', data);
+        socket.emit('join-room', room1);
+        socket.emit('join-rooms', [room1, room2]);
+
+        socket.on('joined-room', (data) => {
+            console.log('======joined-room======', data);
+        });
+        socket.on('leave-room', (room) => {
+            console.log(`Left room: ${room}`);
+        });
+        socket.on('left-room', (room) => {
+            console.log(`Left room: ${room}`);
         });
 
         socket.on('disconnect', () => {
             console.log('disconnected');
+        });
+
+        socket.on('reconnect', (attemptNumber) => {
+            console.log(`Reconnected to server after ${attemptNumber} attempts`);
+        });
+
+        socket.on('reconnect-attempt', (attemptNumber) => {
+            console.log(`Attempting to reconnect (attempt ${attemptNumber})`);
+        });
+
+        socket.on('single-chat/send-message', (message) => {
+            console.log(`Received message: ${message}`);
         });
     </script>
 </body>
