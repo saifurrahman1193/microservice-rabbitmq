@@ -34,7 +34,7 @@ const processNamespace = async (io: Server) => {
             singleChatService.sendMessageProcess(socket);
 
             // Log successful connection to the database
-            userService.onConnectSuccessDBLog({ socket_id: socket.id, namespace: socket.nsp.name });
+            userService.onConnectSuccessDBLog({ socket_id: socket.id, namespace: namespaceName });
         } catch (error: any) {
             console.error('Error during connection:', error?.message);
             // Handle errors during connection logic
