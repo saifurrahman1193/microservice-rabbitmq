@@ -6,35 +6,47 @@ import { singleChatService } from './singlechat.service';
 
 const processNamespace = async (io: Server) => {
     const namespace = io.of(/^\/\w+$/);  // Dynamic Namespace
+    let namespaceName = '';
 
-    namespace.on('connection', async (socket: Socket) => {
-        const namespaceName = socket.nsp.name;
-        const queryParams = socket.handshake.query;
-
+    namespace.use(async (socket, next) => {
         try {
-            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, queryParams); // Check if the namespace is registered in MongoDB
+            const { app_id, app_password } = socket.handshake.auth;
+            const namespaceName = socket.nsp.name;
+
+            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, app_id, app_password);
 
             if (namespaceExists) {
-                roomService.joinRoomProcess(socket);  // joining to a room
-                roomService.joinRoomsProcess(socket);  // joining to multiple room
-                singleChatService.sendMessageProcess(socket)
-                userService.onConnectSuccessDBLog({socket_id:socket.id, namespace: namespaceName })
+                return next(); // Authentication successful, allow the connection
             } else {
-                console.log(`Connection attempt to unregistered namespace: ${namespaceName}`);
-                socket.disconnect();
+                throw new Error(`Connection attempt to unregistered namespace: ${namespaceName}`);
             }
         } catch (error: any) {
-            console.error('Error checking namespace in MongoDB:', error);
-            socket.disconnect();
+            console.error('Namespace authentication error:', error?.message);
+            return next(new Error('Authentication failed')); // Prevent connection if authentication fails
+        }
+    });
+
+    namespace.on('connection', async (socket: Socket) => {
+        try {
+            // Room and chat logic
+            roomService.joinRoomProcess(socket);
+            roomService.joinRoomsProcess(socket);
+            singleChatService.sendMessageProcess(socket);
+
+            // Log successful connection to the database
+            userService.onConnectSuccessDBLog({ socket_id: socket.id, namespace: socket.nsp.name });
+        } catch (error: any) {
+            console.error('Error during connection:', error?.message);
+            // Handle errors during connection logic
         }
 
-        // Listen for the 'disconnect' event
+        // Disconnect event handling
         socket.on('disconnect', () => {
             console.log(`Socket ${socket.id} disconnected`);
-            userService.onConnectFailDBLog({socket_id: socket.id})
+            // Log disconnect event to the database
+            userService.onConnectFailDBLog({ socket_id: socket.id });
         });
     });
-    
 };
 
 export const namespaceService = {

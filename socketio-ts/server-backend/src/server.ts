@@ -18,10 +18,10 @@ export const startServer = async () => {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
     const allowed_websites = await appServiceDB.getAllAllowedSites();
-    console.log('allowed_websites', allowed_websites);
     app.use(cors({
-        origin: [allowed_websites || '*'], // Replace with your frontend URL "https://admin.socket.io"
+        origin: [...allowed_websites || '*'], // Replace with your frontend URL "https://admin.socket.io"
     }));
+    
 
     app.use(compression());
     app.use(cookieParser());

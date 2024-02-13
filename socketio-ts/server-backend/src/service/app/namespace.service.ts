@@ -13,20 +13,18 @@ const getNamespacePaginated = async (req: Request): Promise<any> => {
 };
 
 const checkExistanceNamespaceByPath = async (path: any): Promise<any> => {
-    console.log(path);
-
     return await Namespace.exists({ path: path })
 };
 
-const checkExistanceValidNamespace = async (path: any, queryParams: any): Promise<any> => {
+const checkExistanceValidNamespace = async (path: any, app_id: any, app_password: any): Promise<any> => {
     const namespaceDoc: any = await Namespace.findOne({
         path: path,
-        app_id: queryParams?.app_id,
+        app_id: app_id,
     })
     .lean()
     .populate('app');
 
-    return namespaceDoc && namespaceDoc?.app?.password == queryParams?.app_password;
+    return namespaceDoc && namespaceDoc?.app?.password == app_password;
 };
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
