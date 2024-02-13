@@ -10,7 +10,7 @@ import { AppModel } from '../../model/app/app.model';
 
 export const create = async (req: Request, res: Response) => {
     try {
-        const { name, is_active, namespaces } = req.body;
+        const { name, is_active, namespaces, websites } = req.body;
 
         // DB level validation
         let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': name });
@@ -32,9 +32,10 @@ export const create = async (req: Request, res: Response) => {
             name,
             password,
             is_active,
+            namespace: namespaces_formatted,
+            websites,
             created_by: me ? me?._id : null,
             created_at: new Date().toISOString(),
-            namespace: namespaces_formatted
         });
 
         return set_response(res, result.data, result.code, result.status, result.msg, result.errors);

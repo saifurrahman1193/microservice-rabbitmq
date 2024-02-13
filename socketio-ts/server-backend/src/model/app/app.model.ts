@@ -5,13 +5,22 @@ enum IsActiveEnum {
     Active = 1,
 }
 
+interface IWebsite extends Document {
+    address: string;
+}
+
 interface IApp extends Document {
     name: string;
     password: string;
     is_active: IsActiveEnum;
+    websites: IWebsite[];
     created_by?: Types.ObjectId;
     created_at?: Date;
 }
+
+const WebsiteSchema = new Schema<IWebsite>({
+    address: { type: String, required: true },
+});
 
 const AppSchema = new Schema<IApp>({
     name: { type: String, required: true, unique: true },
@@ -21,6 +30,7 @@ const AppSchema = new Schema<IApp>({
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
         default: IsActiveEnum.Active,
     },
+    websites: [WebsiteSchema],
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
 });

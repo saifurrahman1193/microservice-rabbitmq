@@ -29,9 +29,15 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
         session = await mongoose.startSession();
         session.startTransaction();
 
-        const { name, password, is_active, created_by, created_at, namespace } = values;
+        const { name, password, is_active, websites, created_by, created_at, namespace } = values;
 
         const app = await new AppModel({ name, password, is_active, created_by, created_at }, { session });
+
+        // Embed websites as subdocuments
+        console.log(websites);
+        app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
+        
+
 
         const namespaces_new = await Namespace.insertMany(
             namespace.map(({ name, path, is_active }: { name: string, path: string, is_active: boolean }) => ({
