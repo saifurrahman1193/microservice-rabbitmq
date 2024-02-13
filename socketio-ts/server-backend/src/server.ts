@@ -9,6 +9,7 @@ import LoggerMiddlware from './middleware/logger.middleware';
 import { set_response } from './helper/apiresponser.helper';
 import routes from './route/index.routes';
 import { setupSocketServer } from './service/socket';
+import { appService as appServiceDB } from './service/app/app.service';
 const app = express();
 
 
@@ -16,8 +17,10 @@ const app = express();
 export const startServer = async () => {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
+    const allowed_websites = await appServiceDB.getAllAllowedSites();
+    console.log('allowed_websites', allowed_websites);
     app.use(cors({
-        origin: ["*"], // Replace with your frontend URL "https://admin.socket.io"
+        origin: [allowed_websites || '*'], // Replace with your frontend URL "https://admin.socket.io"
     }));
 
     app.use(compression());
@@ -47,7 +50,7 @@ export const startServer = async () => {
 
     const express_server = http.createServer(app)
 
-    setupSocketServer(express_server);  // socket server setup
+    setupSocketServer(express_server, {'allowed_websites':allowed_websites});  // socket server setup
 
     express_server.listen(config.server.port, () => console.log(`Server is running on port ${config.server.port}`));
     // https.createServer(options, app).listen(config.server.https_port, () => console.log(`Server HTTPS is running on port ${config.server.https_port}`))

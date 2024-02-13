@@ -18,8 +18,8 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string | null): Promise<any> => {
     return await AppModel.findOne({ _id })
-                .lean(true)
-                .populate({ path: 'namespace' })
+        .lean(true)
+        .populate({ path: 'namespace' })
 };
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
@@ -36,7 +36,7 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
         // Embed websites as subdocuments
         console.log(websites);
         app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
-        
+
 
 
         const namespaces_new = await Namespace.insertMany(
@@ -84,10 +84,35 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
 const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
 
+
+const getAllAllowedSites = async (): Promise<any> => {
+    return AppModel.aggregate([
+        {
+            $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
+        },
+        {
+            $replaceRoot: { newRoot: '$websites' } // Replace the root with the 'websites' subdocument
+        },
+        {
+            $match: { 'is_active': 1 } // Optionally, add a match stage for additional conditions
+        },
+        {
+            $project: {
+                _id: 0, // Exclude the _id field
+                address: '$address' // Include only the 'address' field
+            }
+        }
+    ])
+    .then((websites: any) => {
+        return websites?.map((item:any) => item?.address);
+    });
+};
+
 export const appService = {
     getAppsPaginated,
     getAppByName,
     getAppById,
     createApp,
     updateAppById,
+    getAllAllowedSites
 }

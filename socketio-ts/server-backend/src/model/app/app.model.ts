@@ -7,6 +7,7 @@ enum IsActiveEnum {
 
 interface IWebsite extends Document {
     address: string;
+    is_active: IsActiveEnum;
 }
 
 interface IApp extends Document {
@@ -20,6 +21,11 @@ interface IApp extends Document {
 
 const WebsiteSchema = new Schema<IWebsite>({
     address: { type: String, required: true },
+    is_active: {
+        type: Number,
+        enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
+        default: IsActiveEnum.Active,
+    },
 });
 
 const AppSchema = new Schema<IApp>({
