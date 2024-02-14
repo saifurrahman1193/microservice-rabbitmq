@@ -35,13 +35,13 @@
         });
 
         socket.on('room/leave-room', (room) => {
-            console.log(`Left room: ${room}`);
+            console.log(`User Left room: ${room}`);
         });
         socket.on('room/user-connected', (room) => {
-            console.log(`Left room: ${room}`);
+            console.log(`User joined room: ${room}`);
         });
         socket.on('room/user-disconnected', (room) => {
-            console.log(`Left room: ${room}`);
+            console.log(`User Left room: ${room}`);
         });
 
         socket.on('disconnect', () => {
