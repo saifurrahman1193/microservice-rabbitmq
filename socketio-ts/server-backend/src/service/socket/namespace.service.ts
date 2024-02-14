@@ -3,31 +3,16 @@ import { namespaceService as namespaceServiceDB } from '../app/namespace.service
 import { userService } from './user.service';
 import { roomService } from './room.service';
 import { singleChatService } from './singlechat.service';
+import authenticateNamespaceMiddleware from '../../middleware/authenticatenamespace.middleware';
 
 const processNamespace = async (io: Server) => {
     const namespace = io.of(/^\/\w+$/);  // Dynamic Namespace
-    let namespaceName = '';
 
-    namespace.use(async (socket, next) => {
-        try {
-            const { app_id, app_password } = socket.handshake.auth;
-            const namespaceName = socket.nsp.name;
-
-            const namespaceExists = await namespaceServiceDB.checkExistanceValidNamespace(namespaceName, app_id, app_password);
-
-            if (namespaceExists) {
-                return next(); // Authentication successful, allow the connection
-            } else {
-                throw new Error(`Connection attempt to unregistered namespace: ${namespaceName}`);
-            }
-        } catch (error: any) {
-            console.error('Namespace authentication error:', error?.message);
-            return next(new Error('Authentication failed')); // Prevent connection if authentication fails
-        }
-    });
+    namespace.use(authenticateNamespaceMiddleware); // namespace authentication middleware
 
     namespace.on('connection', async (socket: Socket) => {
         try {
+            const namespaceName = socket.nsp.name;
             // Room and chat logic
             roomService.joinRoomProcess(socket);
             roomService.joinRoomsProcess(socket);
