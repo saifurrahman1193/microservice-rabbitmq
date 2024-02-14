@@ -34,13 +34,11 @@
             console.log('Server responded:', response);
         });
 
-        socket.on('room/leave-room', (room) => {
-            console.log(`User Left room: ${room}`);
-        });
-        socket.on('room/user-connected', (room) => {
+        // event
+        socket.on('room/user-connected', (room, acknowledgment) => {
             console.log(`User joined room: ${room}`);
         });
-        socket.on('room/user-disconnected', (room) => {
+        socket.on('room/user-disconnected', (room, acknowledgment) => {
             console.log(`User Left room: ${room}`);
         });
 
