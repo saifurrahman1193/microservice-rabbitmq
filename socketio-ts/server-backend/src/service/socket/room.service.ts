@@ -2,40 +2,75 @@ import { Socket } from 'socket.io';
 
 // event
 const joinRoomProcess = (socket: Socket) => {
-    socket.on('join-room', (room: string, acknowledgment: (result: any) => void) => {
-        joinRoom(socket, room, acknowledgment);
+    socket.on('room/join-room', (room: string, acknowledgment: (result: any) => void) => {
+        try {
+            // Join the specified room
+            socket.join(room);
+    
+            console.log(`User ${socket.id} joined room: ${room}`);
+    
+            // Execute acknowledgment callback if provided
+            if (acknowledgment) {
+                acknowledgment({ status: true, message: `Joined room: ${room}`, room, user: socket.id });
+            }
+        } catch (error: any) {
+            console.error(`Error joining room ${room}:`, error?.message);
+    
+            // Execute acknowledgment callback with error if provided
+            if (acknowledgment) {
+                acknowledgment({ status: false, message: `Error joining room ${room}`, room });
+            }
+        }
     });
 };
 
 // event
 const joinRoomsProcess = (socket: Socket) => {
-    socket.on('join-rooms', (rooms: Array<string>, acknowledgment: (result: any) => void) => {
-        rooms.forEach((room) => {
-            socket.join(room);
-            joinRoom(socket, room, acknowledgment);
-        });
+    socket.on('room/join-rooms', (rooms: Array<string>, acknowledgment: (result: any) => void) => {
+        try {
+            rooms.forEach((room) => {
+                // Join the specified room inside the loop
+                socket.join(room);
+
+                console.log(`User ${socket.id} joined room: ${room}`);
+            });
+
+            // Execute acknowledgment callback if provided
+            if (acknowledgment) {
+                acknowledgment({ status: true, message: `Joined rooms: ${rooms.join(', ')}`, rooms, user: socket.id });
+            }
+        } catch (error: any) {
+            console.error('Error in room/join-rooms event:', error?.message);
+
+            // Execute acknowledgment callback with error if provided
+            if (acknowledgment) {
+                acknowledgment({ status: false, message: `Error joining rooms: ${rooms.join(', ')}`, rooms });
+            }
+        }
     });
 };
 
-// function
-const joinRoom = (socket: Socket, room: any, acknowledgment: (result: any) => void) => {
-    console.log(`User ${socket.id} joined room: ${room}`);
 
-    // Emit 'joined-room' event to the specified room
-    socket.to(room).emit('joined-room', {
-        user: socket.id,
-        room: room,
-        rooms: socket.rooms,
+// event
+const leaveRoomProcess = (socket: Socket) => {
+    socket.on('room/leave-room', (room: string, acknowledgment: (result: any) => void) => {
+        try {
+            // Check if the socket is already in the specified room
+            if (socket.rooms.has(room)) {
+                socket.leave(room);
+                acknowledgment({ status: true, message: `User left room: ${room}`, room });
+            } else {
+                acknowledgment({ status: false, message: `User is not in room: ${room}`, room });
+            }
+        } catch (error: any) {
+            console.error('Error in leave-room event:', error?.message);
+            acknowledgment({ status: false, message: 'Error leaving the room' });
+        }
     });
-
-    // Execute acknowledgment callback if provided
-    if (acknowledgment) {
-        acknowledgment({ message: `Joined room: ${room}` });
-    }
 };
-
 
 export const roomService = {
     joinRoomProcess,
-    joinRoomsProcess
+    joinRoomsProcess,
+    leaveRoomProcess
 }

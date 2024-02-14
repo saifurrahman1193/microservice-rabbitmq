@@ -42,7 +42,6 @@
 ###### connect
 ###### disconnect
 ##### Custom Events
-###### joined-room
 
 
 ### Server Side Events
@@ -51,11 +50,15 @@
 ###### connect
 ###### disconnect
 ##### Custom Events
-###### join-room
-###### join-rooms
-###### leave-room
-###### joined-room
-###### left-room
+###### room/join-room
+- done
+###### room/join-rooms
+- done
+###### room/leave-room
+- wip
+###### room/user-connected
+###### room/user-disconnected
+- 
 ###### single-chat/send-message
 
 

@@ -27,18 +27,20 @@
         const room1 = 'room1';
         const room2 = 'room2';
 
-        socket.emit('join-room', room1, (response) => {
+        socket.emit('room/join-room', room1, (response) => {
             console.log('Server responded:', response?.message);
         });
-        socket.emit('join-rooms', [room1, room2]);
-
-        socket.on('joined-room', (data) => {
-            console.log('======joined-room======', data);
+        socket.emit('room/join-rooms', [room1, room2], (response) => {
+            console.log('Server responded:', response);
         });
-        socket.on('leave-room', (room) => {
+
+        socket.on('room/leave-room', (room) => {
             console.log(`Left room: ${room}`);
         });
-        socket.on('left-room', (room) => {
+        socket.on('room/user-connected', (room) => {
+            console.log(`Left room: ${room}`);
+        });
+        socket.on('room/user-disconnected', (room) => {
             console.log(`Left room: ${room}`);
         });
 
