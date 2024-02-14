@@ -64,13 +64,28 @@ const leaveRoomProcess = (socket: Socket) => {
             }
         } catch (error: any) {
             console.error('Error in leave-room event:', error?.message);
-            acknowledgment({ status: false, message: 'Error leaving the room' });
+            acknowledgment({ status: false, message: 'Error leaving the room', room: room });
         }
     });
 };
 
+const sendMessageProcess = (socket: Socket) => {
+    socket.on('single-chat/send-message', (params: { message: string, target_socket_id: string, room: string }, acknowledgment: (result: any) => void) => {
+        // Log the received message
+        console.log(`Received message from ${socket.id}: ${params?.message}`);
+        
+        // Acknowledge the received message
+        if (acknowledgment) {
+            acknowledgment({ status: true, message: `message received`, room: params?.room });
+        }
+        
+    });
+};
+
+
 export const roomService = {
     joinRoomProcess,
     joinRoomsProcess,
-    leaveRoomProcess
+    leaveRoomProcess,
+    sendMessageProcess
 }
