@@ -2,7 +2,7 @@ import { Socket } from 'socket.io';
 
 // event
 const joinRoomProcess = (socket: Socket) => {
-    socket.on('room/join-room', (room: string, acknowledgment: (result: any) => void) => {
+    socket.on('room/join-room', ({ room }: { room: string }, acknowledgment: (result: any) => void) => {
         try {
             // Join the specified room
             socket.join(room);
@@ -26,7 +26,7 @@ const joinRoomProcess = (socket: Socket) => {
 
 // event
 const joinRoomsProcess = (socket: Socket) => {
-    socket.on('room/join-rooms', (rooms: Array<string>, acknowledgment: (result: any) => void) => {
+    socket.on('room/join-rooms', ({ rooms }: { rooms: Array<string> }, acknowledgment: (result: any) => void) => {
         try {
             rooms.forEach((room) => {
                 // Join the specified room inside the loop
@@ -72,15 +72,16 @@ const leaveRoomProcess = (socket: Socket) => {
 };
 
 const sendMessageProcess = (socket: Socket) => {
-    socket.on('single-chat/send-message', (params: { message: string, target_socket_id: string, room: string }, acknowledgment: (result: any) => void) => {
+    socket.on('room/send-message', ({ message, room }: { message: string, room: string }, acknowledgment: (result: any) => void) => {
         // Log the received message
-        console.log(`Received message from ${socket.id}: ${params?.message}`);
+        console.log(`Received message from ${socket.id}: ${message}`);
+
+        socket.to(room).emit('room/receive-message', {room, message});
 
         // Acknowledge the received message
         if (acknowledgment) {
-            acknowledgment({ status: true, message: `message received`, room: params?.room });
+            acknowledgment({ status: true, message: `message received`, room });
         }
-
     });
 };
 
