@@ -37,14 +37,14 @@ const joinRoomsProcess = (socket: Socket) => {
 
             // Execute acknowledgment callback if provided
             if (acknowledgment) {
-                acknowledgment({ status: true, message: `Joined rooms: ${rooms.join(', ')}`, rooms, user: socket.id });
+                acknowledgment({ status: true, message: `Joined rooms: ${rooms?.join(', ')}`, rooms, user: socket.id });
             }
         } catch (error: any) {
             console.error('Error in room/join-rooms event:', error?.message);
 
             // Execute acknowledgment callback with error if provided
             if (acknowledgment) {
-                acknowledgment({ status: false, message: `Error joining rooms: ${rooms.join(', ')}`, rooms });
+                acknowledgment({ status: false, message: `Error joining rooms: ${rooms?.join(', ')}`, rooms });
             }
         }
     });
