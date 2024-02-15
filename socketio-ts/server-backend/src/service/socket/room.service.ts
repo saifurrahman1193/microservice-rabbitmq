@@ -76,7 +76,7 @@ const sendMessageProcess = (socket: Socket) => {
         // Log the received message
         console.log(`Received message from ${socket.id}: ${message}`);
 
-        socket.to(room).emit('room/receive-message', {room, message});
+        socket.to(room).emit('room/receive-message', { room, message });
 
         // Acknowledge the received message
         if (acknowledgment) {

@@ -1,59 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-
 <head>
     <title>Socket.IO Test</title>
 </head>
-
 <body>
     <h1>Socket.IO Test</h1>
     <script src="/socket.io/socket.io.js"></script>
+    <!-- <script src="socket-client.js"></script> -->
     <script>
-        const socket = io('http://localhost:86/otl', {
-            auth: {
-                // app_id: '65cb3d18411af943dbd38deb',  // home
-                // app_password: 'BVrbvKr5vkTW8yExauzpdxbkI43BcmH1cTZW4VZratPcxS3bNwBJ6AzslYnU',
+        import path from 'path';
+        // import { socketClient } from 'socket-client.js';
 
-                app_id: '65cda18ca2d5bd1c20155081',  // office
-                app_password: 'ShThMk3bXSQXiPYfiaBbOB0LsP-aPdj8sj9squfZjEt9zm-YrOxCXxQ8cjf7',
-            }
-        });
-
-        socket.on('connect', (data) => {
-            console.log('connected', socket.id);
-        });
-
-        // Join a specific room
-        const room1 = 'room1';
-        const room2 = 'room2';
-
-        socket.emit('room/join-room', { room: room1 }, (response) => {
-            console.log('Server responded:', response?.message);
-        });
-        socket.emit('room/join-rooms', { rooms: [room1, room2] }, (response) => {
-            console.log('Server responded:', response);
-        });
-        socket.emit('room/send-message', { room: room1 }, (response) => {
-            console.log('Server responded:', response);
-        });
-
-        // event : room
-        socket.on('room/user-connected', ({ room }, acknowledgment) => {
-            console.log(`User joined room: ${room}`);
-        });
-        socket.on('room/user-disconnected', ({ room }, acknowledgment) => {
-            console.log(`User Left room: ${room}`);
-        });
-        socket.on('room/receive-message', ({ room, message }, acknowledgment) => {
-            console.log(`Message received from ${room} : ${message}`);
-        });
-
-
-        socket.on('disconnect', () => {
-            console.log('disconnected');
-        });
-
+        // const socket = socketClient.socketSetup();
+        // socketClient.joinRoom(socket, { room: 'room1'});
+        // socketClient.joinRooms(socket, { rooms: ['room1', 'room2'] });
+        // socketClient.sendMessageToRoom(socket, { room: 'room1', message: 'Hello world' });
+        // socketClient.setupRoomEvents(socket);
     </script>
 </body>
-
 </html>
