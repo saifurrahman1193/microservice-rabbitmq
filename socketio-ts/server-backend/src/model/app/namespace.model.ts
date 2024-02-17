@@ -9,7 +9,7 @@ interface INamespace extends Document {
     name: string;
     path: string;
     is_active: IsActiveEnum;
-    app_id?: Types.ObjectId;
+    app_id: Types.ObjectId;
 
     created_by?: Types.ObjectId;
     created_at?: Date;

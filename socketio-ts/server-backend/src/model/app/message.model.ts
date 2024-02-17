@@ -1,15 +1,8 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
-enum IsActiveEnum {
-    Inactive = 0,
-    Active = 1,
-}
-
-
-interface IGroupChat extends Document {
+interface IMessage extends Document {
     name: string;
 
-    is_active: IsActiveEnum;
     app_id: Types.ObjectId;
     namespace_id: Types.ObjectId;
 
@@ -17,13 +10,8 @@ interface IGroupChat extends Document {
     created_at?: Date;
 }
 
-const GroupChatSchema = new Schema<IGroupChat>({
+const MessageSchema = new Schema<IMessage>({
     name: { type: String, required: true },
-    is_active: {
-        type: Number,
-        enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
-        default: IsActiveEnum.Active,
-    },
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
     namespace_id: { type: Schema.Types.ObjectId, ref: 'Namespace' }, // Reference to App model
 
@@ -32,7 +20,7 @@ const GroupChatSchema = new Schema<IGroupChat>({
 });
 
 // Add a virtual property to the AppSchema
-GroupChatSchema.virtual('app', {
+MessageSchema.virtual('app', {
     type: 'ObjectId',
     ref: 'AppModel',
     foreignField: '_id',
@@ -40,7 +28,7 @@ GroupChatSchema.virtual('app', {
     justOne: true
 });
 
-GroupChatSchema.virtual('namespace', {
+MessageSchema.virtual('namespace', {
     type: 'ObjectId',
     ref: 'Namespace',
     foreignField: '_id',
@@ -48,7 +36,6 @@ GroupChatSchema.virtual('namespace', {
     justOne : true
 });
 
+const Message = model<IMessage>('Message', MessageSchema, 'message');
 
-const GroupChat = model<IGroupChat>('GroupChat', GroupChatSchema, 'group_chat');
-
-export { IGroupChat, GroupChat };
+export { IMessage, Message };

@@ -6,10 +6,11 @@ enum IsActiveEnum {
 }
 
 interface ISocketUser extends Document {
-    user_id?: string;
+    user_id?: any;
     socket_id: string;
     username?: string;
-    app_id?: Types.ObjectId;
+    app_id: Types.ObjectId;
+    namespace_id: Types.ObjectId;
     is_active: IsActiveEnum;
 
     created_by?: Types.ObjectId;
@@ -19,10 +20,11 @@ interface ISocketUser extends Document {
 }
 
 const SocketUserSchema = new Schema<ISocketUser>({
-    user_id: { type: String, required: false},    // client = user_id
+    user_id: { type: Schema.Types.Mixed, required: false },    // client = user_id
     socket_id: { type: String, required: true},  // server user_id = socket_id
     username: { type: String, required: false },    // client = user_name
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
+    namespace_id: { type: Schema.Types.ObjectId, ref: 'Namespace' }, // Reference to App model
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
@@ -41,6 +43,14 @@ SocketUserSchema.virtual('app', {
     ref: 'AppModel',
     foreignField: '_id',
     localField: 'app_id',
+    justOne : true
+});
+
+SocketUserSchema.virtual('namespace', {
+    type: 'ObjectId',
+    ref: 'Namespace',
+    foreignField: '_id',
+    localField: 'namespace_id',
     justOne : true
 });
 
