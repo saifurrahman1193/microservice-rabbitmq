@@ -5,6 +5,12 @@
 </head>
 <body>
     <h1>Socket.IO Test</h1>
+
+    <form id="messageForm" onsubmit="handleSendMessageSubmit(event)">
+        <input type="text" id="messageInput" placeholder="Type your message">
+        <button type="submit">Send</button>
+    </form>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="/common/socket-client.js"></script>
     <script>
@@ -14,6 +20,21 @@
         joinRooms(socket, { rooms: ['room1', 'room2'] });
         sendMessageToRoom(socket, { room: 'room1', message: 'Hello world' });
         setupRoomEvents(socket);
+    </script>
+
+    <script>
+        // JavaScript function to be called on form submission
+        function handleSendMessageSubmit(event) {
+            event.preventDefault();
+            const message = document.getElementById('messageInput').value;
+
+            // Send HTML message to the server
+            socket.emit('room/send-message', { message, room: 'room1' }, (response) => {
+                console.log('Server responded:', response);
+            });
+            // Clear the input field
+            messageInput.value = '';
+        }
     </script>
 </body>
 </html>

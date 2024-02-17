@@ -16,6 +16,8 @@ const processNamespace = async (io: Server) => {
             // Room and chat logic
             roomService.joinRoomProcess(socket);
             roomService.joinRoomsProcess(socket);
+            roomService.leaveRoomProcess(socket);
+            roomService.sendMessageProcess(socket);
             singleChatService.sendMessageProcess(socket);
 
             // Log successful connection to the database
