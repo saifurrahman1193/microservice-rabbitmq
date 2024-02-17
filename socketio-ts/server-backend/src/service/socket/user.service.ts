@@ -10,14 +10,15 @@ const onConnectSuccessDBLog = async (params: {
     namespace: string;
 }): Promise<void> => {
     try {
-        const app_data = await namespaceServiceDB.getAppByNamespace(params?.namespace);
+        const namespace_data = await namespaceServiceDB.getNamespaceByNamespacePath(params?.namespace);
 
         // Insert user into the database
         const result = await socketuserService.createSocketUser({
             user_id: params?.user_id,
             socket_id: params?.socket_id,
             username: params?.username,
-            app_id: app_data?.app_id,
+            app_id: namespace_data?.app_id,
+            namespace_id: namespace_data?._id,
         });
     } catch (error: any) {
         // Handle any errors that occurred during database insertion

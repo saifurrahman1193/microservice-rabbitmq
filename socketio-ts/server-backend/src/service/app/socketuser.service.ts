@@ -39,10 +39,10 @@ const createSocketUser = async (values: Record<string, any>): Promise<any> => {
         session = await mongoose.startSession();
         session.startTransaction();
 
-        const { user_id, socket_id, username, app_id, is_active, created_by } = values;
+        const { user_id, socket_id, username, app_id, namespace_id, is_active, created_by } = values;
 
         const socketuser = await new SocketUser({ 
-            user_id, socket_id, username, app_id, is_active, created_by
+            user_id, socket_id, username, app_id, namespace_id, is_active, created_by
          }, { session });
 
         await socketuser.save();
