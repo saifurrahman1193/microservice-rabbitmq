@@ -5,12 +5,20 @@ enum IsActiveEnum {
     Active = 1,
 }
 
+interface IAdmin extends Document {
+    user_id: Types.ObjectId; 
+    is_active: IsActiveEnum;
+
+    created_by?: Types.ObjectId;
+    created_at?: Date;
+}
+
 interface IGroupChat extends Document {
     name: string;
-    admins: Types.ObjectId[]; // Replace with the actual type for admins
-    admins_history: Types.ObjectId[]; // Replace with the actual type for admins_history
-    users: Types.ObjectId[]; // Replace with the actual type for users
-    users_history: Types.ObjectId[]; // Replace with the actual type for users_history
+    admins: IAdmin[]; 
+    admins_history: IAdmin[]; 
+    users: IAdmin[]; 
+    users_history: IAdmin[]; 
 
     is_active: IsActiveEnum;
     app_id?: Types.ObjectId;
@@ -18,6 +26,8 @@ interface IGroupChat extends Document {
     created_by?: Types.ObjectId;
     created_at?: Date;
 }
+
+
 
 const GroupChatSchema = new Schema<IGroupChat>({
     name: { type: String, required: true },
@@ -47,6 +57,6 @@ GroupChatSchema.virtual('app', {
 });
 
 
-const GroupChat = model<IGroupChat>('GroupChat', GroupChatSchema, 'namespace');
+const GroupChat = model<IGroupChat>('GroupChat', GroupChatSchema, 'groupchat');
 
 export { IGroupChat, GroupChat };
