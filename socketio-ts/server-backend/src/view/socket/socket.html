@@ -12,9 +12,9 @@
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/common/socket-client.js"></script>
+    <!-- <script src="/common/socket-client.js"></script> -->
+    <script src="/socket-client.js"></script>
     <script>
-
         const socket = socketSetup();
         joinRoom(socket, { room: 'room1'});
         joinRooms(socket, { rooms: ['room1', 'room2'] });

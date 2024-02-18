@@ -4,6 +4,7 @@ import userRoutes from './user.routes';
 import authRoutes from './authentication.routes';
 import appRoutes from './app.routes';
 import namespaceRoutes from './namespace.routes';
+import socketRoutes from './socket.routes';
 import commonRoutes from './common.routes';
 import { set_response } from '../helper/apiresponser.helper';
 
@@ -14,6 +15,7 @@ router.use('/api/user', userRoutes);
 router.use('/api/auth', authRoutes);
 router.use('/api/app', appRoutes);
 router.use('/api/namespace', namespaceRoutes);
+router.use('/socket', socketRoutes);
 router.use('/common', commonRoutes);
 
 /** Healthcheck */

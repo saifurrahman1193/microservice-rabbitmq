@@ -1,11 +1,11 @@
 const socketSetup = () => {
     const socket = io('http://localhost:86/otl', {
         auth: {
-            app_id: '65cb3d18411af943dbd38deb',  // home
-            app_password: 'BVrbvKr5vkTW8yExauzpdxbkI43BcmH1cTZW4VZratPcxS3bNwBJ6AzslYnU',
+            // app_id: '65cb3d18411af943dbd38deb',  // home
+            // app_password: 'BVrbvKr5vkTW8yExauzpdxbkI43BcmH1cTZW4VZratPcxS3bNwBJ6AzslYnU',
 
-            // app_id: '65cda18ca2d5bd1c20155081',  // office
-            // app_password: 'ShThMk3bXSQXiPYfiaBbOB0LsP-aPdj8sj9squfZjEt9zm-YrOxCXxQ8cjf7',
+            app_id: '65cda18ca2d5bd1c20155081',  // office
+            app_password: 'ShThMk3bXSQXiPYfiaBbOB0LsP-aPdj8sj9squfZjEt9zm-YrOxCXxQ8cjf7',
         }
     });
     socket.on('connect', () => {
