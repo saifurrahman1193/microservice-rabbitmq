@@ -17,6 +17,9 @@ const socketSetup = () => {
     socket.on('connect_error', (error) => {
         console.error('Socket Server Connection Error:', error.message);
     });
+    socket.on('connect_timeout', (error) => {
+        console.error('Socket Server Connection timeout:', error.message);
+    });
     return socket;
 }
 
