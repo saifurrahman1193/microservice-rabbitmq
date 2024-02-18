@@ -9,10 +9,13 @@ const socketSetup = () => {
         }
     });
     socket.on('connect', () => {
-        console.log('connected', socket.id);
+        console.log('connected to socket server: ', socket.id);
     });
     socket.on('disconnect', () => {
-        console.log('disconnected');
+        console.log('Disconnected from socket server!');
+    });
+    socket.on('connect_error', (error) => {
+        console.error('Socket Server Connection Error:', error.message);
     });
     return socket;
 }

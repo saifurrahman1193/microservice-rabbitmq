@@ -10,6 +10,7 @@ import { set_response } from './helper/apiresponser.helper';
 import routes from './route/index.routes';
 import { setupSocketServer } from './service/socket';
 import { appService as appServiceDB } from './service/app/app.service';
+import path from 'path';
 const app = express();
 
 
@@ -17,6 +18,7 @@ const app = express();
 export const startServer = async () => {
     app.use(express.urlencoded({ extended: true }));
     app.use(express.json());
+    app.use(express.static(path.join(__dirname, 'public')));
     const allowed_websites = await appServiceDB.getAllAllowedSites();
     app.use(cors({
         origin: [...allowed_websites || '*'], // Replace with your frontend URL "https://admin.socket.io"
