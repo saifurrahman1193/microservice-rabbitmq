@@ -92,6 +92,39 @@ docker network create ms_rmq_network
 npm run dev
 ```
 
+#### JWT
+
+##### JWT Secret Key Generation
+```
+command line in docker terminal/shell
+node
+require('crypto').randomBytes(64).toString('hex')
+
+will get key somthing like this :
+24998df2a534b39834eb578f759aade74bccb1239d20c95c93f979d89d565e360edbd5700470b806836b5bf92554a4df976da61692d4023ac4c48689d4e6e3d7
+```
+##### SSO : Single Sign-On (SSO)
+- All servers (not client) should have a same key 
+
+
+##### jwt : description
+
+- token expire measured in seconds
+- if a user is already generated token.
+  - In that case we won't create another token but we will get that valid token for that user with (email address and password)
+  - the main purpose here is handle multiple device functionality and avoid multiple access token
+- token validity
+  - jwt self validation
+  - in access_token table status=1 && expires_at>now() && in user table status=1
+- Auth middleware
+  - check if user is authorized
+- check permission middleware
+  - pass a permission as a parameter and check if the user has that permission.
+- changepassword
+  - new password and confirm password must match
+  - old password and new password must be different
+
+
 
 ### Database
 ```

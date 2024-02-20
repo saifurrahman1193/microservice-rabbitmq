@@ -1,10 +1,8 @@
 import { Schema, model, Document, Types } from 'mongoose';
 
-// Define the authentication interface
-interface IAuthentication {
-    salt: string;
-    password: string;
-    sessionToken?: string;
+enum IsActiveEnum {
+    Inactive = 0,
+    Active = 1,
 }
 
 // Define the user interface
@@ -12,8 +10,9 @@ interface IUser extends Document {
     name: string;
     email: string;
     username: string;
-    authentication: IAuthentication;
+    password: string;
     avatar?: string;
+    is_active: IsActiveEnum;
     created_by?: Types.ObjectId;
     created_at?: Date;
 }
@@ -23,12 +22,13 @@ const UserSchema = new Schema<IUser>({
     name: { type: String, required: true },
     email: { type: String, required: false },
     username: { type: String, required: true },
-    authentication: {
-        password: { type: String, required: true, select: false },
-        salt: { type: String, required: true, select: false },
-        sessionToken: { type: String, select: false }
-    },
+    password: { type: String, required: true, select: false },
     avatar: { type: String, required: false }, // Assuming avatar is required, adjust as needed
+    is_active: {
+        type: Number,
+        enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
+        default: IsActiveEnum.Active,
+    },
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
 });

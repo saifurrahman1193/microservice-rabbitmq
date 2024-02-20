@@ -14,5 +14,5 @@ export const setupSocketServer = async (express_server: any, params: any) => {
         },
     });
 
-    namespaceService.processNamespace(io);
+    // namespaceService.processNamespace(io);
 };
