@@ -7,6 +7,7 @@ import { exists } from '../../rule/common/exists.rule';
 import { User } from '../../model/authentication/user.model';
 import { generate_access_token, JWT_EXPIRES_AT } from '../../helper/auth.helper';
 import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
 
 
 export const login = async (req: Request, res: Response) => {
@@ -19,22 +20,29 @@ export const login = async (req: Request, res: Response) => {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
         }
 
-        const user = await userService.getUserByUserName(username);
+        const user = await userService.getUserByUserName(username).select('+password');
         if (!user) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, ['Not Found: User not found'], [{ field: 'username', message: 'User not found' }]);
         }
 
         const is_verified_password = await bcrypt.compare(password, user?.password || '');
 
+        // console.log(is_verified_password, password, user?.password, user);
+        
+
         if (!is_verified_password) {
             return set_response(res, null, HttpStatusCode.Unauthorized, false, ['Unauthorized: Password does not match'], [{ field: 'password', message: 'Unauthorized: Password does not match' }]);
         }
 
-        const token = generate_access_token({ username });
+        const jwt_access_token_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
+
+        const token = generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be (username & jwt_access_token_id)
         const Authorization = 'Bearer ' + token;
 
+        console.log(user);
+        
         let data = {
-            'user': {
+            user: {
                 ...user,
                 'access_token': token,
                 'token_type': 'Bearer',
