@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { userService } from '../../service/authentication/user.service';
+import { jwtaccesstokenService } from '../../service/authentication/jwtaccesstoken.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { unique } from '../../rule/common/unique.rule';
@@ -13,6 +14,8 @@ import mongoose from 'mongoose';
 export const login = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
+
+        const jwt_expires_at = JWT_EXPIRES_AT
 
         // validation
         let validator = await exists({ 'model': User, 'field': 'username', 'value': username });
@@ -35,21 +38,23 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const jwt_access_token_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
+        const jwt_access_token = await jwtaccesstokenService.createJWTAccessToken({
+            _id: jwt_access_token_id,
+            user_id: user?._id,
+            expires_at: jwt_expires_at
+        })
 
-        const token = generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be (username & jwt_access_token_id)
+        const token = generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
         const Authorization = 'Bearer ' + token;
 
-        console.log(user);
-        
         let data = {
             user: {
                 ...user,
                 'access_token': token,
                 'token_type': 'Bearer',
-                'expires_at': JWT_EXPIRES_AT,
+                'expires_at': jwt_expires_at,
             },
         }
-
 
         // Create jwt_access_token row for 1 to multiple device tokens login token (pending)
         //  if 1 token allowed then inactive all previous tokens, if there is a limit to n then skip to n then inactive from n+1 to prev for that user
