@@ -57,6 +57,10 @@ export const login = async (req: Request, res: Response) => {
         // Create jwt_access_token row for 1 to multiple device tokens login token (pending)
         //  if 1 token allowed then inactive all previous tokens, if there is a limit to n then skip to n then inactive from n+1 to prev for that user
 
+        await jwtaccesstokenService.updateJWTAccessTokenSkippingToN({
+            user_id: user?._id,
+        })
+
         res.cookie('Authorization', Authorization, { domain: 'localhost', path: '/', secure: true, httpOnly: true });
 
         return set_response(res, data, HttpStatusCode.OK, true, ['Successfully logged in'], null);
