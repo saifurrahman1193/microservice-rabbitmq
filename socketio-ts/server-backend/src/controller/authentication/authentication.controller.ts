@@ -23,16 +23,12 @@ export const login = async (req: Request, res: Response) => {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
         }
 
-        const user = await userService.getUserByUserName(username).select('+password');
+        const user = await userService.getUserByUserName(username).select('+password').lean();
         if (!user) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, ['Not Found: User not found'], [{ field: 'username', message: 'User not found' }]);
         }
 
         const is_verified_password = await bcrypt.compare(password, user?.password || '');
-
-        // console.log(is_verified_password, password, user?.password, user);
-        
-
         if (!is_verified_password) {
             return set_response(res, null, HttpStatusCode.Unauthorized, false, ['Unauthorized: Password does not match'], [{ field: 'password', message: 'Unauthorized: Password does not match' }]);
         }
@@ -44,12 +40,14 @@ export const login = async (req: Request, res: Response) => {
             expires_at: jwt_expires_at
         })
 
-        const token = generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
+        const token = await generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
         const Authorization = 'Bearer ' + token;
+        
+        const { password: _, ...userWithoutPassword } = user;
 
         let data = {
             user: {
-                ...user,
+                ...userWithoutPassword,
                 'access_token': token,
                 'token_type': 'Bearer',
                 'expires_at': jwt_expires_at,

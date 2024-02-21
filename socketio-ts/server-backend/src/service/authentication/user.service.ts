@@ -2,7 +2,7 @@ import { User } from '../../model/authentication/user.model';
 
 const getUsers = () => User.find();
 const getUserByEmail = (email: string) => User.findOne({ email });
-const getUserByUserName = (username: string) => User.findOne({ username }).lean();
+const getUserByUserName = (username: string) => User.findOne({ username });
 const getUserBySessionToken = (sessionToken: string) => User.findOne({ 'authentication.sessionToken': sessionToken });
 const getMyInfo = async (req: any) => User.findOne({ 'authentication.sessionToken': req.cookies['SOCKET-SERVER-AUTH'] });
 const getUserById = (_id: string) => User.findOne({ _id });
