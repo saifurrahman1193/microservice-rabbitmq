@@ -34,6 +34,17 @@ export const login = async (req: Request, res: Response) => {
         }
 
         const jwt_access_token_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
+
+        const { password: _, ...userWithoutPassword } = user;
+
+        // Create jwt_access_token row for 1 to multiple device tokens login token (pending)
+        //  if 1 token allowed then inactive all previous tokens, if there is a limit to n then skip to n then inactive from n+1 to prev for that user
+
+        await jwtaccesstokenService.updateJWTAccessTokenInactive({
+            user_id: user?._id,
+            // is_active: 0
+        })
+
         const jwt_access_token = await jwtaccesstokenService.createJWTAccessToken({
             _id: jwt_access_token_id,
             user_id: user?._id,
@@ -43,8 +54,6 @@ export const login = async (req: Request, res: Response) => {
         const token = await generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
         const Authorization = 'Bearer ' + token;
         
-        const { password: _, ...userWithoutPassword } = user;
-
         let data = {
             user: {
                 ...userWithoutPassword,
@@ -53,13 +62,6 @@ export const login = async (req: Request, res: Response) => {
                 'expires_at': jwt_expires_at,
             },
         }
-
-        // Create jwt_access_token row for 1 to multiple device tokens login token (pending)
-        //  if 1 token allowed then inactive all previous tokens, if there is a limit to n then skip to n then inactive from n+1 to prev for that user
-
-        await jwtaccesstokenService.updateJWTAccessTokenSkippingToN({
-            user_id: user?._id,
-        })
 
         res.cookie('Authorization', Authorization, { domain: 'localhost', path: '/', secure: true, httpOnly: true });
 
