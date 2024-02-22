@@ -11,3 +11,8 @@ export const connect = async() => {
         console.error('Error connecting to MongoDB:', error.message);
     });
 }
+
+const MONGO_URL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://local-central-mongo-db-container:27017/socket_server`;
+export const mongodbConfig =  {
+    url : MONGO_URL,
+};
