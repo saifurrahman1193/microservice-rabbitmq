@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { removeParameterFromURL } from './url.helper';
 import { Document } from 'mongoose';
+import { config } from '../config/index.config';
 
 interface PaginateFormData {
     api_url?: string;

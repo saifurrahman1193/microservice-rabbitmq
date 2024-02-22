@@ -1,30 +1,12 @@
-// import mongoose from 'mongoose';
-// import { config } from './index.config';
-
-// export const connect = async() => {
-//     await mongoose.connect(config?.mongo?.url, {
-//         retryWrites:true, w: 'majority'
-//     })  // ms-socketio-mongo-db-container = mongodb container name
-//     .then(() => {
-//         console.log('Connected to MongoDB');
-//     }).catch(error => {
-//         console.error('Error connecting to MongoDB:', error.message);
-//     });
-// }
+const JWT_ACCESS_TOKEN_SECRET = process.env.JWT_ACCESS_TOKEN_SECRET || '';
+const JWT_REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_TOKEN_SECRET;
+const JWT_EXPIRES_IN = parseInt(process.env.JWT_EXPIRES_IN || '300');
+const JWT_NUMBER_OF_TOKENS_ALLOWED = parseInt(process.env.JWT_NUMBER_OF_TOKENS_ALLOWED || '', 10)
 
 
-import * as jwt from 'jsonwebtoken';
-
-interface Payload {
-    userId: number;
-    username: string;
-}
-
-const secretKey = 'yourSecretKey'; // Replace with your secret key
-const payload: Payload = {
-    userId: 123,
-    username: 'john_doe',
+export default  {
+    access_token_secret : JWT_ACCESS_TOKEN_SECRET,
+    refresh_token_secret : JWT_REFRESH_TOKEN_SECRET,
+    expires_in : JWT_EXPIRES_IN,
+    number_of_tokens_allowed : JWT_NUMBER_OF_TOKENS_ALLOWED
 };
-
-const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
-console.log('Generated JWT:', token);

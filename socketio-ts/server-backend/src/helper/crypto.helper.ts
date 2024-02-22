@@ -5,7 +5,7 @@ export const generateAccessToken = (tokenLength = 60): string => {
 };
 
 export const generateRandomText = (tokenLength = 60): string => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';  // url safe characters
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';  // url safe characters
 
     const charactersLength = characters.length;
 

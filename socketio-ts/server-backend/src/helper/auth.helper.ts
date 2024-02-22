@@ -2,16 +2,15 @@ import crypto from 'crypto';
 import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
+import {config} from '../config/index.config';
 
-export const JWT_SECRET = process.env.JWT_ACCESS_TOKEN_SECRET || '';
-export const JWT_EXPIRES_IN = parseInt(process.env.JWT_EXPIRES_IN || '300'); // default 5 minutes timeout
-export const JWT_EXPIRES_AT = moment().add(JWT_EXPIRES_IN, 'seconds').format('yy-MM-DD HH:mm:ss'); // only at login time works
+export const JWT_EXPIRES_AT = moment().utcOffset(6 * 60).add(config.jwt.expires_in, 'seconds').format('yy-MM-DD HH:mm:ss'); // only at login time works
 
 // Example: Generate a random cryptographic key
 export const random = () => crypto.randomBytes(128).toString('base64');
 
 export const authentication = (salt: string, password: string) => {
-    return crypto.createHmac('sha256', [salt, password].join('/')).update(JWT_SECRET).digest('hex')
+    return crypto.createHmac('sha256', [salt, password].join('/')).update(config.jwt.access_token_secret).digest('hex')
 }
 
 
@@ -27,7 +26,7 @@ export const authorization = async(req : Request) => {
 }
 
 export const generate_access_token = async(data : any) => {
-    const token = jwt.sign(data, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    const token = jwt.sign(data, config.jwt.access_token_secret, { expiresIn: config.jwt.expires_in });
     return token;
 }
 
@@ -36,7 +35,7 @@ export const generate_access_token = async(data : any) => {
 //     const access_token = await AccessToken(req);
     
 //     try {
-//         const decoded = jwt.verify(access_token, process.env.JWT_SECRET);
+//         const decoded = jwt.verify(access_token, config.jwt.access_token_secret);
 //         if (decoded) {
 //             let userdata = ( await sqlResult(`SELECT * FROM users WHERE id=${decoded.id} `))[0]
 //             return userdata;
