@@ -25,7 +25,7 @@ const updateJWTAccessTokenInactive = async(values: Record<string, any>) => {
     
     await JWTAccessToken.updateMany(
         { _id: { $in: ids_to_inactive } },
-        { $set: { is_active: 0 } }
+        { $set: { is_active: 0, expires_at: new Date().toISOString() } }
     );
 };
 

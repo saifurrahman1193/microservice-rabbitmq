@@ -37,12 +37,10 @@ export const login = async (req: Request, res: Response) => {
 
         const { password: _, ...userWithoutPassword } = user;
 
-        // Create jwt_access_token row for 1 to multiple device tokens login token (pending)
+        // Create jwt_access_token row for 1 to multiple device tokens login token
         //  if 1 token allowed then inactive all previous tokens, if there is a limit to n then skip to n then inactive from n+1 to prev for that user
-
         await jwtaccesstokenService.updateJWTAccessTokenInactive({
             user_id: user?._id,
-            // is_active: 0
         })
 
         const jwt_access_token = await jwtaccesstokenService.createJWTAccessToken({
@@ -51,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
             expires_at: jwt_expires_at
         })
 
-        const token = await generate_access_token({ username, jwt_access_token_id: jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
+        const token = await generate_access_token({ username, jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
         const Authorization = 'Bearer ' + token;
         
         let data = {
