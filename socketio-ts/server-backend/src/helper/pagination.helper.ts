@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { removeParameterFromURL } from './url.helper';
 import { Model, Document } from 'mongoose';
+import { config } from '../config/index.config';
 
 interface PaginateFormData {
     api_url?: string;
@@ -31,7 +32,7 @@ export const paginate = async <T extends Document>(
     Model: Model<T>
 ): Promise<PaginateResult<T>> => {
     const {
-        api_url = removeParameterFromURL(process.env.BASE_URL + request.originalUrl, 'page'),
+        api_url = removeParameterFromURL(config.app.base_url + request.originalUrl, 'page'),
         page = 1,         // default page 1
         perPage = 10,      // default per page 10 records show
     } = formData;

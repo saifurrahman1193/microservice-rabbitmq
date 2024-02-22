@@ -46,7 +46,7 @@ export const paginate = async<T extends Document>(
     }: PaginateParams
 ): Promise<PaginateResult<T>> => {
     const {
-        api_url = removeParameterFromURL(process.env.BASE_URL + request.originalUrl, 'page'),
+        api_url = removeParameterFromURL(config.app.base_url + request.originalUrl, 'page'),
         page = 1,         // default page 1
         perPage = 10,      // default per page 10 records show
     } = formData;
