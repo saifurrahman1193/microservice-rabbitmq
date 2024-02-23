@@ -24,7 +24,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
                     return set_response(res, null, 401, false, ['Unauthenticated. Please login first!'], null);
                 }
                 decoded_data = decoded
-                next();
             });
 
         const existingUser = await userService.getUserByUserName(decoded_data?.username);
@@ -33,9 +32,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             return set_response(res, null, 404, false, ['Not Found: User not found'], null);
         }
 
-        merge(req, { identity: existingUser });
+        // merge(req, { identity: existingUser });
 
-        return next();
+        next();
+        return;
     } catch (error) {
         return set_response(res, null, 500, false, ['Internal Server Error: '], null);
     }
