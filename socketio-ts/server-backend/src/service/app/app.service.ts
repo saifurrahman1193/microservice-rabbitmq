@@ -44,38 +44,22 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
         );
         
         app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
-
         await app.save();
 
         // Commit the transaction
         await session.commitTransaction();
         session.endSession();
 
-        return {
-            data: app.toObject(),
-            code: HttpStatusCode.OK,
-            status: true,
-            msg: ['Successfully created the app'],
-            errors: null,
-        };
+        return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully created the app'], errors: null };
     } catch (error: any) {
         if (session) {
             // If any operation fails, roll back the entire transaction
             await session.abortTransaction();
             session.endSession();
         }
-
         console.error(error);
-
         const customErrors = await convertMongoErrorToCustomError(error);
-        
-        return {
-            data: null,
-            code: HttpStatusCode.InternalServerError,
-            status: false,
-            msg: ['Failed to create the app'],
-            errors: customErrors,
-        };
+        return { data: null, code: HttpStatusCode.InternalServerError, status: false, msg: ['Failed to create the app'], errors: customErrors };
     }
 };
 
