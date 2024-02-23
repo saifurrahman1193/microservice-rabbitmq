@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
-import { config } from './index.config';
+
+const MONGO_URL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://local-central-mongo-db-container:27017/socket_server`;
 
 export const connect = async () => {
-    await mongoose.connect(config?.mongo?.url, {
+    await mongoose.connect(MONGO_URL, {
         retryWrites: false, 
         w: 'majority',
-        // replicaSet: 'rs0',
+        // replicaSet: 'rs1',
     })  // ms-socketio-mongo-db-container = mongodb container name
         .then(() => {
             console.log('Connected to MongoDB');
@@ -14,7 +15,6 @@ export const connect = async () => {
         });
 }
 
-const MONGO_URL = process.env.MONGO_URL ? process.env.MONGO_URL : `mongodb://local-central-mongo-db-container:27017/socket_server`;
 export const mongodbConfig = {
     url: MONGO_URL,
 };
