@@ -7,7 +7,8 @@ const router = Router();
 
 router.get('/', isAuthenticated, getAllPaginated)
 router.get('/:id', isAuthenticated, getSingle)
-router.post('/', isAuthenticated, CreateAppValidation, create)
+// router.post('/', isAuthenticated, CreateAppValidation, create)
+router.post('/', isAuthenticated, CreateAppValidation)
 // router.put('/:id', isAuthenticated, UpdateAppValidation, update);
 
 export default router;

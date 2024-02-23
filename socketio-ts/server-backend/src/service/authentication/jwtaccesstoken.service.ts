@@ -25,7 +25,12 @@ const updateJWTAccessTokenInactive = async(values: Record<string, any>) => {
     );
 };
 
+const getValidAccessTokenUsingJWTAccessTokenID = async(values: Record<string, any>) => {
+    return await JWTAccessToken.findOne({ _id: values?.jwt_access_token_id, is_active: 1, expires_at: { $gt: new Date().toISOString() } }).lean();
+};
+
 export const jwtaccesstokenService = {
     createJWTAccessToken,
-    updateJWTAccessTokenInactive
+    updateJWTAccessTokenInactive,
+    getValidAccessTokenUsingJWTAccessTokenID
 }
