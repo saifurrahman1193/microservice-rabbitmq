@@ -51,6 +51,7 @@ export const paginate = async<T extends Document>(
         perPage = 10,      // default per page 10 records show
     } = formData;
 
+
     let currentPage = parseInt(page.toString()) || 1; // default current page 1
     let total_count = await query.countDocuments() || 0;
     let pageCount = Math.ceil(total_count / perPage);

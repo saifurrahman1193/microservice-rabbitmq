@@ -49,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
             expires_at: jwt_expires_at
         })
 
-        const token = await generate_access_token({ username, jwt_access_token_id }); // in token data will be ({username, jwt_access_token_id})
+        const token = await generate_access_token({ username, jwt_access_token_id, expires_at: jwt_expires_at }); // in token data will be ({username, jwt_access_token_id})
         const Authorization = 'Bearer ' + token;
         
         let data = {

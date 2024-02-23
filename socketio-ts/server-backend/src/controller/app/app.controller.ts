@@ -27,7 +27,7 @@ export const create = async (req: Request, res: Response) => {
         }));
 
         // Create a new app
-        const password = generateRandomText(60); // generate a 60 char auto password
+        const password = await generateRandomText(60); // generate a 60 char auto password
         const result = await appService.createApp({
             name,
             password,
