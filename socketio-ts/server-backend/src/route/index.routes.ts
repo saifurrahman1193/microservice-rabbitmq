@@ -7,6 +7,7 @@ import namespaceRoutes from './namespace.routes';
 import socketRoutes from './socket.routes';
 import commonRoutes from './common.routes';
 import { set_response } from '../helper/apiresponser.helper';
+import { HttpStatusCode } from '../helper/httpcode.helper';
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get('/ping', (req, res, next) =>
 /** Error handling */
 router.use((req, res, next) => {
     const error = new Error('Not found');
-    return set_response(res, null, 404,  true , ['Not Found ' + error.message], null);
+    return set_response(res, null, HttpStatusCode.NotFound,  true , ['Not Found ' + error.message], null);
 });
 
 export default router;

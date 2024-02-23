@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
 import { userService } from '../../service/authentication/user.service';
 import { set_response } from '../../helper/apiresponser.helper';
+import { HttpStatusCode } from '../../helper/httpcode.helper';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const users = await userService.getUsers();
 
-        return res.status(200).json(users);
+        return res.status(HttpStatusCode.OK).json(users);
     } catch (error) {
-        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], null);
     }
 };
 
@@ -20,7 +21,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 
         return res.json(deletedUser);
     } catch (error) {
-        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], null);
     }
 }
 
@@ -30,7 +31,7 @@ export const updateUser = async (req: Request, res: Response) => {
         const { name, username } = req.body;
 
         if (!username) {
-            return set_response(res, null, 400, false, ['Bad Request: Missing required fields'], null);
+            return set_response(res, null, HttpStatusCode.BadRequest, false, ['Bad Request: Missing required fields'], null);
         }
 
         const user = await userService.getUserById(id);
@@ -43,9 +44,9 @@ export const updateUser = async (req: Request, res: Response) => {
         user.name = name;
         await user.save();
 
-        return res.status(200).json(user).end();
+        return res.status(HttpStatusCode.OK).json(user).end();
     } catch (error) {
-        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], null);
     }
 }
 
@@ -58,7 +59,7 @@ export const updateProfile = async (req: Request, res: Response) => {
 
 
         // if (!username) {
-        //     return res.sendStatus(400);
+        //     return res.sendStatus(HttpStatusCode.BadRequest);
         // }
 
         // const user_id = get(req, 'identity._id') || '';
@@ -66,15 +67,15 @@ export const updateProfile = async (req: Request, res: Response) => {
         // const user = await getUserById(user_id);
 
         // if (!user) {
-        //     return res.sendStatus(400);
+        //     return res.sendStatus(HttpStatusCode.BadRequest);
         // }
 
         // user.username = username;
         // user.name = name;
         // await user.save();
 
-        // return res.status(200).json(user).end();
+        // return res.status(HttpStatusCode.OK).json(user).end();
     } catch (error) {
-        return set_response(res, null, 500, false, ['Internal Server Error: '], null);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], null);
     }
 }
