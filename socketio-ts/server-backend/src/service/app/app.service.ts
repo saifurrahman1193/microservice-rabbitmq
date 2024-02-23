@@ -31,19 +31,21 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
         const { name, password, is_active, websites, created_by, created_at, namespace } = values;
 
-        const app = await new AppModel({ name, password, is_active, created_by, created_at }, { session });
+        const app_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
+
+        const app = await new AppModel({ _id: app_id, name, password, is_active, created_by, created_at }, { session });
+        app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
 
         await Namespace.insertMany(
             namespace.map(({ name, path, is_active }: { name: string, path: string, is_active: boolean }) => ({
                 name,
                 path,
                 is_active,
-                app_id: app._id,
+                app_id: app_id,
             })),
             { session }
         );
-        
-        app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
+
         await app.save();
 
         // Commit the transaction
