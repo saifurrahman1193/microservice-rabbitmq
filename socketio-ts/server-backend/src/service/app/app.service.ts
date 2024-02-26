@@ -54,7 +54,7 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
                 }))
             );
         });
-        
+
         session ? session.endSession() : null;
         return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully created the app'], errors: null };
     } catch (error: any) {
