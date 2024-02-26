@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response) => {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
         }
 
-        const user = await userService.getUserByUserName(username).select('+password').lean();
+        const user = await userService.getUserByUserName(username).select('+password');
         if (!user) {
             return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, ['Not Found: User not found'], [{ field: 'username', message: 'User not found' }]);
         }

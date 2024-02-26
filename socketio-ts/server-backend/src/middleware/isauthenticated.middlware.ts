@@ -37,6 +37,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         if (!existing_access_token) {
             return set_response(res, null, HttpStatusCode.NotFound, false, ['Unauthenticated. Token is either expired or incative. Please login first!'], null);
         }
+        req.headers['user_id'] = existingUser._id;
 
         next();
     } catch (error) {

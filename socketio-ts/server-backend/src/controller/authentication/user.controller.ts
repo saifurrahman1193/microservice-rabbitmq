@@ -30,14 +30,9 @@ export const updateUser = async (req: Request, res: Response) => {
         const { id } = req.params;
         const { name, username } = req.body;
 
-        if (!username) {
-            return set_response(res, null, HttpStatusCode.BadRequest, false, ['Bad Request: Missing required fields'], null);
-        }
-
         const user = await userService.getUserById(id);
-
         if (!user) {
-            return set_response(res, null, 404, false, ['Not Found: User not found'], null);
+            return set_response(res, null, HttpStatusCode.BadRequest, false, ['Not Found: User not found'], null);
         }
 
         user.username = username;

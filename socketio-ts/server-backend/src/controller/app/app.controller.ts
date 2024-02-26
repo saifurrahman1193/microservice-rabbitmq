@@ -47,6 +47,52 @@ export const create = async (req: Request, res: Response) => {
     }
 };
 
+export const update = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { name, is_active, namespaces, websites } = req.body;
+
+        const app = await appService.getAppById(id);
+
+        if (!app) {
+            return set_response(res, null, HttpStatusCode.BadRequest, false, ['Bad Request: App not found!'], null);
+        }
+
+        // DB level validation
+        let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': name, 'exceptField': '_id', 'exceptValue': id });
+        if (validator.fails) {
+            return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
+        }
+
+        const me = await userService.getMyInfo(req);
+        
+
+        const namespaces_formatted = namespaces.map((item: any) => ({
+            name: item?.name,
+            path: '/'+item?.name,
+            is_active: true,
+        }));
+
+        // Create a new app
+        const result = await appService.updateAppById(id, {
+            name,
+            is_active,
+            namespace: namespaces_formatted,
+            websites,
+
+            update_by: me ? me?._id : null,
+            update_at: new Date().toISOString(),
+        });
+
+        return set_response(res, result.data, result.code, result.status, result.msg, result.errors);
+    } catch (error: any) {
+        console.log(error);
+        
+        const customErrors = await convertMongoErrorToCustomError(error);
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Failed to create the app'], customErrors);
+    }
+};
+
 export const getAllPaginated = async (req: Request, res: Response) => {
     try {
 
