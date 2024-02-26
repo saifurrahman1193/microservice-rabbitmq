@@ -27,38 +27,38 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
     try {
         session = await mongoose.startSession();
-        session.startTransaction();
+        // session.startTransaction();
+        const transactionOptions:any = {
+            readPreferences: "primary",
+            readConcern: { level: "local"},
+            writeConcern: { w: "majority" }
+        };
 
         const { name, password, is_active, websites, created_by, created_at, namespace } = values;
 
         const app_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
 
-        const app = await new AppModel({ _id: app_id, name, password, is_active, created_by, created_at }, { session });
-        app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
+        let app: any;
+        
+        await session.withTransaction(async() => {
+            app = await new AppModel({ _id: app_id, name, password, is_active, created_by, created_at }); // changing
+            app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
+            await app.save();
 
-        await Namespace.insertMany(
-            namespace.map(({ name, path, is_active }: { name: string, path: string, is_active: boolean }) => ({
-                name,
-                path,
-                is_active,
-                app_id: app_id,
-            })),
-            { session }
-        );
-
-        await app.save();
-
-        // Commit the transaction
-        await session.commitTransaction();
-        session.endSession();
-
+            await Namespace.insertMany(
+                namespace.map(({ name, path, is_active }: { name: string, path: string, is_active: boolean }) => ({
+                    name,
+                    path,
+                    is_active,
+                    app_id: app_id,
+                }))
+            );
+        });
+        
+        session ? session.endSession() : null;
         return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully created the app'], errors: null };
     } catch (error: any) {
-        if (session) {
-            // If any operation fails, roll back the entire transaction
-            await session.abortTransaction();
-            session.endSession();
-        }
+        session ? session.endSession() : null;
         console.error(error);
         const customErrors = await convertMongoErrorToCustomError(error);
         return { data: null, code: HttpStatusCode.InternalServerError, status: false, msg: ['Failed to create the app'], errors: customErrors };

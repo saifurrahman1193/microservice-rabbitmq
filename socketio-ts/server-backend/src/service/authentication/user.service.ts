@@ -7,7 +7,7 @@ const getUserByUserName = (username: string) => User.findOne({ username });
 // ======================work here=======================
 const getMyInfo = async (req: any) => {
     let authorization = req.cookies['Authorization'];
-    console.log(authorization);
+    // console.log(authorization);
     
     return User.findOne({ 'authentication.sessionToken': req.cookies['Authorization'] })
 };
