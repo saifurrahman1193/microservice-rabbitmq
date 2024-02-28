@@ -18,8 +18,8 @@ interface INamespace extends Document {
 }
 
 const NamespaceSchema = new Schema<INamespace>({
-    name: { type: String, required: true, unique: true },
-    path: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    path: { type: String, required: true },
     is_active: {
         type: Number,
         enum: [IsActiveEnum.Inactive, IsActiveEnum.Active],
@@ -32,6 +32,7 @@ const NamespaceSchema = new Schema<INamespace>({
     deleted_by: { type: Schema.Types.ObjectId, ref: 'User' },
     deleted_at: { type: Date, required: false },
 });
+
 
 // Add a virtual property to the AppSchema
 NamespaceSchema.virtual('app', {

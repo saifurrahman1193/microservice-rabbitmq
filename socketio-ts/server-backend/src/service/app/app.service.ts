@@ -94,7 +94,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
                 ...item,
                 deleted_at: new Date(),
             }));
-            
+
             let new_websites = values.websites?.map((item: any) => ({ ...item, address: item?.address }));
 
             app.websites = [...websites_existing, ...new_websites];
@@ -105,7 +105,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
             // Namespace
             // Set deleted_at for existing namespaces
             await Namespace.updateMany(
-                { app_id: _id },
+                { app_id: _id, deleted_at: null },
                 { $set: { deleted_at: new Date().toISOString() } }
             );
             await Namespace.insertMany(

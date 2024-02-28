@@ -41,7 +41,6 @@ export const create = async (req: Request, res: Response) => {
         return set_response(res, result.data, result.code, result.status, result.msg, result.errors);
     } catch (error: any) {
         console.log(error);
-        
         const customErrors = await convertMongoErrorToCustomError(error);
         return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Failed to create the app'], customErrors);
     }
@@ -87,7 +86,6 @@ export const update = async (req: Request, res: Response) => {
         return set_response(res, result.data, result.code, result.status, result.msg, result.errors);
     } catch (error: any) {
         console.log(error);
-        
         const customErrors = await convertMongoErrorToCustomError(error);
         return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Failed to create the app'], customErrors);
     }
