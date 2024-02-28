@@ -66,7 +66,6 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 };
 
 
-// const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
 const updateAppById = async (_id: string, values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
 
