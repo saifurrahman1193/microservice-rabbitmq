@@ -27,7 +27,7 @@ const WebsiteSchema = new Schema<IWebsite>({
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
     deleted_by: { type: Schema.Types.ObjectId, ref: 'User' },
-    deleted_at: { type: Date, default: () => Date.now() },
+    deleted_at: { type: Date, required: false },
 });
 
 const AppSchema = new Schema<IApp>({

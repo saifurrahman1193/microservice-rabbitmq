@@ -28,9 +28,9 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
     try {
         session = await mongoose.startSession();
         // session.startTransaction();
-        const transactionOptions:any = {
+        const transactionOptions: any = {
             readPreferences: "primary",
-            readConcern: { level: "local"},
+            readConcern: { level: "local" },
             writeConcern: { w: "majority" }
         };
 
@@ -39,8 +39,8 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
         const app_id = new mongoose.Types.ObjectId();  // db document / row (jwt_access_token: _id) 
 
         let app: any;
-        
-        await session.withTransaction(async() => {
+
+        await session.withTransaction(async () => {
             app = await new AppModel({ _id: app_id, name, password, is_active, created_by, created_at }); // changing
             app.websites = websites?.map(({ address }: { address: string }) => ({ address }));
             await app.save();
@@ -66,7 +66,48 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 };
 
 
-const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
+// const updateAppById = async (id: string, values: Record<string, any>): Promise<any> => await AppModel.findByIdAndUpdate(id, values)
+const updateAppById = async (_id: string, values: Record<string, any>): Promise<any> => {
+    let session: ClientSession | null = null;
+
+    try {
+        session = await mongoose.startSession();
+        const transactionOptions: any = {
+            readPreferences: "primary",
+            readConcern: { level: "local" },
+            writeConcern: { w: "majority" }
+        };
+
+        let app: any;
+
+        await session.withTransaction(async () => {
+            app = await AppModel.findById(_id);
+
+            app.name = values.name;
+            app.is_active = values.is_active;
+            app.updated_by = values.updated_by;
+            app.updated_at = values.updated_at;
+
+            // Update websites
+            app.websites.forEach((website: { address: string, deleted_at: Date }) => {
+                website.deleted_at = new Date();
+            });
+            let new_websites = values.websites?.map(({ address }: { address: string, created_at: Date }) => ({ address }));
+            app.websites = [...app.websites, ...new_websites];
+
+            // Save the updated app document
+            await app.save();
+        });
+
+        session ? session.endSession() : null;
+        return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully created the app'], errors: null };
+    } catch (error: any) {
+        session ? session.endSession() : null;
+        console.error(error);
+        const customErrors = await convertMongoErrorToCustomError(error);
+        return { data: null, code: HttpStatusCode.InternalServerError, status: false, msg: ['Failed to update the app'], errors: customErrors };
+    }
+}
 
 
 const getAllAllowedSites = async (): Promise<any> => {
@@ -87,9 +128,9 @@ const getAllAllowedSites = async (): Promise<any> => {
             }
         }
     ])
-    .then((websites: any) => {
-        return websites?.map((item:any) => item?.address);
-    });
+        .then((websites: any) => {
+            return websites?.map((item: any) => item?.address);
+        });
 };
 
 export const appService = {
