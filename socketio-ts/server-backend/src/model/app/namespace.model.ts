@@ -13,6 +13,8 @@ interface INamespace extends Document {
 
     created_by?: Types.ObjectId;
     created_at?: Date;
+    deleted_by?: Types.ObjectId;
+    deleted_at?: Date;
 }
 
 const NamespaceSchema = new Schema<INamespace>({
@@ -24,9 +26,11 @@ const NamespaceSchema = new Schema<INamespace>({
         default: IsActiveEnum.Active,
     },
     app_id: { type: Schema.Types.ObjectId, ref: 'AppModel' }, // Reference to App model
-    
+
     created_by: { type: Schema.Types.ObjectId, ref: 'User' },
     created_at: { type: Date, default: () => Date.now() },
+    deleted_by: { type: Schema.Types.ObjectId, ref: 'User' },
+    deleted_at: { type: Date, required: false },
 });
 
 // Add a virtual property to the AppSchema
@@ -35,7 +39,7 @@ NamespaceSchema.virtual('app', {
     ref: 'AppModel',
     foreignField: '_id',
     localField: 'app_id',
-    justOne : true
+    justOne: true
 });
 
 

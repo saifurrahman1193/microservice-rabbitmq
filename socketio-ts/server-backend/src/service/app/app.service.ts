@@ -89,18 +89,37 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
             app.updated_at = values.updated_at;
 
             // Update websites
-            app.websites.forEach((website: { address: string, deleted_at: Date }) => {
-                website.deleted_at = new Date();
-            });
-            let new_websites = values.websites?.map(({ address }: { address: string, created_at: Date }) => ({ address }));
-            app.websites = [...app.websites, ...new_websites];
+            // Create a new array with updated deleted_at field
+            const websites_existing = app.websites.map((item: any) => ({
+                ...item,
+                deleted_at: new Date(),
+            }));
+            
+            let new_websites = values.websites?.map((item: any) => ({ ...item, address: item?.address }));
+
+            app.websites = [...websites_existing, ...new_websites];
 
             // Save the updated app document
             await app.save();
+
+            // Namespace
+            // Set deleted_at for existing namespaces
+            await Namespace.updateMany(
+                { app_id: _id },
+                { $set: { deleted_at: new Date().toISOString() } }
+            );
+            await Namespace.insertMany(
+                values.namespace.map(({ name, path, is_active }: { name: string, path: string, is_active: boolean }) => ({
+                    name,
+                    path,
+                    is_active,
+                    app_id: _id,
+                }))
+            );
         });
 
         session ? session.endSession() : null;
-        return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully created the app'], errors: null };
+        return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully updated the app'], errors: null };
     } catch (error: any) {
         session ? session.endSession() : null;
         console.error(error);
