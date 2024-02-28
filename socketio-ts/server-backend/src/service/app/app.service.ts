@@ -137,7 +137,7 @@ const getAllAllowedSites = async (): Promise<any> => {
             $replaceRoot: { newRoot: '$websites' } // Replace the root with the 'websites' subdocument
         },
         {
-            $match: { 'is_active': 1 } // Optionally, add a match stage for additional conditions
+            $match: {  deleted_at: null } // Optionally, add a match stage for additional conditions
         },
         {
             $project: {
