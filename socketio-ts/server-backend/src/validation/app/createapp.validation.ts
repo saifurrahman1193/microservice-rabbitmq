@@ -2,6 +2,8 @@ import Schema from 'async-validator';
 import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
+import { appService } from '../../service/app/app.service';
+
 
 const descriptor = <any>{
     name: [
@@ -14,8 +16,7 @@ const descriptor = <any>{
     websites: [
         { type: 'array', required: true, message: 'Websites are required' },
         {
-            type: 'array',
-            validator(rule: any, value: any, callback: (errors?: string[]) => void) {
+            async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
                 const errors: string[] = [];
 
                 if (!Array.isArray(value)) {
@@ -24,11 +25,17 @@ const descriptor = <any>{
                     return;
                 }
 
+                let all_allowed_websites_exists = await appService.getAllAllowedSites();
                 for (let i = 0; i < value.length; i++) {
                     const website = value[i];
 
-                    if (typeof website !== 'object' || !website.address) {
+                    if (typeof website !== 'object' || !website.address) { // if we don't have an address
                         errors.push(`website ${i+1}: address is required`);
+                    }
+                    let address = website.address
+                    if(all_allowed_websites_exists.includes(address)) 
+                    {
+                        errors.push(`website ${i+1}: address is already exist`);
                     }
                 }
 
