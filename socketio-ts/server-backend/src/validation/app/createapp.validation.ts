@@ -11,7 +11,33 @@ const descriptor = <any>{
         { pattern: /^\S*$/, message: 'App Name cannot contain spaces' },
         { pattern: /^[a-zA-Z0-9\s]*$/, message: 'App Name cannot contain special characters' },
     ],
+    websites: [
+        { type: 'array', required: true, message: 'Websites are required' },
+        {
+            type: 'array',
+            validator(rule: any, value: any, callback: (errors?: string[]) => void) {
+                const errors: string[] = [];
+
+                if (!Array.isArray(value)) {
+                    errors.push('Websites must be an array of objects');
+                    callback(errors);
+                    return;
+                }
+
+                for (let i = 0; i < value.length; i++) {
+                    const website = value[i];
+
+                    if (typeof website !== 'object' || !website.address) {
+                        errors.push(`website ${i+1}: address is required`);
+                    }
+                }
+
+                callback(errors);
+            },
+        },
+    ],
 };
+
 
 export const CreateAppValidation = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Schema(descriptor);
@@ -29,6 +55,6 @@ export const CreateAppValidation = async (req: Request, res: Response, next: Nex
                 return 'Validation error';
             }
         });
-        return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , messages, errors.errors);
+        return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, messages, errors.errors);
     }
 };
