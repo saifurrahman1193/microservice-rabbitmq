@@ -71,12 +71,8 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
 
     try {
         session = await mongoose.startSession();
-        const transactionOptions: any = {
-            readPreferences: "primary",
-            readConcern: { level: "local" },
-            writeConcern: { w: "majority" }
-        };
-
+        const transactionOptions: any = { readPreferences: "primary", readConcern: { level: "local" }, writeConcern: { w: "majority" } };
+        
         let app: any;
 
         await session.withTransaction(async () => {
@@ -89,10 +85,12 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
 
             // Update websites
             // Create a new array with updated deleted_at field
-            const websites_existing = app.websites.map((item: any) => ({
-                ...item,
-                deleted_at: new Date(),
-            }));
+            const websites_existing = app.websites
+                .filter((item: any) => item.deleted_at == null)  // only non deleted items pick up
+                .map((item: any) => ({  // only non deleted items make soft delete
+                    ...item,
+                    deleted_at: new Date(),
+                }));
 
             let new_websites = values.websites?.map((item: any) => ({ ...item, address: item?.address }));
 
@@ -118,7 +116,11 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
         });
 
         session ? session.endSession() : null;
-        return { data: app.toObject(), code: HttpStatusCode.OK, status: true, msg: ['Successfully updated the app'], errors: null };
+
+        let data = await AppModel.findOne({ _id }).lean(true).populate({ path: 'namespace', match: { deleted_at: null } })
+        if (data && data.websites) { data.websites = data.websites.filter(item => item.deleted_at == null) }
+
+        return { data: data, code: HttpStatusCode.OK, status: true, msg: ['Successfully updated the app'], errors: null };
     } catch (error: any) {
         session ? session.endSession() : null;
         console.error(error);
@@ -137,7 +139,7 @@ const getAllAllowedSites = async (): Promise<any> => {
             $replaceRoot: { newRoot: '$websites' } // Replace the root with the 'websites' subdocument
         },
         {
-            $match: {  deleted_at: null } // Optionally, add a match stage for additional conditions
+            $match: { deleted_at: null } // Optionally, add a match stage for additional conditions
         },
         {
             $project: {
