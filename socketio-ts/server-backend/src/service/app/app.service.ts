@@ -27,12 +27,7 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
     try {
         session = await mongoose.startSession();
-        // session.startTransaction();
-        const transactionOptions: any = {
-            readPreferences: "primary",
-            readConcern: { level: "local" },
-            writeConcern: { w: "majority" }
-        };
+        const transactionOptions: any = { readPreferences: "primary", readConcern: { level: "local" }, writeConcern: { w: "majority" } };
 
         const { name, password, is_active, websites, created_by, created_at, namespace } = values;
 
