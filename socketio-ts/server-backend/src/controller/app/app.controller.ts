@@ -12,12 +12,6 @@ export const create = async (req: Request, res: Response) => {
     try {
         const { name, is_active, namespaces, websites } = req.body;
 
-        // DB level validation
-        let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': name });
-        if (validator.fails) {
-            return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, validator.messages, validator.errors);
-        }
-
         const me = await userService.getMyInfo(req);
 
         const namespaces_formatted = namespaces.map((item: any) => ({

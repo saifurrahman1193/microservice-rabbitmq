@@ -32,6 +32,13 @@ const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({
 
 const getNamespaceByNamespacePath = async (namespace: string): Promise<any> => await Namespace.findOne({ path: namespace });
 
+const getNamespaceNames = async (): Promise<any> => {
+    return await Namespace.find({}, 'name')
+                    .then(data => {
+                        return data.map(doc => doc.name);
+                    })
+};
+
 const createApp = async (values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
 
@@ -95,6 +102,8 @@ export const namespaceService = {
     getAppByName,
     getAppById,
     getNamespaceByNamespacePath,
+    getNamespaceNames,
     createApp,
     updateAppById,
+
 }
