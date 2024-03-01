@@ -41,10 +41,6 @@ const descriptor = <any>{
 
                 let all_allowed_websites_exists = await appService.getAllAllowedSitesExceptSpecificApp(globalReq.params.id);
 
-                console.log(globalReq.params.id,all_allowed_websites_exists );
-                errors.push(`testing===================`);
-
-                
                 for (let i = 0; i < value.length; i++) {
                     const website = value[i];
 
