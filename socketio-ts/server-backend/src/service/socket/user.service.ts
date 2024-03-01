@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io';
 import { socketuserService } from '../app/socketuser.service';
 import { namespaceService as namespaceServiceDB } from '../app/namespace.service';
+import mongoose from 'mongoose';
 
 // Database insert on successful connection
 const onConnectSuccessDBLog = async (params: {
@@ -31,7 +32,7 @@ const onConnectFailDBLog = async (params: { socket_id: string }): Promise<void> 
     try {
         // Update user in the database with is_active set to 0
         await socketuserService.updateSocketUser({
-            socket_id: params?.socket_id,
+            socket_id: new mongoose.Types.ObjectId(params?.socket_id) ,
             is_active: 0,
             updated_at: new Date().toISOString(),
         });

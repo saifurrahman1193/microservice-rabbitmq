@@ -17,8 +17,8 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
-const getAppById = async (_id: string | null): Promise<any> => {
-    return await AppModel.findOne({ _id })
+const getAppById = async (_id: string): Promise<any> => {
+    return await AppModel.findOne({ _id : new mongoose.Types.ObjectId(_id) })
         .lean(true)
         .populate({ path: 'namespace' })
 };
@@ -64,6 +64,7 @@ const createApp = async (values: Record<string, any>): Promise<any> => {
 
 const updateAppById = async (_id: string, values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
+    const app_id = new mongoose.Types.ObjectId(_id)
 
     try {
         session = await mongoose.startSession();
@@ -72,7 +73,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
         let app: any;
 
         await session.withTransaction(async () => {
-            app = await AppModel.findById(_id);
+            app = await AppModel.findById(app_id);
 
             app.name = values.name;
             app.is_active = values.is_active;
@@ -98,7 +99,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
             // Namespace
             // Set deleted_at for existing namespaces
             await Namespace.updateMany(
-                { app_id: _id, deleted_at: null },
+                { app_id: app_id, deleted_at: null },
                 { $set: { deleted_at: new Date().toISOString() } }
             );
             await Namespace.insertMany(
@@ -106,7 +107,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
                     name,
                     path,
                     is_active,
-                    app_id: _id,
+                    app_id: app_id,
                 }))
             );
         });
@@ -152,7 +153,7 @@ const getAllAllowedSites = async (): Promise<any> => {
 const getAllAllowedSitesExceptSpecificApp = async (app_id: string): Promise<any> => {
     return await AppModel.aggregate([
         {
-            $match: { _id: { $ne: app_id } },
+            $match: { _id: { $ne: new mongoose.Types.ObjectId(app_id) } },
         },
         {
             $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
@@ -161,7 +162,7 @@ const getAllAllowedSitesExceptSpecificApp = async (app_id: string): Promise<any>
             $replaceRoot: { newRoot: '$websites' } // Replace the root with the 'websites' subdocument
         },
         {
-            $match: { deleted_at: null } // Optionally, add a match stage for additional conditions
+            $match: { 'websites.deleted_at': null } // Optionally, add a match stage for additional conditions
         },
         {
             $project: {

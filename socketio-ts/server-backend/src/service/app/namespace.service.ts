@@ -28,7 +28,7 @@ const checkExistanceValidNamespace = async (path: any, app_id: any, app_password
 };
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
-const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id });
+const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id : new mongoose.Types.ObjectId(_id) });
 
 const getNamespaceByNamespacePath = async (namespace_path: string): Promise<any> => await Namespace.findOne({ path: namespace_path });
 
@@ -40,7 +40,7 @@ const getNamespaceNames = async (): Promise<any> => {
 };
 
 const getNamespaceNamesExceptSpecificApp = async (app_id: string): Promise<any> => {
-    return await Namespace.find({ app_id: {$ne: app_id}, deleted_at: null }, 'name')
+    return await Namespace.find({ app_id: {$ne: new mongoose.Types.ObjectId(app_id)}, deleted_at: null }, 'name')
         .then(item => {
             return item.map(itm => itm.name);
         })
