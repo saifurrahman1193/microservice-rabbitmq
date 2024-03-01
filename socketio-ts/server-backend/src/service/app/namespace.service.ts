@@ -21,8 +21,8 @@ const checkExistanceValidNamespace = async (path: any, app_id: any, app_password
         path: path,
         app_id: app_id,
     })
-    .lean()
-    .populate('app');
+        .lean()
+        .populate('app');
 
     return namespaceDoc && namespaceDoc?.app?.password == app_password;
 };
@@ -30,14 +30,23 @@ const checkExistanceValidNamespace = async (path: any, app_id: any, app_password
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => await AppModel.findOne({ _id });
 
-const getNamespaceByNamespacePath = async (namespace: string): Promise<any> => await Namespace.findOne({ path: namespace });
+const getNamespaceByNamespacePath = async (namespace_path: string): Promise<any> => await Namespace.findOne({ path: namespace_path });
 
 const getNamespaceNames = async (): Promise<any> => {
-    return await Namespace.find({}, 'name')
-                    .then(data => {
-                        return data.map(doc => doc.name);
-                    })
+    return await Namespace.find({ deleted_at: null }, 'name')
+        .then(item => {
+            return item.map(itm => itm.name);
+        })
 };
+
+const getNamespaceNamesExceptSpecificApp = async (app_id: string): Promise<any> => {
+    return await Namespace.find({ app_id: {$ne: app_id}, deleted_at: null }, 'name')
+        .then(item => {
+            return item.map(itm => itm.name);
+        })
+};
+
+
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
     let session: ClientSession | null = null;
@@ -103,6 +112,7 @@ export const namespaceService = {
     getAppById,
     getNamespaceByNamespacePath,
     getNamespaceNames,
+    getNamespaceNamesExceptSpecificApp,
     createApp,
     updateAppById,
 

@@ -5,6 +5,8 @@ import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { AppModel } from '../../model/app/app.model';
 import { unique } from '../../rule/common/unique.rule';
 import { appService } from '../../service/app/app.service';
+import { namespaceService } from '../../service/app/namespace.service';
+
 
 let globalReq: any;
 
@@ -21,6 +23,71 @@ const descriptor = <any>{
 
                 let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': value, 'exceptField': '_id', 'exceptValue': globalReq.params.id, 'message': 'App name must be unique!' });
                 validator.fails ? errors.push(validator.messages[0]) : null;
+                callback(errors);
+            },
+        },
+    ],
+    websites: [
+        { type: 'array', required: true, message: 'Websites are required' },
+        {
+            async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
+                const errors: string[] = [];
+
+                if (!Array.isArray(value)) {
+                    errors.push('Websites must be an array of objects');
+                    callback(errors);
+                    return;
+                }
+
+                let all_allowed_websites_exists = await appService.getAllAllowedSitesExceptSpecificApp(globalReq.params.id);
+
+                console.log(globalReq.params.id,all_allowed_websites_exists );
+                errors.push(`testing===================`);
+
+                
+                for (let i = 0; i < value.length; i++) {
+                    const website = value[i];
+
+                    if (typeof website !== 'object' || !website.address) { // if we don't have an address
+                        errors.push(`website ${i+1}: address is required`);
+                    }
+                    let address = website.address
+                    if(all_allowed_websites_exists.includes(address)) 
+                    {
+                        errors.push(`website ${i+1}: address is already exist`);
+                    }
+                }
+
+                callback(errors);
+            },
+        },
+    ],
+    namespaces: [
+        { type: 'array', required: true, message: 'Namespaces are required' },
+        {
+            async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
+                const errors: string[] = [];
+
+                if (!Array.isArray(value)) {
+                    errors.push('Namespace must be an array of objects');
+                    callback(errors);
+                    return;
+                }
+
+                let all_namespaces_exists = await namespaceService.getNamespaceNamesExceptSpecificApp(globalReq.params.id);
+                for (let i = 0; i < value.length; i++) {
+                    const namespace = value[i];
+
+                    if (typeof namespace !== 'object' || !namespace.name) { // if we don't have an name
+                        errors.push(`namespace ${i+1}: name is required`);
+                    }
+                    let name = namespace.name
+                    if(all_namespaces_exists.includes(name)) 
+                    {
+                        errors.push(`namespace ${i+1}: name is already exist`);
+                    }
+                }
+
                 callback(errors);
             },
         },

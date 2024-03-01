@@ -6,6 +6,7 @@ import mongoose, { ClientSession } from 'mongoose';
 import { Request } from 'express';
 import { paginationquery } from '../../helper/paginationquery.helper';
 
+
 const getAppsPaginated = async (req: Request): Promise<any> => {
     let formData = { ...req?.query, ...req?.body }
 
@@ -67,7 +68,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
     try {
         session = await mongoose.startSession();
         const transactionOptions: any = { readPreferences: "primary", readConcern: { level: "local" }, writeConcern: { w: "majority" } };
-        
+
         let app: any;
 
         await session.withTransaction(async () => {
@@ -126,7 +127,7 @@ const updateAppById = async (_id: string, values: Record<string, any>): Promise<
 
 
 const getAllAllowedSites = async (): Promise<any> => {
-    return AppModel.aggregate([
+    return await AppModel.aggregate([
         {
             $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
         },
@@ -148,11 +149,39 @@ const getAllAllowedSites = async (): Promise<any> => {
         });
 };
 
+const getAllAllowedSitesExceptSpecificApp = async (app_id: string): Promise<any> => {
+    return await AppModel.aggregate([
+        {
+            $match: { _id: { $ne: app_id } },
+        },
+        {
+            $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
+        },
+        {
+            $replaceRoot: { newRoot: '$websites' } // Replace the root with the 'websites' subdocument
+        },
+        {
+            $match: { deleted_at: null } // Optionally, add a match stage for additional conditions
+        },
+        {
+            $project: {
+                _id: 0, // Exclude the _id field
+                address: '$address' // Include only the 'address' field
+            }
+        }
+    ])
+        .then((websites: any) => {
+            return websites?.map((item: any) => item?.address);
+        });
+};
+
+
 export const appService = {
     getAppsPaginated,
     getAppByName,
     getAppById,
     createApp,
     updateAppById,
-    getAllAllowedSites
+    getAllAllowedSites,
+    getAllAllowedSitesExceptSpecificApp
 }
