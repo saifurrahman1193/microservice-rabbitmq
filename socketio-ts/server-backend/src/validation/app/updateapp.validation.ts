@@ -4,8 +4,10 @@ import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { AppModel } from '../../model/app/app.model';
 import { unique } from '../../rule/common/unique.rule';
+import { exists } from '../../rule/common/exists.rule';
 import { appService } from '../../service/app/app.service';
 import { namespaceService } from '../../service/app/namespace.service';
+import mongoose from 'mongoose';
 
 
 let globalReq: any;
@@ -21,8 +23,12 @@ const descriptor = <any>{
             async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
                 const errors: string[] = [];
 
-                let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': value, 'exceptField': '_id', 'exceptValue': globalReq.params.id, 'message': 'App name must be unique!' });
+                let validator = await exists({ 'model': AppModel, 'field': '_id', value: new mongoose.Types.ObjectId(globalReq.params.id), 'message': `App must exist!` });
                 validator.fails ? errors.push(validator.messages[0]) : null;
+
+                validator = await unique({ 'model': AppModel, 'field': 'name', value, 'exceptField': '_id', 'exceptValue': new mongoose.Types.ObjectId(globalReq.params.id), 'message': 'App name must be unique!' });
+                validator.fails ? errors.push(validator.messages[0]) : null;
+
                 callback(errors);
             },
         },
