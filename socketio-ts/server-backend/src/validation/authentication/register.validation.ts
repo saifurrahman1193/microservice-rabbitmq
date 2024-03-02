@@ -12,7 +12,6 @@ const descriptor = <any>{
         { min: 4, message: 'Name must be at least 4 characters long' },
         { max: 50, message: 'Name cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Name cannot contain spaces' },
-        
     ],
     username: [
         { type: 'string', required: true, message: 'Username is required' },
