@@ -2,15 +2,9 @@ import { JWTAccessToken } from '../../model/authentication/jwtaccesstoken.model'
 import { config } from '../../config/index.config';
 import mongoose from 'mongoose';
 
-// const getJWTAccessTokens = () => JWTAccessToken.find();
-// const getJWTAccessTokenByEmail = (email: string) => JWTAccessToken.findOne({ email });
-// const getJWTAccessTokenByJWTAccessTokenName = (username: string) => JWTAccessToken.findOne({ username }).lean();
-// const getJWTAccessTokenBySessionToken = (sessionToken: string) => JWTAccessToken.findOne({ 'authentication.sessionToken': sessionToken });
-// const getMyInfo = async (req: any) => JWTAccessToken.findOne({ 'authentication.sessionToken': req.cookies['SOCKET-SERVER-AUTH'] });
-// const getJWTAccessTokenById = (_id: string) => JWTAccessToken.findOne({ _id });
+
 const createJWTAccessToken = (values: Record<string, any>) => new JWTAccessToken(values).save().then((user) => user.toObject());
-// const deleteJWTAccessTokenById = (id: string) => JWTAccessToken.findByIdAndDelete({ _id: id });
-// const updateJWTAccessTokenById = (id: string, values: Record<string, any>) => JWTAccessToken.findByIdAndUpdate(id, values)
+
 const updateJWTAccessTokenInactive = async(values: Record<string, any>) => {
     const data = await JWTAccessToken.find({ user_id: values?.user_id, is_active: 1 })
                 .select('_id')
