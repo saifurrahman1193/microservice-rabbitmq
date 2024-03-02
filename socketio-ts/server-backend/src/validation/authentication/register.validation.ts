@@ -39,7 +39,7 @@ const descriptor = <any>{
 
 export const RegisterValidation = async (req: Request, res: Response, next: NextFunction) => {
     const validator = new Schema(descriptor);
-    
+
     try {
         await validator.validate({ ...req.body });
         next();
@@ -53,6 +53,6 @@ export const RegisterValidation = async (req: Request, res: Response, next: Next
                 return 'Validation error';
             }
         });
-        return set_response(res, null, HttpStatusCode.UnprocessableEntity,  false , messages, errors.errors);
+        return set_response(res, null, HttpStatusCode.UnprocessableEntity, false, messages, errors.errors);
     }
 };
