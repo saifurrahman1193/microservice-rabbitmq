@@ -9,6 +9,29 @@ import mongoose from 'mongoose';
 import jwt from "jsonwebtoken";
 
 
+
+
+
+export const register = async (req: Request, res: Response) => {
+    try {
+        // destructuring
+        const { name, email, username, password, is_active } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = await userService.createUser({
+            name,
+            email,
+            username,
+            password: hashedPassword
+        });
+
+        return set_response(res, user, HttpStatusCode.Created, true, ['User created successfully'], null);
+    } catch (error: any) {
+        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], error);
+    }
+}
+
+
 export const login = async (req: Request, res: Response) => {
     try {
         const { username, password } = req.body;
@@ -70,6 +93,8 @@ export const me = async(req: Request, res: Response) => {
     const user = await userService.getMyInfo(req);
     const token: string = authorization.split(' ')[1]
     const decoded: any = jwt.decode(token);
+    console.log(decoded);
+    
 
     let data = {
         user: {
@@ -82,22 +107,18 @@ export const me = async(req: Request, res: Response) => {
     return set_response(res, data, HttpStatusCode.OK, true, ['Successfully me data'], null);
 };
 
+export const logout = async (req: Request, res: Response) => {
 
-export const register = async (req: Request, res: Response) => {
-    try {
-        // destructuring
-        const { name, email, username, password, is_active } = req.body;
+    const authorization = req.cookies['Authorization'];
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await userService.createUser({
-            name,
-            email,
-            username,
-            password: hashedPassword
-        });
+    // Step 1: Retrieve user data
+    const user = await userService.getMyInfo(req);
+    const token: string = authorization.split(' ')[1]
+    const decoded: any = jwt.decode(token);
 
-        return set_response(res, user, HttpStatusCode.Created, true, ['User created successfully'], null);
-    } catch (error: any) {
-        return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], error);
-    }
-}
+    jwtaccesstokenService.expireJWTTokenWithTokenId({
+        jwt_access_token_id: decoded?.jwt_access_token_id,
+    });
+
+    return set_response(res, null, HttpStatusCode.OK, true, ['Successfully logged out'], null);
+};
