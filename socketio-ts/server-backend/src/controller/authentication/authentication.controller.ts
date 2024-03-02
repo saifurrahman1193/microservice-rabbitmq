@@ -6,6 +6,7 @@ import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { generate_access_token, JWT_EXPIRES_AT } from '../../helper/auth.helper';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
+import jwt from "jsonwebtoken";
 
 
 export const login = async (req: Request, res: Response) => {
@@ -60,6 +61,25 @@ export const login = async (req: Request, res: Response) => {
         // Step 8: Handle errors and send an appropriate response
         return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error'], error);
     }
+};
+
+export const me = async(req: Request, res: Response) => {
+    const authorization = req.cookies['Authorization'];
+
+    // Step 1: Retrieve user data
+    const user = await userService.getMyInfo(req);
+    const token: string = authorization.split(' ')[1]
+    const decoded: any = jwt.decode(token);
+
+    let data = {
+        user: {
+            ...user,
+            'access_token': token,
+            'token_type': 'Bearer',
+            'expires_at': decoded?.expires_at
+        },
+    };
+    return set_response(res, data, HttpStatusCode.OK, true, ['Successfully me data'], null);
 };
 
 

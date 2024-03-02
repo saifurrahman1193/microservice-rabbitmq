@@ -33,6 +33,10 @@ export default async (req: Request, res: Response, next: NextFunction) => {
             return set_response(res, null, HttpStatusCode.NotFound, false, ['Not Found: User not found'], null);
         }
 
+        if (!existingUser || !existingUser.is_active) {
+            return set_response(res, null, HttpStatusCode.NotFound, false, ['User is inactive! Please communicate with System admin.'], null);
+        }
+
         const existing_access_token = await jwtaccesstokenService.getValidAccessTokenUsingJWTAccessTokenID(decoded_data);
         if (!existing_access_token) {
             return set_response(res, null, HttpStatusCode.NotFound, false, ['Unauthenticated. Token is either expired or incative. Please login first!'], null);
