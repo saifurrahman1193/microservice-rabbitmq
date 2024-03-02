@@ -66,5 +66,6 @@ export const jwtaccesstokenService = {
     createJWTAccessToken,
     updateJWTAccessTokenInactive,
     getValidAccessTokenUsingJWTAccessTokenID,
-    expireJWTTokenWithTokenId
+    expireJWTTokenWithTokenId,
+    expireJWTTokenWithUserId
 }

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { userService } from '../../service/authentication/user.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
+import { jwtaccesstokenService } from '../../service/authentication/jwtaccesstoken.service';
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
@@ -28,7 +29,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { name, username } = req.body;
+        const { name, username, is_active } = req.body;
 
         const user = await userService.getUserById(id);
         if (!user) {
@@ -38,6 +39,10 @@ export const updateUser = async (req: Request, res: Response) => {
         user.username = username;
         user.name = name;
         await user.save();
+
+        if (is_active && is_active==0) {  // if user is to inactive then make all token incative, force them to logout
+            jwtaccesstokenService.expireJWTTokenWithUserId({user_id: user._id});
+        }
 
         return res.status(HttpStatusCode.OK).json(user).end();
     } catch (error) {
