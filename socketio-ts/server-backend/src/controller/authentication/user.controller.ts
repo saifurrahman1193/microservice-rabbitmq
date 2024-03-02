@@ -37,14 +37,15 @@ export const updateUser = async (req: Request, res: Response) => {
         }
 
         user.username = username;
-        user.name = name;
+        name ? user.name = name : null;
+        is_active ? user.is_active = is_active : null;
         await user.save();
 
         if (is_active && is_active==0) {  // if user is to inactive then make all token incative, force them to logout
             jwtaccesstokenService.expireJWTTokenWithUserId({user_id: user._id});
         }
 
-        return res.status(HttpStatusCode.OK).json(user).end();
+        return set_response(res, user, HttpStatusCode.OK, true, ['Successfully updated'], null);
     } catch (error) {
         return set_response(res, null, HttpStatusCode.InternalServerError, false, ['Internal Server Error: '], null);
     }

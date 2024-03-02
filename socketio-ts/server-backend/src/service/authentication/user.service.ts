@@ -5,7 +5,6 @@ const getUsers = () => User.find();
 const getUserByEmail = (email: string) => User.findOne({ email });
 const getUserByUserName = (username: string) => User.findOne({ username }).lean();
 
-// ======================work here=======================
 const getMyInfo = async (req: any) => {
     let user_id = req.headers['user_id']
     let user_data = await User.findOne({ _id: new mongoose.Types.ObjectId(user_id) }).lean();
