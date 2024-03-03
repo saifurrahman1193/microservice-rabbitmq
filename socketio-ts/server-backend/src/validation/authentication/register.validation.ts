@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/validateagainstcommonpasswords.rule';
-import { unique } from '../../rule/common/unique.rule';
+import unique from '../../rule/common/unique.rule';
 import { User } from '../../model/authentication/user.model';
 
 const descriptor = <any>{
@@ -18,15 +18,12 @@ const descriptor = <any>{
         { min: 4, message: 'Username must be at least 4 characters long' },
         { max: 50, message: 'Username cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
-        {
-            async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
-                const errors: string[] = [];
-
-                let validator = await unique({ 'model': User, 'field': 'username', value, 'message': 'Username must be unique!' });
-                validator.fails ? errors.push(validator.messages[0]) : null;
-                callback(errors);
-            },
-        },
+        { asyncValidator: unique, 'model': User, 'field': 'username', 'message': `Username must be unique!` },
+    ],
+    email: [
+        { type: 'email', required: true, message: 'Email is required' },
+        { pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Ivalid Email' },
+        { asyncValidator: unique, 'model': User, 'field': 'email', 'message': `Email must be unique!` }
     ],
     password: [
         { type: 'string', required: true, message: 'Password is required' },

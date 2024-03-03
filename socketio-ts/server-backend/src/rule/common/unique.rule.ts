@@ -1,31 +1,45 @@
 import { toTitleCase } from '../../helper/common.helper';
 
-const unique = async (params: any): Promise<any> => {
-    try {
-        let { model, field, value, exceptField, exceptValue, message } = params;
+interface ValidationCallback {
+    (error?: Error): void;
+}
 
-        // Build the filter object
-        const filter: any = {
-            [field]: value,
-        };
+interface ValidationRule {
+    model: any,
+    field: any,
+    exceptField?: any,
+    exceptValue?: any,
+    message?: string;
+    // Add more rule properties as needed
+}
 
-        // If exceptField and exceptValue are provided, exclude them from the filter
-        if (exceptField && exceptValue) {
-            filter[exceptField] = { $ne: exceptValue };
-        }
+export default async (
+    rule: ValidationRule,
+    value: string,
+    callback: ValidationCallback
+): Promise<void> => {
+    let { model, field, exceptField, exceptValue, message } = rule;
 
-        // Get the MongoDB document from the model
-        const existingDocument: any = await model.findOne(filter).exec();
+    // Build the filter object
+    const filter: any = {
+        [field]: value,
+    };
 
-        message = message || `${toTitleCase(field || '')} is already exist.`
-
-        return existingDocument
-            ? { fails: true, messages: [message], errors: [{ field, message }] }
-            : { fails: false };
-    } catch (error) {
-        console.error('Error checking uniqueness in MongoDB:', error);
-        return { fails: true, messages: ['Error checking uniqueness in MongoDB'], errors: error };
+    // If exceptField and exceptValue are provided, exclude them from the filter
+    if (exceptField && exceptValue) {
+        filter[exceptField] = { $ne: exceptValue };
     }
+
+    // Get the MongoDB document from the model
+    const existingDocument: any = await model.findOne(filter).exec();
+
+    message = message || `${toTitleCase(field || '')} already exist.`; // Capitalize first letter
+
+    if (existingDocument) {
+        throw new Error(message);
+    }
+
+    callback(); // Success case
 };
 
-export { unique };
+

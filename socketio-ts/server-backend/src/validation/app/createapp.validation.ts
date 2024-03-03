@@ -4,7 +4,7 @@ import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
 import { appService } from '../../service/app/app.service';
 import { AppModel } from '../../model/app/app.model';
-import { unique } from '../../rule/common/unique.rule';
+import unique from '../../rule/common/unique.rule';
 import { namespaceService } from '../../service/app/namespace.service';
 
 
@@ -15,15 +15,7 @@ const descriptor = <any>{
         { max: 50, message: 'App Name cannot exceed 50 characters' },
         { pattern: /^\S*$/, message: 'App Name cannot contain spaces' },
         { pattern: /^[a-zA-Z0-9\s]*$/, message: 'App Name cannot contain special characters' },
-        {
-            async validator(rule: any, value: any, callback: (errors?: string[]) => void) {
-                const errors: string[] = [];
-
-                let validator = await unique({ 'model': AppModel, 'field': 'name', 'value': value, 'message': 'App name must be unique!' });
-                validator.fails ? errors.push(validator.messages[0]) : null;
-                callback(errors);
-            },
-        },
+        { asyncValidator: unique, 'model': AppModel, 'field': 'name', 'message': `App name must be unique!` }
     ],
     websites: [
         { type: 'array', required: true, message: 'Websites are required' },
@@ -42,12 +34,11 @@ const descriptor = <any>{
                     const website = value[i];
 
                     if (typeof website !== 'object' || !website.address) { // if we don't have an address
-                        errors.push(`website ${i+1}: address is required`);
+                        errors.push(`website ${i + 1}: address is required`);
                     }
                     let address = website.address
-                    if(all_allowed_websites_exists.includes(address)) 
-                    {
-                        errors.push(`website ${i+1}: address is already exist`);
+                    if (all_allowed_websites_exists.includes(address)) {
+                        errors.push(`website ${i + 1}: address is already exist`);
                     }
                 }
 
@@ -72,12 +63,11 @@ const descriptor = <any>{
                     const namespace = value[i];
 
                     if (typeof namespace !== 'object' || !namespace.name) { // if we don't have an name
-                        errors.push(`namespace ${i+1}: name is required`);
+                        errors.push(`namespace ${i + 1}: name is required`);
                     }
                     let name = namespace.name
-                    if(all_namespaces_exists.includes(name)) 
-                    {
-                        errors.push(`namespace ${i+1}: name is already exist`);
+                    if (all_namespaces_exists.includes(name)) {
+                        errors.push(`namespace ${i + 1}: name is already exist`);
                     }
                 }
 
