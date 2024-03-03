@@ -6,7 +6,9 @@ interface ValidationCallback {
 
 interface ValidationRule {
     model: any,
-    field: any,
+    field: any,                 // it's come by default
+    fieldNameToOverride?: any,  // it's come to override the default field name for custom purposes
+    fieldValueToOverride?: any, // it's come to override the default field value  for custom purposes
     exceptField?: any,
     exceptValue?: any,
     message?: string;
@@ -18,13 +20,18 @@ export default async (
     value: string,
     callback: ValidationCallback
 ): Promise<void> => {
-    let { model, field, exceptField, exceptValue, message } = rule;
+    let { model, field, fieldNameToOverride, fieldValueToOverride, exceptField, exceptValue, message } = rule;
+
+    field = fieldNameToOverride ? fieldNameToOverride : field;  // if value passes customly then default value will be overwritten otherwise default value will be applied
+    value = fieldValueToOverride ? fieldValueToOverride : value;  // if value passes customly then default value will be overwritten otherwise default value will be applied
 
     // Build the filter object
     const filter: any = {
-        [field]: value,
+        [field]: value
     };
 
+    console.log('exists', field, value, fieldValueToOverride, rule, filter);
+    
     // If exceptField and exceptValue are provided, exclude them from the filter
     if (exceptField && exceptValue) {
         filter[exceptField] = { $ne: exceptValue };

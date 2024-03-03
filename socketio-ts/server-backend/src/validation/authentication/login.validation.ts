@@ -6,25 +6,26 @@ import ValidateAgainstCommonPasswordsRule from '../../rule/authentication/valida
 import exists from '../../rule/common/exists.rule';
 import { User } from '../../model/authentication/user.model';
 
-const descriptor = <any>{
-    username: [
-        { type: 'string', required: true, message: 'Username is required' },
-        { min: 4, message: 'Username must be at least 4 characters long' },
-        { max: 50, message: 'Username cannot exceed 50 characters' },
-        { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
-        { asyncValidator: exists, 'model': User, 'field': 'username', 'message': `Username doesn't exist!` }
-    ],
-    password: [
-        { type: 'string', required: true, message: 'Password is required' },
-        { min: 8, message: 'Password must be at least 8 characters long' },
-        { max: 50, message: 'Password cannot exceed 50 characters' },
-        { pattern: /^\S*$/, message: 'Password cannot contain spaces' },
-        { asyncValidator: ValidateAgainstCommonPasswordsRule, message: 'Avoid using common passwords' }
-    ],
-};
-
+const descriptor = (req: Request): any => (
+    {
+        username: [
+            { type: 'string', required: true, message: 'Username is required' },
+            { min: 4, message: 'Username must be at least 4 characters long' },
+            { max: 50, message: 'Username cannot exceed 50 characters' },
+            { pattern: /^\S*$/, message: 'Username cannot contain spaces' },
+            { asyncValidator: exists, 'model': User, 'field': 'username', message: `Username doesn't exist!` }
+        ],
+        password: [
+            { type: 'string', required: true, message: 'Password is required' },
+            { min: 8, message: 'Password must be at least 8 characters long' },
+            { max: 50, message: 'Password cannot exceed 50 characters' },
+            { pattern: /^\S*$/, message: 'Password cannot contain spaces' },
+            { asyncValidator: ValidateAgainstCommonPasswordsRule, message: 'Avoid using common passwords' }
+        ],
+    }
+);
 export const LoginValidation = async (req: Request, res: Response, next: NextFunction) => {
-    const validator = new Schema(descriptor);
+    const validator = new Schema(descriptor(req));
 
     try {
         await validator.validate({ ...req.body });
