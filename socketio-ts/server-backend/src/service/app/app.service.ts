@@ -19,8 +19,8 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => {
     return await AppModel.findOne({ _id : new mongoose.Types.ObjectId(_id) })
+        .populate({ path: 'namespace' , match: { deleted_at: null }})
         .lean(true)
-        .populate({ path: 'namespace' })
 };
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
