@@ -38,6 +38,7 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
+
 const getAppById = async (_id: string): Promise<any> => {
     return await AppModel
         .aggregate(
