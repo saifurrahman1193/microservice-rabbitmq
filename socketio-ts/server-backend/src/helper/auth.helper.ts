@@ -31,6 +31,10 @@ export const generate_access_token = async(data : any) => {
 }
 
 
+// export const logout_cleaner = async(req: Request, res: Response) => {
+//     res.cookie('Authorization', '', { maxAge: 1 }); // expire (cookie = Authorization = token) within 1 miliseconds
+// }
+
 // const Auth = exports.Auth = async (req : Request) => {
 //     const access_token = await AccessToken(req);
     
