@@ -7,9 +7,7 @@ import { generate_access_token, JWT_EXPIRES_AT } from '../../helper/auth.helper'
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import jwt from "jsonwebtoken";
-
-
-
+import { jwtConfig } from '../../config/jwt.config';
 
 
 export const register = async (req: Request, res: Response) => {
@@ -78,7 +76,7 @@ export const login = async (req: Request, res: Response) => {
         };
 
         // Step 7: Set Authorization cookie and send the response
-        res.cookie('Authorization', Authorization, { domain: 'localhost', path: '/', secure: true, httpOnly: true });
+        res.cookie('Authorization', Authorization, { domain: 'localhost', path: '/', secure: true, httpOnly: true, maxAge: jwtConfig?.expires_in_seconds*1000 });
         return set_response(res, data, HttpStatusCode.OK, true, ['Successfully logged in'], null);
     } catch (error: any) {
         // Step 8: Handle errors and send an appropriate response

@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import {config} from '../config/index.config';
 
-export const JWT_EXPIRES_AT = moment().utcOffset(6 * 60).add(config.jwt.expires_in, 'seconds').format('yy-MM-DD HH:mm:ss'); // only at login time works
+export const JWT_EXPIRES_AT = moment().utcOffset(6 * 60).add(config.jwt.expires_in_seconds, 'seconds').format('yy-MM-DD HH:mm:ss'); // only at login time works
 
 // Example: Generate a random cryptographic key
 export const random = () => crypto.randomBytes(128).toString('base64');
@@ -26,7 +26,7 @@ export const authorization = async(req : Request) => {
 }
 
 export const generate_access_token = async(data : any) => {
-    const token = jwt.sign(data, config.jwt.access_token_secret, { expiresIn: config.jwt.expires_in });
+    const token = jwt.sign(data, config.jwt.access_token_secret, { expiresIn: config.jwt.expires_in_seconds });
     return token;
 }
 
