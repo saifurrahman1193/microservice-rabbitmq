@@ -8,7 +8,7 @@ const router = Router();
 
 router.post('/register', RegisterValidation, register)
 router.post('/login', LoginValidation, login)
-router.post('/logout', isauthenticatedMiddlware, logout)
+router.get('/logout', isauthenticatedMiddlware, logout)
 router.get('/me', isauthenticatedMiddlware, me)
 
 export default router;
