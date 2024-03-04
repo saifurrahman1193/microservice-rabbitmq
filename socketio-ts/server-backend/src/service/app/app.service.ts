@@ -39,9 +39,30 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => {
-    return await AppModel.findOne({ _id: new mongoose.Types.ObjectId(_id) })
-        .populate({ path: 'namespace', match: { deleted_at: null } })
-        .lean(true)
+    return await AppModel
+        .aggregate(
+            [
+                {
+                    $match: { _id: new mongoose.Types.ObjectId(_id) }
+                },
+                {
+                    $lookup: { from: "namespace", localField: "_id", foreignField: "app_id", as: "namespace", },
+                },
+                {
+                    $unwind: '$namespace' // Unwind the 'websites' array to create a separate document for each website
+                },
+                {
+                    $match: { 'namespace.deleted_at': null }
+                },
+                {
+                    $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
+                },
+                {
+                    $match: { 'websites.deleted_at': null } // Optionally, add a match stage for additional conditions
+                },
+    
+            ]
+        )
 };
 
 const createApp = async (values: Record<string, any>): Promise<any> => {
