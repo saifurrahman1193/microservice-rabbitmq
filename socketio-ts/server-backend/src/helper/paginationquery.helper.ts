@@ -6,7 +6,7 @@ import { config } from '../config/index.config';
 interface PaginateFormData {
     api_url?: string;
     page?: number;
-    perPage?: number;
+    per_page?: number;
 }
 
 interface Paginator {
@@ -30,7 +30,6 @@ interface PaginateParams {
     request: Request;
     formData: PaginateFormData;
     query: any;
-    isLean?: boolean;
     sort?: any | null;
     aggregate?: any | null;
 }
@@ -44,51 +43,40 @@ export const paginate = async<T extends Document>(
         aggregate
     }: PaginateParams
 ): Promise<PaginateResult<T>> => {
-    const {
+    let {
         api_url = removeParameterFromURL(config.app.base_url + request.originalUrl, 'page'),
         page = 1,         // default page 1
-        perPage = 10,      // default per page 10 records show
-    } = formData;
+        per_page = 10,      // default per page 10 records show
+    }: PaginateFormData = formData;
 
+    per_page = parseInt(String(per_page), 10)
 
     let currentPage = parseInt(page.toString()) || 1; // default current page 1
     let total_count = await query.countDocuments() || 0;
-    let pageCount = Math.ceil(total_count / perPage);
+    let pageCount = Math.ceil(total_count / per_page);
     let previousPage = currentPage > 1 ? (currentPage - 1) : 0; // null to 0 updated ====================
     let nextPage = pageCount > currentPage ? (currentPage + 1) : null;
-    let current_page_items_count = currentPage == 1 ? perPage : (total_count - (perPage * previousPage)) || 0;
-    let offset = currentPage > 1 ? previousPage * perPage : 0; // start from 0,10,20,30
+    let current_page_items_count = currentPage == 1 ? per_page : (total_count - (per_page * previousPage)) || 0;
+    let offset = currentPage > 1 ? previousPage * per_page : 0; // start from 0,10,20,30
 
     let paginator: Paginator = {
         current_page: currentPage,
         total_pages: pageCount,
         previous_page_url: previousPage ? `${api_url}?page=${previousPage}` : null,
         next_page_url: nextPage ? `${api_url}?page=${nextPage}` : null,
-        record_per_page: perPage,
+        record_per_page: per_page,
         current_page_items_count: current_page_items_count,
         total_count: total_count,
         pagination_last_page: pageCount,
         offset: offset,
     };
-    console.log(perPage);
-    
-
-    // worked
-    // const items = await query
-    //     .find(filter)
-    //     // .aggregate(aggregate)
-    //     .lean(isLean)
-    //     .populate(populate)
-    //     .limit(perPage)
-    //     .skip(offset)
-    //     .sort(sort)
 
     // Sort
     if (sort) {
         aggregate = [
             ...aggregate,
             {
-                $sort: sort // Replace 'your_sort_field' with the actual field for sorting
+                $sort: sort
             }
         ]
     }
@@ -97,19 +85,18 @@ export const paginate = async<T extends Document>(
     aggregate = [
         ...aggregate,
         {
-            $skip: offset // Replace 'your_sort_field' with the actual field for sorting
+            $skip: offset
         }
     ]
+    console.log(aggregate);
 
     // limit
     aggregate = [
         ...aggregate,
         {
-            $limit: perPage // Replace 'your_sort_field' with the actual field for sorting
+            $limit: per_page
         }
     ]
-
-
 
     const items = await query.aggregate(aggregate)
 
@@ -131,10 +118,28 @@ export const paginationquery = {
     paginate
 }
 
-
 // ---------usage 1------------
-// let formData = { ...req?.query, ...req?.body }
-
-// return await paginationquery.paginate({
-//     request: req, formData: formData, query: AppModel, populate: { path: 'namespace' }, isLean: true, sort: null
-// });
+// return await AppModel
+//         .aggregate(
+//             [
+//                 {
+//                     $match: { _id: new mongoose.Types.ObjectId(_id) }
+//                 },
+//                 {
+//                     $lookup: { from: "namespace", localField: "_id", foreignField: "app_id", as: "namespace", },
+//                 },
+//                 {
+//                     $unwind: '$namespace' // Unwind the 'websites' array to create a separate document for each website
+//                 },
+//                 {
+//                     $match: { 'namespace.deleted_at': null }
+//                 },
+//                 {
+//                     $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
+//                 },
+//                 {
+//                     $match: { 'websites.deleted_at': null } // Optionally, add a match stage for additional conditions
+//                 },
+    
+//             ]
+//         )
