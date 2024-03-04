@@ -11,15 +11,36 @@ const getAppsPaginated = async (req: Request): Promise<any> => {
     let formData = { ...req?.query, ...req?.body }
 
     return await paginationquery.paginate({
-        request: req, formData: formData, query: AppModel, populate: { path: 'namespace' }, isLean: true, sort: null
+        request: req, 
+        formData: formData, 
+        query: AppModel,
+        aggregate: [
+            {
+                $lookup: { from: "namespace", localField: "_id", foreignField: "app_id", as: "namespace", },
+            },
+            {
+                $unwind: '$namespace' // Unwind the 'websites' array to create a separate document for each website
+            },
+            {
+                $match: { 'namespace.deleted_at': null }
+            },
+            {
+                $unwind: '$websites' // Unwind the 'websites' array to create a separate document for each website
+            },
+            {
+                $match: { 'websites.deleted_at': null } // Optionally, add a match stage for additional conditions
+            },
+
+        ],
+        sort: { _id: -1 }
     });
 };
 
 
 const getAppByName = async (name: string): Promise<any> => await AppModel.findOne({ name });
 const getAppById = async (_id: string): Promise<any> => {
-    return await AppModel.findOne({ _id : new mongoose.Types.ObjectId(_id) })
-        .populate({ path: 'namespace' , match: { deleted_at: null }})
+    return await AppModel.findOne({ _id: new mongoose.Types.ObjectId(_id) })
+        .populate({ path: 'namespace', match: { deleted_at: null } })
         .lean(true)
 };
 

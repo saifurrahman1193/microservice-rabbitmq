@@ -32,7 +32,7 @@ interface PaginateParams {
     query: any;
     isLean?: boolean;
     sort?: any | null;
-    populate?: any | null;
+    aggregate?: any | null;
 }
 
 export const paginate = async<T extends Document>(
@@ -40,9 +40,8 @@ export const paginate = async<T extends Document>(
         request,
         formData,
         query,
-        isLean = false,
         sort = null,
-        populate,
+        aggregate
     }: PaginateParams
 ): Promise<PaginateResult<T>> => {
     const {
@@ -71,14 +70,49 @@ export const paginate = async<T extends Document>(
         pagination_last_page: pageCount,
         offset: offset,
     };
+    console.log(perPage);
+    
 
-    const items = await query
-        .find()
-        .lean(isLean)
-        .populate(populate)
-        .limit(perPage)
-        .skip(offset)
-        .sort(sort)
+    // worked
+    // const items = await query
+    //     .find(filter)
+    //     // .aggregate(aggregate)
+    //     .lean(isLean)
+    //     .populate(populate)
+    //     .limit(perPage)
+    //     .skip(offset)
+    //     .sort(sort)
+
+    // Sort
+    if (sort) {
+        aggregate = [
+            ...aggregate,
+            {
+                $sort: sort // Replace 'your_sort_field' with the actual field for sorting
+            }
+        ]
+    }
+
+    // Skip : Offset
+    aggregate = [
+        ...aggregate,
+        {
+            $skip: offset // Replace 'your_sort_field' with the actual field for sorting
+        }
+    ]
+
+    // limit
+    aggregate = [
+        ...aggregate,
+        {
+            $limit: perPage // Replace 'your_sort_field' with the actual field for sorting
+        }
+    ]
+
+
+
+    const items = await query.aggregate(aggregate)
+
     // .exec((err: any, items: any) => {
     //     if (err) {
     //         console.error(err);
