@@ -25,23 +25,23 @@ const updateJWTRefreshTokenInactive = async(values: Record<string, any>) => {
 // };
 
 // // expire one token with a token id
-// const expireJWTTokenWithTokenId = async(values: Record<string, any>) => {
-//     await JWTRefreshToken.updateOne(
-//         // The criteria for finding the document to update
-//         { 
-//             _id: new mongoose.Types.ObjectId(values.jwt_access_token_id), // Token ID to match
-//             is_active: 1,                       // Active status to match
-//         },
+const expireJWTRefreshTokenWithTokenId = async(values: Record<string, any>) => {
+    await JWTRefreshToken.updateOne(
+        // The criteria for finding the document to update
+        { 
+            _id: new mongoose.Types.ObjectId(values.jwt_refresh_token_id), // Token ID to match
+            is_active: 1,                       // Active status to match
+        },
 
-//         // The update to be performed on the matched document
-//         { 
-//             $set: { 
-//                 is_active: 0,                    // Set is_active to 0 to mark it as inactive
-//                 expires_at: new Date().toISOString() // Set expires_at to the current time
-//             } 
-//         }
-//     );
-// };
+        // The update to be performed on the matched document
+        { 
+            $set: { 
+                is_active: 0,                    // Set is_active to 0 to mark it as inactive
+                expires_at: new Date().toISOString() // Set expires_at to the current time
+            } 
+        }
+    );
+};
 
 // // expire all the tokens of a specific user
 // const expireJWTTokenWithUserId = async(values: Record<string, any>) => {
@@ -65,7 +65,7 @@ const updateJWTRefreshTokenInactive = async(values: Record<string, any>) => {
 export const jwtrefreshtokenService = {
     createJWTRefreshToken,
     updateJWTRefreshTokenInactive,
+    expireJWTRefreshTokenWithTokenId,
     // getValidRefreshTokenUsingJWTRefreshTokenID,
-    // expireJWTTokenWithTokenId,
     // expireJWTTokenWithUserId
 }

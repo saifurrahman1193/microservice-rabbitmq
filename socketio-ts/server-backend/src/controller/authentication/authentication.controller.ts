@@ -59,7 +59,7 @@ export const login = async (req: Request, res: Response) => {
         const jwt_refresh_token = await jwtrefreshtokenService.createJWTRefreshToken({ _id: jwt_refresh_token_id, user_id: user?._id, expires_at: jwt_refresh_token_expires_at, jwt_access_token_id });
 
         // Step 5: Generate JWT token (access + refresh token)
-        const access_token = await generate_access_token({ user_id: user?._id, username, jwt_access_token_id, expires_at: jwt_access_token_expires_at });
+        const access_token = await generate_access_token({ user_id: user?._id, username, jwt_access_token_id, jwt_refresh_token_id, expires_at: jwt_access_token_expires_at });
         const refresh_token = await generate_refresh_token({ user_id: user?._id, username, jwt_access_token_id, jwt_refresh_token_id, expires_at: jwt_refresh_token_expires_at });
 
         // Step 6: Form the response data
@@ -114,8 +114,12 @@ export const logout = async (req: Request, res: Response) => {
     const token: string = authorization.split(' ')[1]
     const decoded: any = jwt.decode(token);
 
-    jwtaccesstokenService.expireJWTTokenWithTokenId({
+    jwtaccesstokenService.expireJWTAccessTokenWithTokenId({
         jwt_access_token_id: decoded?.jwt_access_token_id,
+    });
+
+    jwtrefreshtokenService.expireJWTRefreshTokenWithTokenId({
+        jwt_refresh_token_id: decoded?.jwt_refresh_token_id,
     });
 
     res.cookie('Authorization', '', { maxAge: 1 }); // expire (cookie = Authorization = token) within 1 miliseconds

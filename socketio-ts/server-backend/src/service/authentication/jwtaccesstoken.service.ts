@@ -25,7 +25,7 @@ const getValidAccessTokenUsingJWTAccessTokenID = async(values: Record<string, an
 };
 
 // expire one token with a token id
-const expireJWTTokenWithTokenId = async(values: Record<string, any>) => {
+const expireJWTAccessTokenWithTokenId = async(values: Record<string, any>) => {
     await JWTAccessToken.updateOne(
         // The criteria for finding the document to update
         { 
@@ -66,6 +66,6 @@ export const jwtaccesstokenService = {
     createJWTAccessToken,
     updateJWTAccessTokenInactive,
     getValidAccessTokenUsingJWTAccessTokenID,
-    expireJWTTokenWithTokenId,
+    expireJWTAccessTokenWithTokenId,
     expireJWTTokenWithUserId
 }
