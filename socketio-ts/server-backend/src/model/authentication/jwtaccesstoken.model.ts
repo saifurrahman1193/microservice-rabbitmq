@@ -31,15 +31,20 @@ const JWTAccessTokenSchema = new Schema<IJWTAccessToken>({
 const JWTAccessToken = model<IJWTAccessToken>('JWTAccessToken', JWTAccessTokenSchema, 'jwt_access_token');
 
 
-// Add a virtual property to the UserSchema
 JWTAccessTokenSchema.virtual('user', {
     type: 'ObjectId',
     ref: 'User',
     foreignField: '_id',
     localField: 'user_id',
-    justOne : true
+    justOne: true
 });
 
-export {
-    JWTAccessToken
-};
+JWTAccessTokenSchema.virtual('jwt_refresh_token', {
+    type: 'ObjectId',
+    ref: 'JWTRefreshToken',
+    foreignField: 'jwt_access_token_id',
+    localField: '_id',
+    justOne: true
+});
+
+export { JWTAccessToken };

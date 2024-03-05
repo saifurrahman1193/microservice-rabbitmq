@@ -4,7 +4,8 @@ import moment from 'moment';
 import {config} from '../config/index.config';
 import { Request, Response } from 'express';
 
-export const JWT_EXPIRES_AT = moment().add(config.jwt.expires_in_seconds, 'seconds'); // only at login time works
+export const JWT_ACCESS_TOKEN_EXPIRES_AT = moment().add(config.jwt.access_token_expires_in_seconds, 'seconds'); // only at login time works
+export const JWT_REFRESH_TOKEN_EXPIRES_AT = moment().add(config.jwt.refresh_token_expires_in_seconds, 'seconds'); // only at login time works
 
 // Example: Generate a random cryptographic key
 export const random = () => crypto.randomBytes(128).toString('base64');
@@ -28,7 +29,7 @@ export const authorization = async(req : Request) => {
 export const generate_access_token = async(payload : any) => {
     const secret = config.jwt.access_token_secret
     const options = { 
-        expiresIn: config.jwt.expires_in_seconds,
+        expiresIn: config.jwt.access_token_expires_in_seconds,
     }
 
     const token = jwt.sign(payload, secret, options);
@@ -38,7 +39,7 @@ export const generate_access_token = async(payload : any) => {
 export const generate_refresh_token = async(payload : any) => {
     const secret = config.jwt.refresh_token_secret;
     const options = { 
-        expiresIn: config.jwt.expires_in_seconds,
+        expiresIn: config.jwt.refresh_token_expires_in_seconds,
     }
 
     const token = jwt.sign(payload, secret, options);
