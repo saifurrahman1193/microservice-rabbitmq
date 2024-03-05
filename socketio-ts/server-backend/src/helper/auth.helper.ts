@@ -1,8 +1,8 @@
 import crypto from 'crypto';
-import { Request } from 'express';
 import jwt from 'jsonwebtoken';
 import moment from 'moment';
 import {config} from '../config/index.config';
+import { Request, Response } from 'express';
 
 export const JWT_EXPIRES_AT = moment().utcOffset(6 * 60).add(config.jwt.expires_in_seconds, 'seconds').format('yy-MM-DD HH:mm:ss'); // only at login time works
 
@@ -30,10 +30,11 @@ export const generate_access_token = async(data : any) => {
     return token;
 }
 
-
-// export const logout_cleaner = async(req: Request, res: Response) => {
-//     res.cookie('Authorization', '', { maxAge: 1 }); // expire (cookie = Authorization = token) within 1 miliseconds
-// }
+  
+// expire (cookie = Authorization = token) within 1 miliseconds
+export const clearAuthorizationCookie = async(res: Response) => {
+    res.cookie('Authorization', '', { maxAge:  1 }); // Use default of 1 ms
+}
 
 // const Auth = exports.Auth = async (req : Request) => {
 //     const access_token = await AccessToken(req);
