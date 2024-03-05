@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import { userService } from '../../service/authentication/user.service';
 import { jwtaccesstokenService } from '../../service/authentication/jwtaccesstoken.service';
+import { jwtrefreshtokenService } from '../../service/authentication/jwtrefreshtoken.service';
 import { set_response } from '../../helper/apiresponser.helper';
 import { HttpStatusCode } from '../../helper/httpcode.helper';
-import { generate_access_token, JWT_EXPIRES_AT } from '../../helper/auth.helper';
+import { generate_access_token, generate_refresh_token, JWT_EXPIRES_AT } from '../../helper/auth.helper';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
 import jwt from "jsonwebtoken";
@@ -47,29 +48,27 @@ export const login = async (req: Request, res: Response) => {
 
         // Step 3: Generate JWT access token ID
         const jwt_access_token_id = new mongoose.Types.ObjectId();
+        const jwt_refresh_token_id = new mongoose.Types.ObjectId();
 
         // Step 4: Update inactive JWT access tokens and create a new one
-        await jwtaccesstokenService.updateJWTAccessTokenInactive({
-            user_id: user?._id,
-        });
+        await jwtaccesstokenService.updateJWTAccessTokenInactive({ user_id: user?._id });
 
-        const jwt_access_token = await jwtaccesstokenService.createJWTAccessToken({
-            _id: jwt_access_token_id,
-            user_id: user?._id,
-            expires_at: jwt_expires_at
-        });
+        const jwt_access_token = await jwtaccesstokenService.createJWTAccessToken({ _id: jwt_access_token_id, user_id: user?._id, expires_at: jwt_expires_at });
+        const jwt_refresh_token = await jwtrefreshtokenService.createJWTRefreshToken({ _id: jwt_refresh_token_id, user_id: user?._id, expires_at: jwt_expires_at });
 
-        // Step 5: Generate JWT token
-        const token = await generate_access_token({ user_id:user?._id, username, jwt_access_token_id, expires_at: jwt_expires_at });
+        // Step 5: Generate JWT token (access + refresh token)
+        const access_token = await generate_access_token({ user_id: user?._id, username, jwt_access_token_id, expires_at: jwt_expires_at });
+        const refresh_token = await generate_refresh_token({ user_id: user?._id, username, jwt_access_token_id, expires_at: jwt_expires_at });
 
         // Step 6: Form the response data
         const { password: _, ...userWithoutPassword } = user;
-        const Authorization = 'Bearer ' + token;
+        const Authorization = 'Bearer ' + access_token;
 
         let data = {
             user: {
                 ...userWithoutPassword,
-                'access_token': token,
+                'access_token': access_token,
+                'refresh_token': refresh_token,
                 'token_type': 'Bearer',
                 'expires_at': jwt_expires_at,
             },
