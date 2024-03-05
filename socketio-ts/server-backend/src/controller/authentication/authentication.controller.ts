@@ -60,7 +60,7 @@ export const login = async (req: Request, res: Response) => {
         });
 
         // Step 5: Generate JWT token
-        const token = await generate_access_token({ username, jwt_access_token_id, expires_at: jwt_expires_at });
+        const token = await generate_access_token({ user_id:user?._id, username, jwt_access_token_id, expires_at: jwt_expires_at });
 
         // Step 6: Form the response data
         const { password: _, ...userWithoutPassword } = user;
