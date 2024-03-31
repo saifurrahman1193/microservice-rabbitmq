@@ -51,6 +51,10 @@ composer require php-amqplib/php-amqplib
     composer dump-autoload
 ```
 
+### Run supervisor or schedule command in container
+```
+php artisan schedule:run
+```
 
 ## Documentation
 - https://www.rabbitmq.com/tutorials/tutorial-one-php.html

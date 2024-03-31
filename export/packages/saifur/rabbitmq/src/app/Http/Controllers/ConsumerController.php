@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Saifur\RabbitMQ\app\Traits\ApiResponser;
 use Saifur\RabbitMQ\app\Modules\RabbitMQConnection;
 use Saifur\RabbitMQ\app\Modules\Publish\PublishFactory;
+use Illuminate\Support\Facades\Log;
 
 class ConsumerController extends Controller
 {
@@ -32,6 +33,7 @@ class ConsumerController extends Controller
         $callback = function (AMQPMessage $message) use (&$messages) {
             // Handle the received message here
             $payload = $message->getBody();
+            Log::debug("consume message". $payload);
             // You can process the message payload here as needed
             // For example, you can decode JSON data or convert it to an array
             // dd($message->getBody());
