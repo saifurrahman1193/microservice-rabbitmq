@@ -91,8 +91,8 @@ export const me = async (req: Request, res: Response) => {
 
     // Step 1: Retrieve user data
     const user = await userService.getMyInfo(req);
-    const token: string = authorization.split(' ')[1]
-    const decoded: any = jwt.decode(token);
+    const token: string = authorization.split(' ')[1] // removing `Bearer`
+    const decoded: any = jwt.decode(token);  // getting encrypted data
     console.log(decoded);
 
 

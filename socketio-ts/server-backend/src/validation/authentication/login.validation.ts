@@ -25,6 +25,7 @@ const descriptor = (req: Request): any => (
     }
 );
 export const LoginValidation = async (req: Request, res: Response, next: NextFunction) => {
+    
     const validator = new Schema(descriptor(req));
 
     try {
