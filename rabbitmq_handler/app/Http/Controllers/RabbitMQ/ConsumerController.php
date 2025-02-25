@@ -47,7 +47,8 @@ class ConsumerController extends Controller
         // This will continuously consume messages until the consumer is manually stopped
         $channel->basic_consume($queue, '', false, false, false, false, $callback);
 
-        while (count($channel->callbacks)) {
+        // Keep the consumer running and wait for messages
+        while ($channel->is_consuming()) {
             $channel->wait();
         }
 
