@@ -25,8 +25,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # RUN rm -rf vendor composer.lock
 
 # RUN composer update
-# RUN composer install --no-cache --ignore-platform-reqs
-RUN composer install
+RUN composer install --ignore-platform-reqs
+RUN php artisan config:clear
+RUN php artisan cache:clear
+# RUN composer install
 
 COPY .env.example .env
 

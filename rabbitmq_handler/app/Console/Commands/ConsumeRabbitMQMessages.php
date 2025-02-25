@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Saifur\RabbitMQ\app\Modules\Consume\ConsumeFactory;
+use App\Modules\Consume\ConsumeFactory;
 
 
 class ConsumeRabbitMQMessages extends Command

@@ -1,19 +1,25 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RabbitMQ\ConsumerController;
+use App\Http\Controllers\RabbitMQ\PublisherController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'saifur/rabbitmq'],function (){
+    Route::group(['prefix' => 'publish'],function (){
+        Route::post('/send-message-default', [PublisherController::class, 'sendMessageDefault']);
+        Route::post('/send-message-direct', [PublisherController::class, 'sendMessageDirect']);
+        Route::post('/send-message-fanout', [PublisherController::class, 'sendMessageFanout']);
+        Route::post('/send-message-topic', [PublisherController::class, 'sendMessageTopic']);
+        Route::post('/send-message-headers', [PublisherController::class, 'sendMessageHeaders']);
+
+    });
+
+    Route::group(['prefix' => 'consume'],function (){
+        Route::post('/consume-message-default', [ConsumerController::class, 'consumeMessageDefault']);
+        Route::post('/consume-message-direct', [ConsumerController::class, 'consumeMessageDirect']);
+        Route::post('/consume-message-fanout', [ConsumerController::class, 'consumeMessageFanout']);
+        Route::post('/consume-message-topic', [ConsumerController::class, 'consumeMessageTopic']);
+        Route::post('/consume-message-headers', [ConsumerController::class, 'sendMessageHeaders']);
+    });
 });

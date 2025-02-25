@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
+use App\Http\Controllers\Controller;
+use App\Traits\ApiResponser;
 
 class HomeController extends Controller
 {
+    use ApiResponser;
+
+
+    public function home(Request $request)
+    {
+        return view('rabbitmq::home');
+    }
 
 }

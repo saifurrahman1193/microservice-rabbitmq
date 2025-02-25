@@ -1,5 +1,7 @@
 #### Command: docker 
 ```
+docker network create ms_rmq_network
+
 sudo docker-compose down
 sudo docker-compose build && docker-compose up -d
 ```
