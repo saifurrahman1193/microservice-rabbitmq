@@ -63,9 +63,9 @@
                                             </v-radio-group>
                                         </v-container>
                                         <v-form @submit.prevent="publish_message()">
-                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name" id="RABBITMQ_QUEUE_NAME"
-                                                v-model="publishDetails.RABBITMQ_QUEUE_NAME" prepend-icon="queue"
-                                                :rules="RABBITMQ_QUEUE_NAMERules"
+                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name"
+                                                id="RABBITMQ_QUEUE_NAME" v-model="publishDetails.RABBITMQ_QUEUE_NAME"
+                                                prepend-icon="queue" :rules="RABBITMQ_QUEUE_NAMERules"
                                                 :error-messages="publishDetailsError.RABBITMQ_QUEUE_NAME"></v-text-field>
 
                                             <v-text-field name="message" label="Write a message" id="message"
@@ -95,11 +95,42 @@
                                                     Publish Message
                                                 </v-btn>
                                             </v-card-actions>
-
                                         </v-form>
                                     </v-card-text>
                                 </v-card>
+
+                                <v-card class="mx-auto mt-4 mb-2" floating>
+                                    <v-card-title>
+                                        <h2 class="mx-auto font-weight-light">Publish Message Multi</h2>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-form @submit.prevent="publish_message_multi()">
+                                            <v-text-field name="total_hit" label="Enter the number of messages"
+                                                id="total_hit" v-model.number="total_hit" type="number"
+                                                prepend-icon="mdi-numeric" >
+                                            </v-text-field>
+
+                                            <v-alert v-text="alert2?.message" text
+                                                :type="alert2?.type == 'success' ? 'success' : 'error'"
+                                                :value='alert2?.status' sm v-if="!loader_p2"></v-alert>
+
+                                            <v-progress-circular indeterminate color="success"
+                                                v-if="loader_p2"></v-progress-circular>
+
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="success" type="submit" text @click="loader_p2=true">
+                                                    <v-icon>mdi-email</v-icon>
+                                                    Publish Message
+                                                </v-btn>
+                                            </v-card-actions>
+                                        </v-form>
+
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
+
+
 
                             <v-col cols="6">
 
@@ -110,9 +141,9 @@
 
                                     <v-card-text>
                                         <v-form @submit.prevent="consume_message()">
-                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name" id="RABBITMQ_QUEUE_NAME"
-                                                v-model="publishDetails.RABBITMQ_QUEUE_NAME" prepend-icon="queue"
-                                                :rules="RABBITMQ_QUEUE_NAMERules"
+                                            <v-text-field name="RABBITMQ_QUEUE_NAME" label="Write a rabbitmq queue name"
+                                                id="RABBITMQ_QUEUE_NAME" v-model="publishDetails.RABBITMQ_QUEUE_NAME"
+                                                prepend-icon="queue" :rules="RABBITMQ_QUEUE_NAMERules"
                                                 :error-messages="publishDetailsError.RABBITMQ_QUEUE_NAME"></v-text-field>
 
 
@@ -160,7 +191,9 @@
                     v => !!v || 'Queue name is required',
                 ],
                 loader_c: false,
+                loader_c2: false,
                 loader_p: false,
+                loader_p2: false,
                 publishDetails: {
                     exchangeType: 'default',
                     RABBITMQ_QUEUE_NAME: 'export_default_queue',
@@ -179,7 +212,12 @@
                 alert: {
                     status: null,
                     message: null
-                }
+                },
+                alert2: {
+                    status: null,
+                    message: null
+                },
+                total_hit: 1
             },
             methods: {
 
@@ -187,7 +225,8 @@
                     this.loader_p = true
                     var _this = this
 
-                    axios.post(`/api/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`, this
+                    axios.post(`/api/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`,
+                            this
                             .publishDetails)
                         .then(function(response) {
                             console.log(response)
@@ -209,11 +248,42 @@
                         })
                 },
 
+                publish_message_multi() {
+                    this.loader_p2 = true
+                    var _this = this
+
+                    for (let index = 0; index < this.total_hit; index++) {
+                        axios.post(
+                                `/api/saifur/rabbitmq/publish/send-message-${this?.publishDetails?.exchangeType}`,
+                                this
+                                .publishDetails)
+                            .then(function(response) {
+                                console.log(response)
+                                _this.loader_p2 = false
+                                _this.alert2 = {
+                                    status: true,
+                                    type: 'success',
+                                    message: 'Message successfully published to RabbitMQ queue!'
+                                };
+                            })
+                            .catch(function(error) {
+                                console.log(response)
+                                _this.loader_p2 = false
+                                _this.alert2 = {
+                                    status: true,
+                                    type: 'failed',
+                                    message: 'Failed to send message!'
+                                };
+                            })
+                    }
+                },
+
                 consume_message() {
                     this.loader_c = true
                     var _this = this
 
-                    axios.post(`/api/saifur/rabbitmq/consume/consume-message-${this?.publishDetails?.exchangeType}`, this
+                    axios.post(`/api/saifur/rabbitmq/consume/consume-message-${this?.publishDetails?.exchangeType}`,
+                            this
                             .publishDetails)
                         .then(function(response) {
                             console.log(response)
