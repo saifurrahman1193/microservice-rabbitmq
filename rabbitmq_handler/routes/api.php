@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\RabbitMQ\ConsumerController;
 use App\Http\Controllers\RabbitMQ\PublisherController;
 
@@ -26,4 +26,7 @@ Route::group(['prefix' => 'saifur/rabbitmq'],function (){
 });
 
 
-// Route::get('/test-send-message-multi/{times_of_hit}', [TestController::class, 'sendMessageMulti']);
+Route::post('/send-message-to-a-number', [MessageController::class, 'sendMessageToANumber']);
+
+
+
