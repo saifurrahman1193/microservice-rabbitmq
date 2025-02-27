@@ -12,8 +12,8 @@ services:
     ports:
       - 801:8000
     networks:
-      - ms_rmq_network
+      - local_central_rabbitmq_network
 networks:
-  ms_rmq_network:
+  local_central_rabbitmq_network:
     external: true
 

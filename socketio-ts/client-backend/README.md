@@ -18,7 +18,7 @@ sudo docker-compose build && docker-compose up -d
 
 #### Docker Network 
 ```
-docker network create ms_rmq_network
+docker network create local_central_rabbitmq_network
 ```
 
 ## Run 

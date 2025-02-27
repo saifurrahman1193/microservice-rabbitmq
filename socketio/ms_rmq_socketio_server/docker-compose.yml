@@ -13,7 +13,7 @@ services:
       stdin_open: true
       tty: true
       networks:
-      - ms_rmq_network
+      - local_central_rabbitmq_network
     msrmq_socketio_mongo_db:
       image: mongo
       container_name: ms-socketio-mongo-db-container
@@ -26,7 +26,7 @@ services:
       volumes:
         - ./mongo_db:/data/db
       networks:
-        - ms_rmq_network
+        - local_central_rabbitmq_network
 networks:
-  ms_rmq_network:
+  local_central_rabbitmq_network:
     external: true

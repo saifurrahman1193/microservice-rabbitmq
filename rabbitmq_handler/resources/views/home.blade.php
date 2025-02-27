@@ -128,12 +128,37 @@
 
                                     </v-card-text>
                                 </v-card>
+
+
+                                <v-card class="mx-auto mt-4 mb-2" floating>
+                                    <v-card-title>
+                                        <h2 class="mx-auto font-weight-light">Send Message To A Number</h2>
+                                    </v-card-title>
+                                    <v-card-text>
+                                        <v-form @submit.prevent="send_message_to_a_number()">
+                                            <v-alert v-text="alert3?.message" text
+                                                :type="alert3?.type == 'success' ? 'success' : 'error'"
+                                                :value='alert3?.status' sm v-if="!loader_p3"></v-alert>
+
+                                            <v-progress-circular indeterminate color="success"
+                                                v-if="loader_p3"></v-progress-circular>
+
+                                            <v-card-actions>
+                                                <v-spacer></v-spacer>
+                                                <v-btn color="success" type="submit" text @click="loader_p3=true">
+                                                    <v-icon>mdi-email</v-icon>
+                                                    Send Message
+                                                </v-btn>
+                                            </v-card-actions>
+                                        </v-form>
+
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
 
 
 
                             <v-col cols="6">
-
                                 <v-card class="mx-auto mt-4 mb-2" floating>
                                     <v-card-title>
                                         <h1 class="display-1 mx-auto font-weight-light">Consume Message</h1>
@@ -163,6 +188,9 @@
                                     </v-card-text>
                                 </v-card>
                             </v-col>
+
+
+
                         </v-row>
 
                 </v-main>
@@ -192,12 +220,22 @@
                 ],
                 loader_c: false,
                 loader_c2: false,
+                loader_c3: false,
                 loader_p: false,
                 loader_p2: false,
+                loader_p3: false,
                 publishDetails: {
                     exchangeType: 'default',
                     RABBITMQ_QUEUE_NAME: 'export_default_queue',
                     message: ''
+                },
+                singleSMSDetails: {
+                    token:'d2luOndpbnBhc3M=',
+                    mobileno:'8801703188752',
+                    SMSText:'Welcome to wintel A2P Service',
+                    ismasking:false,
+                    masking:null,
+                    messagetype:1,
                 },
                 publishDetailsError: {
                     error: false,
@@ -214,6 +252,10 @@
                     message: null
                 },
                 alert2: {
+                    status: null,
+                    message: null
+                },
+                alert3: {
                     status: null,
                     message: null
                 },
@@ -270,6 +312,33 @@
                                 console.log(response)
                                 _this.loader_p2 = false
                                 _this.alert2 = {
+                                    status: true,
+                                    type: 'failed',
+                                    message: 'Failed to send message!'
+                                };
+                            })
+                    }
+                },
+
+                send_message_to_a_number() {
+                    this.loader_p3 = true
+                    var _this = this
+
+                    for (let index = 0; index < this.total_hit; index++) {
+                        axios.post(`/api/send-message-to-a-number`, this.singleSMSDetails)
+                            .then(function(response) {
+                                console.log(response)
+                                _this.loader_p3 = false
+                                _this.alert3 = {
+                                    status: true,
+                                    type: 'success',
+                                    message: 'Message successfully published to RabbitMQ queue!'
+                                };
+                            })
+                            .catch(function(error) {
+                                console.log(response)
+                                _this.loader_p3 = false
+                                _this.alert3 = {
                                     status: true,
                                     type: 'failed',
                                     message: 'Failed to send message!'

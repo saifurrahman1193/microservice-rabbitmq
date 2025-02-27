@@ -31,7 +31,7 @@ cd..
 
 # Network : External Network
 ```
-docker network create ms_rmq_network
+docker network create local_central_rabbitmq_network
 
 docker exec -it ms-rmq-container sh
 docker exec -it ms-rmq-export-container sh

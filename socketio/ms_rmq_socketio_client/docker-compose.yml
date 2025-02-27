@@ -13,8 +13,8 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - ms_rmq_network
+      - local_central_rabbitmq_network
 
 networks:
-  ms_rmq_network:
+  local_central_rabbitmq_network:
     external: true
